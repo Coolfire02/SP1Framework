@@ -33,7 +33,6 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< Updated upstream
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -53,9 +52,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ASCII.cpp">
-=======
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="GameObject.cpp">
->>>>>>> Stashed changes
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,7 +68,6 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< Updated upstream
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -89,9 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ASCII.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GameObject.h">
->>>>>>> Stashed changes
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
