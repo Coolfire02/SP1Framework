@@ -241,9 +241,10 @@ void moveCharacter()
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
     if (g_skKeyEvent[K_W].keyReleased && g_sChar.m_cLocation.Y > 0)
-    {
+    {   
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;       
+        g_sChar.m_cLocation.Y--;     
+        clearScreen();
     }
     if (g_skKeyEvent[K_A].keyReleased && g_sChar.m_cLocation.X > 0)
     {
@@ -300,7 +301,7 @@ void render()
 void clearScreen()
 {
     // Clears the buffer with this colour attribute
-    g_Console.clearBuffer(0x1F);
+    g_Console.clearBuffer(0xFF);
 }
 
 void renderToScreen()
@@ -331,6 +332,7 @@ void renderGame()
 
 void renderMap()
 {
+    WORD mycolour = 0xFFFFFF; 
     // Set up sample colours, and output shadings
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
@@ -343,7 +345,8 @@ void renderMap()
         c.X = 5 * i;
         c.Y = i + 1;
         colour(colors[i]);
-        g_Console.writeToBuffer(c, " °±²Û", colors[i]);
+        //g_Console.writeToBuffer(c, " °±²Û", colors[i]);
+        g_Console.writeToBuffer(c, "w", mycolour);
     }
 }
 

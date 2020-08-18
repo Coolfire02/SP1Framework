@@ -83,7 +83,11 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
+<<<<<<< Updated upstream
     <ClCompile Include="Hose.cpp" />
+=======
+    <ClCompile Include="GameObject.cpp" />
+>>>>>>> Stashed changes
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -96,11 +100,15 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
+<<<<<<< Updated upstream
     <ClInclude Include="Hose.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="ProgressBar.h" />
+=======
+    <ClInclude Include="GameObject.h" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

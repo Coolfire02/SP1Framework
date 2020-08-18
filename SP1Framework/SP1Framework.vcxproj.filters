@@ -9,15 +9,15 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\Framework">
       <UniqueIdentifier>{07667b27-3d02-4514-a465-3fd8b26758ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{37c19c94-9502-4b2b-b3f1-70fa908b49af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +33,7 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +53,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ASCII.cpp">
+=======
+    <ClCompile Include="GameObject.cpp">
+>>>>>>> Stashed changes
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,6 +69,7 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,6 +89,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ASCII.h">
+=======
+    <ClInclude Include="GameObject.h">
+>>>>>>> Stashed changes
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
