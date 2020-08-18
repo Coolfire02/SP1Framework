@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject() : art(ASCII(ARTTYPE::DEFAULT)){
+GameObject::GameObject() {
 	worldPosition = { 0,0 };
 }
 
@@ -8,15 +8,18 @@ GameObject::~GameObject() {
 }
 
 bool GameObject::isCollided(GameObject& otherObj) {
-	if ((*this).getWorldPosition().X < otherObj.getWorldPosition().X + (int) otherObj.getXLength() &&
-		(*this).getWorldPosition().X + (int) (*this).getXLength() > otherObj.getWorldPosition().X &&
-		(*this).getWorldPosition().Y < otherObj.getWorldPosition().Y + (int) otherObj.getYLength() &&
-		(*this).getWorldPosition().Y + (int) (*this).getYLength() > otherObj.getWorldPosition().Y)
+	if ((*this).getWorldPosition().X < otherObj.getWorldPosition().X + (int)otherObj.getXLength() &&
+		(*this).getWorldPosition().X + (int)(*this).getXLength() > otherObj.getWorldPosition().X &&
+		(*this).getWorldPosition().Y < otherObj.getWorldPosition().Y + (int)otherObj.getYLength() &&
+		(*this).getWorldPosition().Y + (int)(*this).getYLength() > otherObj.getWorldPosition().Y) {
 		return true;
+	}
 	return false;
 }
 
-
+CHAR_INFO GameObject::getArtAtLoc(COORD cord) {
+	return art.getArtAtLoc(cord);
+}
 
 COORD GameObject::getWorldPosition() {
 	return worldPosition;

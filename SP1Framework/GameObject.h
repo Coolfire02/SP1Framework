@@ -4,8 +4,7 @@
 
 class GameObject
 {
-
-private:
+protected:
 	ASCII art;
 	COORD worldPosition;
 public:
@@ -14,13 +13,12 @@ public:
 
 	bool isCollided(GameObject&);
 
-	CHAR_INFO** getArt();
+	CHAR_INFO getArtAtLoc(COORD);
 	COORD getWorldPosition();
 	unsigned int getXLength();
 	unsigned int getYLength();
 
 	bool setWorldPosition(COORD);
 	bool setWorldPosition(unsigned int, unsigned int);
-
 };
 

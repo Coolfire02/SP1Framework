@@ -14,7 +14,7 @@ private:
 	ProgressBar Bar1;
 	Position Ppos1;
 	Money M1;
-	ASCII Pasc1;
+	//ASCII Pasc1;
 public:
 	Player();
 	~Player();

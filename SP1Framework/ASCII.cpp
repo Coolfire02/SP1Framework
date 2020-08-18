@@ -1,5 +1,11 @@
 #include "ASCII.h"
 
+ASCII::ASCII() {
+	xLength = 0;
+	yLength = 0;
+	art = nullptr;
+}
+
 ASCII::ASCII(ARTTYPE type) {
 	xLength = 0;
 	yLength = 0;
@@ -8,8 +14,8 @@ ASCII::ASCII(ARTTYPE type) {
 		xLength = 5;
 		yLength = 5;
 	case FIRE_TRUCK:
-		xLength = 30;
-		yLength = 15;
+		xLength = 5;
+		yLength = 5;
 	//case etc:
 
 	}
@@ -24,7 +30,6 @@ ASCII::ASCII(ARTTYPE type) {
 		a.Attributes = c;
 		a.Char.AsciiChar = ' ';
 
-		//looping through all the lines of your text file 0xFF, ' ', x:3, y:5
 		for (unsigned int i = 0; i < xLength; i++) {
 			for (unsigned  int j = 0; j < yLength; j++) {
 				art[i][j] = a;
@@ -55,6 +60,7 @@ unsigned int ASCII::getYLength() {
 	return yLength;
 }
 
-CHAR_INFO** ASCII::getArt() {
-	return art;
+CHAR_INFO ASCII::getArtAtLoc(COORD cord) {
+	if (art != nullptr)
+		return art[cord.X][cord.Y];
 }

@@ -7,6 +7,10 @@
 #include <iomanip>
 #include <sstream>
 
+#include "GameObject.h"
+#include "FireTruck.h"
+#include "Player.h"
+
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 SKeyEvent g_skKeyEvent[K_COUNT];
@@ -14,6 +18,10 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 SGameChar   g_sChar;
+
+GameObject* ft = new FireTruck();
+GameObject* player = new Player();
+
 EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
 
 // Console object
@@ -220,7 +228,7 @@ void update(double dt)
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
+    if (g_dElapsedTime > 0.0) // wait for 3 seconds to switch to game mode, else do nothing
         g_eGameState = S_GAME;
 }
 
@@ -325,6 +333,9 @@ void renderGame()
     renderCharacter();  // renders the character into the buffer
 }
 
+
+
+
 void renderMap()
 {
     WORD mycolour = (short) 0xFFFFFF; 
@@ -339,9 +350,14 @@ void renderMap()
     {
         c.X = 5 * i;
         c.Y = i + 1;
-        colour(colors[i]);
+        
         //g_Console.writeToBuffer(c, " °±²Û", colors[i]);
-        g_Console.writeToBuffer(c, "w", mycolour);
+        std::string s = "0x1F";
+        unsigned int thecolor = std::stoul(s, nullptr, 16);
+        //colour(0xF0);
+        WORD test = 0x1A;
+        g_Console.writeToBuffer(c, 'T', thecolor);
+        
     }
 }
 
@@ -354,6 +370,22 @@ void renderCharacter()
         charColor = 0x0A;
     }
     g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
+
+    for (int i = 0; i < ft->getXLength(); i++) {
+        for (int j = 0; j < ft->getYLength(); j++) {
+            g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
+            COORD c = { i, j };
+            CHAR_INFO art = ft->getArtAtLoc(c);
+            g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
+        }
+    }
+
+    if (ft->isCollided((*player))) {
+        g_Console.writeToBuffer(10, 10, "ISCOLLIDED YAY");
+    }
+    else {
+        g_Console.writeToBuffer(10, 10, "IS NOT COLLIDED BOO");
+    }
 }
 
 void renderFramerate()

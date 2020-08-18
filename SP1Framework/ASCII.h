@@ -27,7 +27,8 @@ private:
 public:
 	unsigned int getXLength();
 	unsigned int getYLength();
-	CHAR_INFO** getArt();
+	CHAR_INFO getArtAtLoc(COORD);
 	ASCII(ARTTYPE);
+	ASCII();
 	~ASCII();
 };
