@@ -1,9 +1,11 @@
 #pragma once
+
+#include "GameObject.h"
 #include"Position.h"
 #include"Hose.h"
 #include"ASCII.h"
 
-class FireTruck
+class FireTruck : public GameObject
 {
 private:
 	Position FTpos1;

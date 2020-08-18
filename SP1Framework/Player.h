@@ -1,11 +1,14 @@
 #pragma once
+
+#include "GameObject.h"
 #include"ProgressBar.h"
 #include"Position.h"
 #include"Money.h"
 #include"ASCII.h"
+
 using namespace std;
 
-class Player
+class Player : public GameObject
 {
 private:
 	ProgressBar Bar1;

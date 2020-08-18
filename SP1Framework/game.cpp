@@ -157,11 +157,6 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0X41: key = K_A; break;
     case 0x53: key = K_S; break;
     case 0x44: key = K_D; break;
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 43501e251d18c24b6207886120f6c463de1bedda
     }
     // a key pressed event would be one with bKeyDown == true
     // a key released event would be one with bKeyDown == false
@@ -332,7 +327,7 @@ void renderGame()
 
 void renderMap()
 {
-    WORD mycolour = 0xFFFFFF; 
+    WORD mycolour = (short) 0xFFFFFF; 
     // Set up sample colours, and output shadings
     const WORD colors[] = {
         0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
@@ -411,7 +406,7 @@ void renderInputEvents()
         else
             ss << key << " not pressed";
 
-        COORD c = { startPos.X, startPos.Y + i };
+        COORD c = { startPos.X, (short) (startPos.Y + i) };
         g_Console.writeToBuffer(c, ss.str(), 0x17);
     }
 

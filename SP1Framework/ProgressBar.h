@@ -1,7 +1,9 @@
 #pragma once
+
+#include "GameObject.h"
 #include"Position.h"
 
-class ProgressBar
+class ProgressBar : public GameObject
 {
 private:
 	int FillColour, BorderColour, Width, Length;

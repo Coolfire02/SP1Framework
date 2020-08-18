@@ -1,31 +1,26 @@
 #pragma once
 #include <Windows.h>
+#include "ASCII.h"
 
 class GameObject
 {
 
 private:
-	int** objectCords_ptr;
-	int objXLength, objYLength;
+	ASCII art;
+	COORD worldPosition;
 public:
-	GameObject(int, int);
+	GameObject();
 	~GameObject();
+
+	bool isCollided(GameObject&);
+
+	CHAR_INFO** getArt();
+	COORD getWorldPosition();
+	unsigned int getXLength();
+	unsigned int getYLength();
+
+	bool setWorldPosition(COORD);
+	bool setWorldPosition(unsigned int, unsigned int);
+
 };
 
-enum Object
-{
-    FIRE_TRUCK,
-	FIREFIGHTER,
-	RESERVOIR,
-	FOREST,
-	MINIGAME_WREST,
-	MINIGAME_CFT,
-	MINIGAME_CE,
-	MINIGAME_PCE,
-	MINIGAME_GF,
-	MINIGAME_WL,
-	MINIGAME_WFAR,
-	MINIGAME_RW,
-	MINIGAME_BHOS,
-	OBJ_COUNT
-};
