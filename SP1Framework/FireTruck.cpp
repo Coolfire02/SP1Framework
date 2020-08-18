@@ -2,7 +2,6 @@
 
 FireTruck::FireTruck()
 {
-    art = ASCII(ARTTYPE::FIRE_TRUCK);
 }
 
 FireTruck::~FireTruck()

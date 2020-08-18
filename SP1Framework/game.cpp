@@ -376,6 +376,7 @@ void renderCharacter()
             g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
             COORD c = { i, j };
             CHAR_INFO art = ft->getArtAtLoc(c);
+            cout << i << " " << j;
             g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
         }
     }

@@ -7,6 +7,7 @@ class GameObject
 protected:
 	ASCII art;
 	COORD worldPosition;
+	bool setArt(CHAR_INFO**& art); //todo getArt func in ASCII, in construct of each child add a setArt
 public:
 	GameObject();
 	~GameObject();
