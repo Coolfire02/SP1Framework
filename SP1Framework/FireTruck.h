@@ -12,6 +12,7 @@ private:
 public:
 	FireTruck();
 	~FireTruck();
+	std::string getType();
 	int WaterFilled(int);
 	int MaxWaterFilled(int);
 

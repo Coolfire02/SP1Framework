@@ -11,7 +11,7 @@ using namespace std;
 class Player : public GameObject
 {
 private:
-	ProgressBar Bar1;
+	std::string getType();
 	Position Ppos1;
 	Money M1;
 	//ASCII Pasc1;

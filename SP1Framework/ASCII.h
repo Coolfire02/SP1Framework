@@ -1,16 +1,16 @@
 #pragma once
 #include <Windows.h>
-#include <windows.h>
 #include <string>
 #include <vector>
 #include <sstream>
 #include <iostream>
 #include <fstream>
 
-enum ARTTYPE 
+enum ARTTYPE
 {
 	FIRE_TRUCK_ART,
 	FIREFIGHTER_ART,
+	FIRE_STATION_ART,
 	RESERVOIR_ART,
 	FOREST_ART,
 	MINIGAME_WREST_ART,

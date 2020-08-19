@@ -2,12 +2,14 @@
 
 GameObject::GameObject() {
 	worldPosition = { 0,0 };
+	interactable = true;
 }
 
 GameObject::~GameObject() {
 }
 
 bool GameObject::isCollided(GameObject& otherObj) {
+	if (!(*this).isInteractable() || !otherObj.isInteractable()) return false;
 	if ((*this).getWorldPosition().X < otherObj.getWorldPosition().X + (int)otherObj.getXLength() &&
 		(*this).getWorldPosition().X + (int)(*this).getXLength() > otherObj.getWorldPosition().X &&
 		(*this).getWorldPosition().Y < otherObj.getWorldPosition().Y + (int)otherObj.getYLength() &&
@@ -15,6 +17,10 @@ bool GameObject::isCollided(GameObject& otherObj) {
 		return true;
 	}
 	return false;
+}
+
+bool GameObject::isInteractable() {
+	return interactable;
 }
 
 CHAR_INFO GameObject::getArtAtLoc(COORD cord) {
@@ -31,6 +37,10 @@ unsigned int GameObject::getXLength() {
 
 unsigned int GameObject::getYLength() {
 	return art.getYLength();
+}
+
+void GameObject::setInteractable(bool interactable) {
+	(*this).interactable = interactable;
 }
 
 bool GameObject::setWorldPosition(unsigned int x, unsigned int y) {

@@ -2,12 +2,12 @@
 
 Player::Player()
 {
-
     art.setArt(FIREFIGHTER_ART);
 }
 
 Player::~Player()
 {
+    // intentionally left blank
 }
 
 int Player::TaskCompleteCount(int)
@@ -18,4 +18,8 @@ int Player::TaskCompleteCount(int)
 bool Player::PlayerInFT()
 {
     return false;
+}
+
+std::string Player::getType() {
+    return "Player";
 }

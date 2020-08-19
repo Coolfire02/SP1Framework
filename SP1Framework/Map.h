@@ -11,6 +11,8 @@ private:
 public:
 	void deleteMap(void);
 	void setSize(int, int);
+	unsigned int getXLength();
+	unsigned int getYLength();
 	Map();
 	~Map();
 };

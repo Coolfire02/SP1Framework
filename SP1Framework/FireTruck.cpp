@@ -18,3 +18,7 @@ int FireTruck::MaxWaterFilled(int)
 {
     return 0;
 }
+
+std::string FireTruck::getType() {
+    return "FireTruck";
+}

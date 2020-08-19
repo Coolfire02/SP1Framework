@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "FireTruck.h"
 #include "Player.h"
+#include "Level.h"
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -20,15 +21,16 @@ SMouseEvent g_mouseEvent;
 // Game specific variables here
 SGameChar   g_sChar;
 
-GameObject* ft = new FireTruck();
-GameObject* player = new Player();
-
-GameObject* objectsPtr[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
-
-EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
+EGAMESTATES g_eGameState = S_ACTIVE; // initial state
+Level g_Level = Level(MAINMENU); //initial state
 
 // Console object
 Console g_Console(213, 50, "SP1 Framework");
+
+void updateOptions();
+void optionMenuClick();
+void renderLevel();
+void renderOptions();
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
@@ -43,7 +45,8 @@ void init( void )
     g_dElapsedTime = 0.0;    
 
     // sets the initial state for the game
-    g_eGameState = S_SPLASHSCREEN;
+    g_eGameState = S_ACTIVE;
+    
 
     g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
     g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
@@ -109,49 +112,28 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: // don't handle anything for the splash screen
+    case S_ACTIVE: gameplayKBHandler(keyboardEvent);
         break;
-    case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
+    case S_HOLD:
+        break;
+    case S_END:
         break;
     }
 }
 
-//--------------------------------------------------------------
-// Purpose  : This is the handler for the mouse input. Whenever there is a mouse event, this function will be called.
-//            Ideally, you should pass the key event to a specific function to handle the event.
-//            This is because in some states, some keys would be disabled. Hence, to reduce your code complexity, 
-//            it would be wise to split your keyboard input handlers separately.
-//            
-//            For the mouse event, if the mouse is not moved, no event will be sent, hence you should not reset the mouse status.
-//            However, if the mouse goes out of the window, you would not be able to know either. 
-//
-//            The MOUSE_EVENT_RECORD struct has more attributes that you can use, if you are adventurous enough.
-//
-//            In this case, we are not handling any mouse event in the Splashscreen state
-//            
-// Input    : const MOUSE_EVENT_RECORD& mouseEvent - reference to a mouse event struct
-// Output   : void
-//--------------------------------------------------------------
 void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: // don't handle anything for the splash screen
+    case S_ACTIVE: 
+    case S_HOLD:
+        gameplayMouseHandler(mouseEvent);
         break;
-    case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_END:
         break;
     }
 }
 
-//--------------------------------------------------------------
-// Purpose  : This is the keyboard handler in the game state. Whenever there is a keyboard event in the game state, this function will be called.
-//            
-//            Add more keys to the enum in game.h if you need to detect more keys
-//            To get other VK key defines, right click on the VK define (e.g. VK_UP) and choose "Go To Definition" 
-//            For Alphanumeric keys, the values are their ascii values (uppercase).
-// Input    : const KEY_EVENT_RECORD& keyboardEvent
-// Output   : void
-//--------------------------------------------------------------
 void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {
     // here, we map the key to our enums
@@ -180,15 +162,6 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     }    
 }
 
-//--------------------------------------------------------------
-// Purpose  : This is the mouse handler in the game state. Whenever there is a mouse event in the game state, this function will be called.
-//            
-//            If mouse clicks are detected, the corresponding bit for that mouse button will be set.
-//            mouse wheel, 
-//            
-// Input    : const KEY_EVENT_RECORD& keyboardEvent
-// Output   : void
-//--------------------------------------------------------------
 void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {
     if (mouseEvent.dwEventFlags & MOUSE_MOVED) // update the mouse position if there are no events
@@ -221,18 +194,24 @@ void update(double dt)
 
     switch (g_eGameState)
     {
-        case S_SPLASHSCREEN : splashScreenWait(); // game logic for the splash screen
+        case S_ACTIVE : updateGame();
             break;
-        case S_GAME: updateGame(); // gameplay logic when we are in the game
+        case S_HOLD: updateOptions();
             break;
     }
 }
 
-
-void splashScreenWait()    // waits for time to pass in splash screen
+void processUserInput()
 {
-    if (g_dElapsedTime > 0.0) // wait for 3 seconds to switch to game mode, else do nothing
-        g_eGameState = S_GAME;
+    // quits the game if player hits the escape key
+    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        g_bQuitGame = true;
+}
+
+void updateOptions()
+{
+    processUserInput();
+    optionMenuClick();
 }
 
 void updateGame()       // gameplay logic
@@ -242,53 +221,52 @@ void updateGame()       // gameplay logic
                         // sound can be played here too.
 }
 
+void optionMenuClick() // handling of clicks in options menu
+{
+
+}
+
 void moveCharacter()
 {    
     if (g_keyCooldownTime < g_dElapsedTime) {
-        
-        //Key movement cooldown (code triggers 10 times a second)
         // Updating the location of the character based on the key release
         // providing a beep sound whenver we shift the character
+        bool movementUpdate = false;
+
         if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
         {
             //Beep(1440, 30);
             g_sChar.m_cLocation.Y--;
-            g_keyCooldownTime = g_dElapsedTime + 0.09;
+            movementUpdate = true;
         }
         if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
         {
             //Beep(1440, 30);
             g_sChar.m_cLocation.X--;
-            g_keyCooldownTime = g_dElapsedTime + 0.09;
+            movementUpdate = true;
         }
         if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
         {
             //Beep(1440, 30);
             g_sChar.m_cLocation.Y++;
-            g_keyCooldownTime = g_dElapsedTime + 0.09;
+            movementUpdate = true;
         }
         if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
         {
             //Beep(1440, 30);
             g_sChar.m_cLocation.X++;
-            g_keyCooldownTime = g_dElapsedTime + 0.09;
+            movementUpdate = true;
         }
         if (g_skKeyEvent[K_SPACE].keyDown)
         {
             g_sChar.m_bActive = !g_sChar.m_bActive;
+            movementUpdate = true;
+        }
+        if (movementUpdate) {
             g_keyCooldownTime = g_dElapsedTime + 0.09;
         }
 
     }
-
-    
-   
-}
-void processUserInput()
-{
-    // quits the game if player hits the escape key
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        g_bQuitGame = true;    
 }
 
 //--------------------------------------------------------------
@@ -304,9 +282,9 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-    case S_SPLASHSCREEN: renderSplashScreen();
+    case S_ACTIVE: renderLevel();
         break;
-    case S_GAME: renderGame();
+    case S_HOLD: renderOptions();
         break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
@@ -316,7 +294,6 @@ void render()
 
 void clearScreen()
 {
-    // Clears the buffer with this colour attribute
     g_Console.clearBuffer(0x80);
 }
 
@@ -326,83 +303,90 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-void renderSplashScreen()  // renders the splash screen
-{
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+void renderLevel() {
+
 }
 
-void renderGame()
-{
-    renderMap();        // renders the map to the buffer first
-    renderCharacter();  // renders the character into the buffer
+void renderOptions() {
+
 }
 
+//Unused code but can use for ref. for positioning
+//void renderSplashScreen()  // renders the splash screen
+//{
+//    COORD c = g_Console.getConsoleSize();
+//    c.Y /= 3;
+//    c.X = c.X / 2 - 9;
+//    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
+//    c.Y += 1;
+//    c.X = g_Console.getConsoleSize().X / 2 - 20;
+//    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
+//    c.Y += 1;
+//    c.X = g_Console.getConsoleSize().X / 2 - 9;
+//    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+//}
 
+//Unused code but can be used for ref. later on
+//void renderGame()
+//{
+//    renderMap();        // renders the map to the buffer first
+//    renderCharacter();  // renders the character into the buffer
+//}
 
+//void renderMap()
+//{
+//    WORD mycolour = (short) 0xFFFFFF; 
+//    // Set up sample colours, and output shadings
+//    const WORD colors[] = {
+//        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+//        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+//    };
+//
+//    COORD c;
+//    for (int i = 0; i < 12; ++i)
+//    {
+//        c.X = 5 * i;
+//        c.Y = i + 1;
+//        
+//        //g_Console.writeToBuffer(c, " °±²Û", colors[i]);
+//        std::string s = "0x1F";
+//        unsigned int thecolor = std::stoul(s, nullptr, 16);
+//        WORD theAttri = thecolor;
+//        //colour(0xF0);
+//        WORD test = 0x1A;
+//        g_Console.writeToBuffer(c, 'T', thecolor);
+//        
+//    }
+//}
 
-void renderMap()
-{
-    WORD mycolour = (short) 0xFFFFFF; 
-    // Set up sample colours, and output shadings
-    const WORD colors[] = {
-        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-    };
-
-    COORD c;
-    for (int i = 0; i < 12; ++i)
-    {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        
-        //g_Console.writeToBuffer(c, " °±²Û", colors[i]);
-        std::string s = "0x1F";
-        unsigned int thecolor = std::stoul(s, nullptr, 16);
-        WORD theAttri = thecolor;
-        //colour(0xF0);
-        WORD test = 0x1A;
-        g_Console.writeToBuffer(c, 'T', thecolor);
-        
-    }
-}
-
-void renderCharacter()
-{
-    // Draw the location of the character
-    WORD charColor = 0x0C;
-    if (g_sChar.m_bActive)
-    {
-        charColor = 0x0A;
-    }
-    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
-    player->setWorldPosition(4, 4);
-    for (int i = 0; i < player->getXLength(); i++) {
-        for (int j = 0; j < player->getYLength(); j++) {
-            g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
-            COORD c = {i,j};
-            CHAR_INFO art = player->getArtAtLoc(c);
-            c.X += player->getWorldPosition().X;
-            c.Y += player->getWorldPosition().Y;
-            g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
-        }
-    }
-
-    if (ft->isCollided((*player))) {
-        g_Console.writeToBuffer(10, 10, "ISCOLLIDED YAY");
-    }
-    else {
-        g_Console.writeToBuffer(10, 10, "IS NOT COLLIDED BOO");
-    }
-}
+//void renderCharacter()
+//{
+//    // Draw the location of the character
+//    WORD charColor = 0x0C;
+//    if (g_sChar.m_bActive)
+//    {
+//        charColor = 0x0A;
+//    }
+//    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
+//    player->setWorldPosition(4, 4);
+//    for (int i = 0; i < player->getXLength(); i++) {
+//        for (int j = 0; j < player->getYLength(); j++) {
+//            g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
+//            COORD c = {i,j};
+//            CHAR_INFO art = player->getArtAtLoc(c);
+//            c.X += player->getWorldPosition().X;
+//            c.Y += player->getWorldPosition().Y;
+//            g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
+//        }
+//    }
+//
+//    if (ft->isCollided((*player))) {
+//        g_Console.writeToBuffer(10, 10, "ISCOLLIDED YAY");
+//    }
+//    else {
+//        g_Console.writeToBuffer(10, 10, "IS NOT COLLIDED BOO");
+//    }
+//}
 
 void renderFramerate()
 {
