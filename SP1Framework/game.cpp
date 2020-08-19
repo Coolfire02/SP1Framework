@@ -374,14 +374,14 @@ void renderCharacter()
         charColor = 0x0A;
     }
     g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
-    ft->setWorldPosition(4, 4);
-    for (int i = 0; i < ft->getXLength(); i++) {
-        for (int j = 0; j < ft->getYLength(); j++) {
+    player->setWorldPosition(4, 4);
+    for (int i = 0; i < player->getXLength(); i++) {
+        for (int j = 0; j < player->getYLength(); j++) {
             g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
             COORD c = {i,j};
-            CHAR_INFO art = ft->getArtAtLoc(c);
-            c.X += ft->getWorldPosition().X;
-            c.Y += ft->getWorldPosition().Y;
+            CHAR_INFO art = player->getArtAtLoc(c);
+            c.X += player->getWorldPosition().X;
+            c.Y += player->getWorldPosition().Y;
             g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
         }
     }

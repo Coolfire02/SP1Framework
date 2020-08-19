@@ -110,6 +110,9 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="GameObject.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Fireman.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
