@@ -2,6 +2,7 @@
 
 FireTruck::FireTruck()
 {
+    art.setArt(FIRE_TRUCK);
 }
 
 FireTruck::~FireTruck()

@@ -28,6 +28,7 @@ public:
 	unsigned int getXLength();
 	unsigned int getYLength();
 	CHAR_INFO getArtAtLoc(COORD);
+	bool setArt(ARTTYPE);
 	ASCII(ARTTYPE);
 	ASCII();
 	~ASCII();

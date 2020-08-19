@@ -4,10 +4,11 @@
 
 class GameObject
 {
+private:
+	COORD worldPosition;
 protected:
 	ASCII art;
-	COORD worldPosition;
-	bool setArt(CHAR_INFO**& art); //todo getArt func in ASCII, in construct of each child add a setArt
+	bool setArt(ARTTYPE type); //todo getArt func in ASCII, in construct of each child add a setArt
 public:
 	GameObject();
 	~GameObject();

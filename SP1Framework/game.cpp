@@ -22,6 +22,8 @@ SGameChar   g_sChar;
 GameObject* ft = new FireTruck();
 GameObject* player = new Player();
 
+GameObject* objectsPtr[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+
 EGAMESTATES g_eGameState = S_SPLASHSCREEN; // initial state
 
 // Console object
@@ -243,28 +245,28 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_W].keyReleased && g_sChar.m_cLocation.Y > 0)
-    {   
+    if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
+    {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;     
         clearScreen();
     }
-    if (g_skKeyEvent[K_A].keyReleased && g_sChar.m_cLocation.X > 0)
+    if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X--;        
     }
-    if (g_skKeyEvent[K_S].keyReleased && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;        
     }
-    if (g_skKeyEvent[K_D].keyReleased && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;        
     }
-    if (g_skKeyEvent[K_SPACE].keyReleased)
+    if (g_skKeyEvent[K_SPACE].keyDown)
     {
         g_sChar.m_bActive = !g_sChar.m_bActive;        
     }
@@ -304,7 +306,7 @@ void render()
 void clearScreen()
 {
     // Clears the buffer with this colour attribute
-    g_Console.clearBuffer(0xFF);
+    g_Console.clearBuffer(0x80);
 }
 
 void renderToScreen()
@@ -370,13 +372,14 @@ void renderCharacter()
         charColor = 0x0A;
     }
     g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
-
+    ft->setWorldPosition(4, 4);
     for (int i = 0; i < ft->getXLength(); i++) {
         for (int j = 0; j < ft->getYLength(); j++) {
             g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
-            COORD c = { i, j };
+            COORD c = {i,j};
             CHAR_INFO art = ft->getArtAtLoc(c);
-            cout << i << " " << j;
+            c.X += ft->getWorldPosition().X;
+            c.Y += ft->getWorldPosition().Y;
             g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
         }
     }
@@ -483,7 +486,3 @@ void renderInputEvents()
     }
     
 }
-
-
-
-//hi

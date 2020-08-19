@@ -9,6 +9,20 @@ ASCII::ASCII() {
 ASCII::ASCII(ARTTYPE type) {
 	xLength = 0;
 	yLength = 0;
+	art = nullptr;
+	(*this).setArt(type);
+}
+
+ASCII::~ASCII() {
+	for (unsigned int i = 0; i < xLength; i++) {
+		delete[] art[i];
+	}
+	delete[] art;
+}
+
+bool ASCII::setArt(ARTTYPE type) {
+	xLength = 0;
+	yLength = 0;
 	switch (type) {
 	case FIREFIGHTER:
 		xLength = 5;
@@ -16,7 +30,7 @@ ASCII::ASCII(ARTTYPE type) {
 	case FIRE_TRUCK:
 		xLength = 5;
 		yLength = 5;
-	//case etc:
+		//case etc:
 
 	}
 	if (xLength > 0 && yLength > 0) {
@@ -26,12 +40,12 @@ ASCII::ASCII(ARTTYPE type) {
 		}
 
 		CHAR_INFO a;
-		WORD c = 0xFF;
+		WORD c = 0x15;
 		a.Attributes = c;
-		a.Char.AsciiChar = ' ';
+		a.Char.AsciiChar = 'A';
 
 		for (unsigned int i = 0; i < xLength; i++) {
-			for (unsigned  int j = 0; j < yLength; j++) {
+			for (unsigned int j = 0; j < yLength; j++) {
 				art[i][j] = a;
 			}
 		}
@@ -39,17 +53,13 @@ ASCII::ASCII(ARTTYPE type) {
 		//for every line in text
 		//art[x][y] = ada;
 
+		return true;
+
 	}
 	else {
 		art = nullptr;
 	}
-}
-
-ASCII::~ASCII() {
-	for (unsigned int i = 0; i < xLength; i++) {
-		delete[] art[i];
-	}
-	delete[] art;
+	return false;
 }
 
 unsigned int ASCII::getXLength() {
@@ -63,4 +73,8 @@ unsigned int ASCII::getYLength() {
 CHAR_INFO ASCII::getArtAtLoc(COORD cord) {
 	if (art != nullptr)
 		return art[cord.X][cord.Y];
+	CHAR_INFO a;
+	a.Attributes = 0x00;
+	a.Char.AsciiChar = '-';
+	return a;
 }

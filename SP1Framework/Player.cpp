@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+    art.setArt(FIREFIGHTER);
 }
 
 Player::~Player()
