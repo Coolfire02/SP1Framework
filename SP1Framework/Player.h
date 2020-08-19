@@ -19,6 +19,7 @@ public:
 	Player();
 	~Player();
 	int TaskCompleteCount(int);
+	bool PlayerInFT();
 
 };
 

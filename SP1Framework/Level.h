@@ -1,5 +1,9 @@
 #pragma once
 #include "GameObject.h"
+#include"FireTruck.h"
+#include"GameObject.h"
+#include"ASCII.h"
+
 
 class Level
 {
@@ -18,4 +22,7 @@ enum LEVELS {
 	STAGE_BUILDER,
 	GRAPHICS_BUILDER
 };
+
+
+
 

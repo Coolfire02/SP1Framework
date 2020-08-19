@@ -2,6 +2,7 @@
 
 Player::Player()
 {
+
     art.setArt(FIREFIGHTER);
 }
 
@@ -12,4 +13,9 @@ Player::~Player()
 int Player::TaskCompleteCount(int)
 {
     return 0;
+}
+
+bool Player::PlayerInFT()
+{
+    return false;
 }

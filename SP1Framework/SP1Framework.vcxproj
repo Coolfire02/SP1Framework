@@ -85,7 +85,10 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Hose.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MiniGameMain.cpp" />
+    <ClCompile Include="MiniGame_WL.cpp" />
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
@@ -98,6 +101,9 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Hose.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="MiniGameMain.h" />
+    <ClInclude Include="MiniGame_WL.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
