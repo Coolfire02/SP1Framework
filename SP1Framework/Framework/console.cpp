@@ -250,7 +250,7 @@ void Console::clearBuffer(WORD attribute)
 
 void Console::writeToBuffer(SHORT x, SHORT y, LPCSTR str, WORD attribute, SHORT length)
 {
-	size_t index = max(x + m_cConsoleSize.X * y, 0);
+	size_t index = max(x + m_cConsoleSize.X * y, 0); //Basically reverts to 0 if negative
     size_t str_idx = 0;
     // if the length of the string exceeds the buffer size, we chop it off at the end
     while (index < m_u32ScreenDataBufferSize && str[str_idx] != 0 && str_idx < length)

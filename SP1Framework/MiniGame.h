@@ -1,6 +1,6 @@
 #pragma once
 
-class MiniGameMain
+class MiniGame
 {
 public:
 	virtual void WaterCollected(int);

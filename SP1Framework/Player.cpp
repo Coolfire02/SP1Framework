@@ -3,7 +3,7 @@
 Player::Player()
 {
 
-    art.setArt(FIREFIGHTER);
+    art.setArt(FIREFIGHTER_ART);
 }
 
 Player::~Player()

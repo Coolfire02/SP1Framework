@@ -1,0 +1,13 @@
+#Level Template
+300,500 #MapSize
+150,250 #DisplagyOrigin
+FireStation,100,250 #FireStation at loc 100,250
+FireTruck,110,250 #FireTruck at loc 110,250
+Minigame_CE,75,225 #Minigame at loc 75,225
+Minigame_WREF,150,200 #Minigame at loc 150,200
+
+Road Objects (6x6)
+ROAD,150,227,UP
+ROAD,150,229,LEFT
+
+As long as fire truck touches road it can go up down left right

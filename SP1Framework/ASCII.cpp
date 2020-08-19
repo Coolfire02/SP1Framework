@@ -45,10 +45,10 @@ bool ASCII::setArt(ARTTYPE type) {
 	std::string arttxt;
 	switch (type)
 	{
-	case FIREFIGHTER:
+	case FIREFIGHTER_ART:
 		arttxt = "Fireman.txt";
 		break;
-	case FIRE_TRUCK:
+	case FIRE_TRUCK_ART:
 		//case etc:
 	default:
 		arttxt = "NA";

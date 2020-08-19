@@ -13,6 +13,7 @@
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
+double  g_keyCooldownTime;
 SKeyEvent g_skKeyEvent[K_COUNT];
 SMouseEvent g_mouseEvent;
 
@@ -243,35 +244,44 @@ void updateGame()       // gameplay logic
 
 void moveCharacter()
 {    
-    //Key movement cooldown (code triggers 50 times a second)
-    // Updating the location of the character based on the key release
-    // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;     
-        clearScreen();
-    }
-    if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.X--;        
-    }
-    if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;        
-    }
-    if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.X++;        
-    }
-    if (g_skKeyEvent[K_SPACE].keyDown)
-    {
-        g_sChar.m_bActive = !g_sChar.m_bActive;        
+    if (g_keyCooldownTime < g_dElapsedTime) {
+        
+        //Key movement cooldown (code triggers 10 times a second)
+        // Updating the location of the character based on the key release
+        // providing a beep sound whenver we shift the character
+        if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
+        {
+            //Beep(1440, 30);
+            g_sChar.m_cLocation.Y--;
+            g_keyCooldownTime = g_dElapsedTime + 0.09;
+        }
+        if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
+        {
+            //Beep(1440, 30);
+            g_sChar.m_cLocation.X--;
+            g_keyCooldownTime = g_dElapsedTime + 0.09;
+        }
+        if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+        {
+            //Beep(1440, 30);
+            g_sChar.m_cLocation.Y++;
+            g_keyCooldownTime = g_dElapsedTime + 0.09;
+        }
+        if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+        {
+            //Beep(1440, 30);
+            g_sChar.m_cLocation.X++;
+            g_keyCooldownTime = g_dElapsedTime + 0.09;
+        }
+        if (g_skKeyEvent[K_SPACE].keyDown)
+        {
+            g_sChar.m_bActive = !g_sChar.m_bActive;
+            g_keyCooldownTime = g_dElapsedTime + 0.09;
+        }
+
     }
 
+    
    
 }
 void processUserInput()

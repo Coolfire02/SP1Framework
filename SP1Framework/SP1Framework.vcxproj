@@ -87,7 +87,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MiniGameMain.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="MiniGame_WL.cpp" />
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -102,7 +103,8 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="Hose.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="MiniGameMain.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MiniGame.h" />
     <ClInclude Include="MiniGame_WL.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="Player.h" />
