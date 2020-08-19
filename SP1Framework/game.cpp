@@ -243,6 +243,7 @@ void updateGame()       // gameplay logic
 
 void moveCharacter()
 {    
+    //Key movement cooldown (code triggers 50 times a second)
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
     if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
@@ -356,6 +357,7 @@ void renderMap()
         //g_Console.writeToBuffer(c, " °±²Û", colors[i]);
         std::string s = "0x1F";
         unsigned int thecolor = std::stoul(s, nullptr, 16);
+        WORD theAttri = thecolor;
         //colour(0xF0);
         WORD test = 0x1A;
         g_Console.writeToBuffer(c, 'T', thecolor);

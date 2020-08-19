@@ -8,7 +8,6 @@ private:
 	COORD worldPosition;
 protected:
 	ASCII art;
-	bool setArt(ARTTYPE type); //todo getArt func in ASCII, in construct of each child add a setArt
 public:
 	GameObject();
 	~GameObject();
