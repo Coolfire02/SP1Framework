@@ -118,8 +118,9 @@ bool ASCII::setArt(ARTTYPE type) {
 				{
 					int x = 0, y = 0;
 					CHAR_INFO pixel;
-					//pixel.Attributes = 0x00; // 0x <bg color> <char color>
-					//pixel.Char.AsciiChar = ' ';
+					//Initialization of pixel
+					pixel.Attributes = 0x15; // 0x <bg color> <char color>
+					pixel.Char.AsciiChar = 'A';
 
 					int pos = 0; //To check what position it is checking in the txt file
 					std::vector<std::string> out;
@@ -143,11 +144,11 @@ bool ASCII::setArt(ARTTYPE type) {
 							else
 								y = std::stoi(line2);
 
-							art[x][y] = pixel;
 						}
 						pos++;
 
 					}
+					art[x][y] = pixel;
 					numPixel++;
 				}
 
