@@ -191,8 +191,5 @@ CHAR_INFO** ASCII::getArt() {
 CHAR_INFO ASCII::getArtAtLoc(COORD cord) {
 	if (art != nullptr)
 		return art[cord.X][cord.Y];
-	CHAR_INFO a;
-	a.Attributes = 0x00;
-	a.Char.AsciiChar = '-';
-	return a;
+	return g_background;
 }

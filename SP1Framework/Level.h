@@ -69,7 +69,6 @@ private:
 	std::vector<LEVELSTATE> levelStates;
 	bool playerInTruck = false;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
-	Map* current_levelstage_map_ptr;
 
 	bool devMode = false;
 	

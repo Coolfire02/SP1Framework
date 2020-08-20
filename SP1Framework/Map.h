@@ -12,6 +12,7 @@ private:
 public:
 	void deleteMap(void);
 	void setSize(int, int);
+	void clearMap();
 	COORD getMapToBufferOffset();
 	bool setMapToBufferOffset(COORD);
 	bool setCharAtLoc(int, int, CHAR_INFO);

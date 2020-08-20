@@ -19,6 +19,7 @@ void Level::renderObjsToMap() {
 			Forest Object*/
 
 			Map* map = levelspecific_maps[state];
+			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			for (auto& object_ptr : obj_ptr) {
 				for (int x = 0; x < object_ptr->getXLength(); x++) {
@@ -38,14 +39,14 @@ void Level::renderMap() {
 	if (currently_played_MG_ptr != NULL) {
 		//(*currently_played_MG_ptr).render(); TODO
 	}
-	for (auto& element : levelspecific_maps) {
-		if (state = element.first) {
-			CHAR_INFO** map = element.second->getMap();
-			COORD mapOffset = element.second->getMapToBufferOffset();
-			for (int i = 0; i < g_consoleSize.X; i++) {
-				for (int j = 0; j < g_consoleSize.Y; j++) {
-					associatedConsole.writeToBuffer(i, j, map[i + mapOffset.X][j + mapOffset.Y].Char.AsciiChar, map[i + mapOffset.X][j + mapOffset.Y].Attributes);
-				}
+	else {
+		CHAR_INFO** map = levelspecific_maps.at(state)->getMap();
+		COORD mapOffset = levelspecific_maps.at(state)->getMapToBufferOffset();
+		for (int i = 0; i < g_consoleSize.X; i++) {
+			for (int j = 0; j < g_consoleSize.Y; j++) {
+				unsigned int worldX = i + mapOffset.X;
+				unsigned int worldY = j + mapOffset.Y;
+				associatedConsole.writeToBuffer(i, j, map[worldX][worldY].Char.AsciiChar, map[worldX][worldY].Attributes);
 			}
 		}
 	}
@@ -65,7 +66,7 @@ Level::Level(LEVEL level, Console &console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
-	state = LS_COUNT;
+	state = LS_MAINGAME; //TEMPORARY CODE FOR TESTING
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
@@ -107,53 +108,48 @@ Level::Level(LEVEL level, Console &console) : associatedConsole(console)
 				std::vector<std::string> out;
 				tokenize(line, ',', out);
 				
-				size_t lineCommas = std::count(line.begin(), line.end(), ',');
-				std::string* line_array;
-				size_t arraySize = lineCommas + 1;
-				line_array = new std::string[arraySize];
+				std::vector<std::string> line_array;
 
 				for (auto& line : out) {
-					line_array[split] = line;
-					split++;
+					line_array.push_back(line);
 				}
 
-				if (line_array[0] == "MapSize") {
-					mainMapSize.X = std::stoi(line_array[1]);
-					mainMapSize.Y = std::stoi(line_array[2]);
+				if (line_array.at(0) == "MapSize") {
+					mainMapSize.X = std::stoi(line_array.at(1));
+					mainMapSize.Y = std::stoi(line_array.at(2));
 				}
-				else if (line_array[0] == "DisplayOrigin") {
-					mainDisplayOrigin.X = std::stoi(line_array[1]);
-					mainDisplayOrigin.Y = std::stoi(line_array[2]);
+				else if (line_array.at(0) == "DisplayOrigin") {
+					mainDisplayOrigin.X = std::stoi(line_array.at(1));
+					mainDisplayOrigin.Y = std::stoi(line_array.at(2));
 				}
-				else if (line_array[0] == "FireMan") {
+				else if (line_array.at(0) == "FireMan") {
 					GameObject* ptr = player_ptr;
-					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 				}
-				else if (line_array[0] == "FireStation") {
+				else if (line_array.at(0) == "FireStation") {
 					GameObject* ptr = new FireStation();
-					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
-				else if (line_array[0] == "FireTruck") {
+				else if (line_array.at(0) == "FireTruck") {
 					GameObject* ptr = new FireTruck();
-					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
-				else if (line_array[0] == "MiniGame_WL") {
+				else if (line_array.at(0) == "MiniGame_WL") {
 					MiniGame* ptr = new MiniGame_WL();
 					
-					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 					mg_ptr.push_back(ptr);
 
 					levelStates.push_back(LS_MINIGAME_WL);
 				}
-				else if (line_array[0] == "ROAD") {
+				else if (line_array.at(0) == "ROAD") {
 					GameObject* ptr = new Road();
-					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
-				delete[] line_array;
 			}
 		}
 	}

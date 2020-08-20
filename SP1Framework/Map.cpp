@@ -34,6 +34,16 @@ void Map::setSize(int x, int y) {
 	createMap(x, y);
 }
 
+void Map::clearMap() {
+	for (unsigned int i = 0; i < xLength; i++) {
+		for (unsigned int j = 0; j < yLength; j++) {
+			if (map_ptr[i][j].Char.AsciiChar != g_background.Char.AsciiChar && map_ptr[i][j].Attributes != g_background.Attributes) {
+				map_ptr[i][j] = g_background;
+			}
+		}
+	}
+}
+
 COORD Map::getMapToBufferOffset() {
 	return mapToBufferOffset;
 }
