@@ -84,6 +84,7 @@
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="global.cpp" />
     <ClCompile Include="Hose.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="Hose.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelState.h" />

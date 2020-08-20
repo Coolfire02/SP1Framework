@@ -18,6 +18,7 @@ public:
 	bool isInteractable();
 
 	CHAR_INFO getArtAtLoc(COORD);
+	CHAR_INFO getArtAtLoc(int,int);
 	COORD getWorldPosition();
 	unsigned int getXLength();
 	unsigned int getYLength();
