@@ -60,7 +60,7 @@ bool Level::setState(LEVELSTATE state) {
 }
 
 
-Level::Level(LEVEL level, Console console) : associatedConsole(console)
+Level::Level(LEVEL level, Console &console) : associatedConsole(console)
 {
 	player_ptr = NULL;
 	truck_ptr = NULL;
@@ -124,6 +124,10 @@ Level::Level(LEVEL level, Console console) : associatedConsole(console)
 				else if (line_array[0] == "DisplayOrigin") {
 					mainDisplayOrigin.X = std::stoi(line_array[1]);
 					mainDisplayOrigin.Y = std::stoi(line_array[2]);
+				}
+				else if (line_array[0] == "FireMan") {
+					GameObject* ptr = player_ptr;
+					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
 				}
 				else if (line_array[0] == "FireStation") {
 					GameObject* ptr = new FireStation();

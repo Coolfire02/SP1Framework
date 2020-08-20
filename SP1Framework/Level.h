@@ -75,7 +75,7 @@ private:
 	
 
 public:
-	Level(LEVEL, Console);
+	Level(LEVEL, Console&);
 	~Level();
 	bool setState(LEVELSTATE);
 	enum LEVELSTATE getState();

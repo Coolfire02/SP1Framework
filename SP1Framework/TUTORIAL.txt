@@ -1,5 +1,6 @@
 MapSize,300,500
 DisplayOrigin,150,250
+FireMan,0,0
 FireStation,100,250
 FireTruck,110,250
 Minigame_CE,75,225
