@@ -5,9 +5,8 @@ void tokenize(std::string const& str, const char delim,
 
 Level::Level(LEVEL level)
 {
-	player_ptr = nullptr;
-	truck_ptr = nullptr;
-	mg_ptr = nullptr;
+	player_ptr = NULL;
+	truck_ptr = NULL;
 	state = LS_COUNT;
 	displayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -18,7 +17,7 @@ Level::Level(LEVEL level)
 		levelStates.push_back(LS_MAINMENU);
 	}
 	else {
-		string levelName;
+		std::string levelName;
 		switch (level) {
 		case TUTORIAL: levelName = "TUTORIAL"; break;
 		case STAGE_1_LEVEL_1: levelName = "STAGE_1_LEVEL_1"; break;
@@ -40,18 +39,18 @@ Level::Level(LEVEL level)
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
 
-		ifstream file(levelName+".txt");
-		string line;
+		std::ifstream file(levelName+".txt");
+		std::string line;
 		if (file.is_open()) {
 			int split;
-			string varType;
-			while (getline(file, line)) {
+			std::string varType;
+			while (std::getline(file, line)) {
 				split = 0;
-				vector<string> out;
+				std::vector<std::string> out;
 				tokenize(line, ',', out);
 				
-				size_t lineCommas = count(line.begin(), line.end(), ',');
-				string* line_array = new string[lineCommas];
+				size_t lineCommas = std::count(line.begin(), line.end(), ',');
+				std::string* line_array = new std::string[lineCommas];
 
 				for (auto& line : out) {
 					line_array[split] = line;
@@ -59,55 +58,66 @@ Level::Level(LEVEL level)
 				}
 
 				if (line_array[0] == "MapSize") {
-					mainMapSize.X = stoi(line_array[1]);
-					mainMapSize.Y = stoi(line_array[2]);
+					mainMapSize.X = std::stoi(line_array[1]);
+					mainMapSize.Y = std::stoi(line_array[2]);
 				}
 				else if (line_array[0] == "DisplayOrigin") {
-					displayOrigin.X = stoi(line_array[1]);
-					displayOrigin.X = stoi(line_array[2]);
+					displayOrigin.X = std::stoi(line_array[1]);
+					displayOrigin.X = std::stoi(line_array[2]);
 				}
 				else if (line_array[0] == "FireStation") {
 					GameObject* ptr = new FireStation();
-					ptr->setWorldPosition(stoi(line_array[1]), stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
 					obj_ptr.push_back(ptr);
 				}
 				else if (line_array[0] == "FireTruck") {
 					GameObject* ptr = new FireTruck();
-					ptr->setWorldPosition(stoi(line_array[1]), stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
 					obj_ptr.push_back(ptr);
 				}
 				else if (line_array[0] == "MiniGame_WL") {
-					GameObject* ptr = new MiniGame_WL();
-					ptr->setWorldPosition(stoi(line_array[1]), stoi(line_array[2]));
+					MiniGame* ptr = new MiniGame_WL();
+					
+					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
 					obj_ptr.push_back(ptr);
+					mg_ptr.push_back(ptr);
 
 					levelStates.push_back(LS_MINIGAME_WL);
 				}
 				else if (line_array[0] == "ROAD") {
 					GameObject* ptr = new Road();
-					ptr->setWorldPosition(stoi(line_array[1]), stoi(line_array[2]));
+					ptr->setWorldPosition(std::stoi(line_array[1]), std::stoi(line_array[2]));
 					obj_ptr.push_back(ptr);
 				}
 				delete[] line_array;
 			}
 		}
 	}
+	
 	//map_ptrs = new Map[levelStates.size()]();
-	for (int i = 0; i < levelStates.size(); i++) {
+	for (unsigned int i = 0; i < levelStates.size(); i++) {
 		COORD mapSize = { 213,50 };
 		switch (levelStates[i]) {
 		case MAINMENU: mapSize = { 1000,50 }; break;
 		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
-		case LS_MAINGAME: mapSize = { 213,50 }; break;
-		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
-		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
-		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
-		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
-		}
-		Map* map = new Map();
-		map_ptrs.push_back
-	}
 
+		case LS_LEVEL_BUILDER:
+		case LS_MAINGAME: 
+			mapSize = mainMapSize; break;
+
+		case LS_MINIGAME_WL:
+		case LS_MINIGAME_BHOS:
+			for (auto& entry : mg_ptr) {
+				if (entry->getAssociatedLSState() == levelStates[i]) {
+					mapSize = entry->getMapSize();
+				}
+			}
+			break;
+
+		case LS_FOREST_SCENE: mapSize = { 213, 50 }; break;
+		case LS_END_SCENE: mapSize = { 213, 50 }; break;
+		}
+	}
 }
 
 Level::~Level()
@@ -115,8 +125,9 @@ Level::~Level()
 	for (auto& element : obj_ptr) { //deletes all pointers created under the level
 		delete element;
 	}
-	delete[] map_ptrs;
-	map_ptrs = NULL;
+	for (auto& entry : map_ptrs) {
+		delete entry.second;
+	}
 }
 
 void tokenize(std::string const& str, const char delim,

@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "MiniGame_WL.h"
 #include "Road.h"
+#include "LevelState.h"
 #include <vector>
 #include <unordered_map>
 #include <sstream>
@@ -51,38 +52,19 @@ enum LEVEL {
 	STAGE_2_LEVEL_1,
 };
 
-enum LEVELSTATE {
-	LS_MAINMENU,
-	LS_BEGIN_SCENE,
-	LS_MAINGAME,
-	LS_MINIGAME_WREST,
-	LS_MINIGAME_CFT,
-	LS_MINIGAME_CE,
-	LS_MINIGAME_PCE,
-	LS_MINIGAME_GF,
-	LS_MINIGAME_WL,
-	LS_MINIGAME_WFAR,
-	LS_MINIGAME_RW,
-	LS_MINIGAME_BHOS,
-	LS_FOREST_SCENE,
-	LS_END_SCENE,
-	LS_LEVEL_BUILDER,
-	LS_COUNT
-};
-
 class Level
 {
 private:
 	LEVEL level;
 	Player* player_ptr;
 	FireTruck* truck_ptr;
-	MiniGame* mg_ptr;
+	std::vector<MiniGame*> mg_ptr;
 	LEVELSTATE state;
-	vector<GameObject*> obj_ptr;
-	vector<LEVELSTATE> levelStates;
+	std::vector<GameObject*> obj_ptr;
+	std::vector<LEVELSTATE> levelStates;
 	COORD displayOrigin;
 	bool playerInTruck = false;
-	unordered_map<LEVELSTATE, Map*> map_ptrs;
+	std::unordered_map<LEVELSTATE, Map* > map_ptrs;
 
 	bool devMode = false;
 	

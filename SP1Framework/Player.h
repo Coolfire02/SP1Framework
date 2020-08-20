@@ -6,8 +6,6 @@
 #include"Money.h"
 #include"ASCII.h"
 
-using namespace std;
-
 class Player : public GameObject
 {
 private:

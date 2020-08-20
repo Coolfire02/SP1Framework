@@ -11,3 +11,8 @@ void MiniGame::ManyReceived(int)
 void MiniGame::UpdateMinigamewithKeyFunctions()
 {
 }
+
+COORD MiniGame::getMapSize()
+{
+	return mapSize;
+}

@@ -1,6 +1,5 @@
 #include "Money.h"
 #include<iostream>
-using namespace std;
 
 Money::Money()
 {
@@ -24,7 +23,7 @@ int Money::Setmoney(int)
 bool Money::Spend(int price)
 {
 	if (MoneyCount < price)
-		cout << "Not enough Money" << endl;
+		/*cout << "Not enough Money" << endl;*/
 		return false;// not enough money
 	MoneyCount -= price;
 	return true;
@@ -32,13 +31,13 @@ bool Money::Spend(int price)
 
 void Money::Receive(int amt)
 {
-	cout << "You Received: ";
-	cout << amt << " dollars" << endl;
+	//cout << "You Received: ";
+	//cout << amt << " dollars" << endl;
 	MoneyCount += amt;
 
 }
 
 void Money::ShowMoney()
 {
-	cout << MoneyCount << endl;
+	/*cout << MoneyCount << endl;*/
 }

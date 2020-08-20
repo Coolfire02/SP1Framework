@@ -49,7 +49,6 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "Fireman.txt";
 		break;
 	case FIRE_TRUCK_ART:
-		arttxt = "FireTruck.txt";
 		//case etc:
 	default:
 		arttxt = "NA";
@@ -64,7 +63,6 @@ bool ASCII::setArt(ARTTYPE type) {
 		{
 			while (std::getline(ReadFile1, line1))
 			{
-				CHAR_INFO pixel;
 
 				int pos = 0; //To check what position it is checking in each line of the txt.
 				std::vector<std::string> out;
