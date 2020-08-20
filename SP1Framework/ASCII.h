@@ -1,4 +1,5 @@
 #pragma once
+#include "global.h"
 #include <Windows.h>
 #include <string>
 #include <vector>
@@ -32,10 +33,13 @@ private:
 	unsigned int yLength;
 	CHAR_INFO** art;
 	void tokenize(std::string const& str, const char delim, std::vector<std::string>& out);
+protected:
+	CHAR_INFO** getArt();
 public:
 	unsigned int getXLength();
 	unsigned int getYLength();
 	CHAR_INFO getArtAtLoc(COORD);
+	
 	bool setArt(ARTTYPE);
 	ASCII(ARTTYPE);
 	ASCII();

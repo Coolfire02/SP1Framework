@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Framework/console.h"
+#include "global.h"
 #include "GameObject.h"
 #include "FireTruck.h"
 #include "FireStation.h"
@@ -55,23 +58,29 @@ enum LEVEL {
 class Level
 {
 private:
+	Console associatedConsole;
 	LEVEL level;
 	Player* player_ptr;
 	FireTruck* truck_ptr;
+	MiniGame* currently_played_MG_ptr;
 	std::vector<MiniGame*> mg_ptr;
 	LEVELSTATE state;
 	std::vector<GameObject*> obj_ptr;
 	std::vector<LEVELSTATE> levelStates;
-	COORD displayOrigin;
 	bool playerInTruck = false;
-	std::unordered_map<LEVELSTATE, Map* > map_ptrs;
+	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
+	Map* current_levelstage_map_ptr;
 
 	bool devMode = false;
 	
 
 public:
-	Level(LEVEL);
+	Level(LEVEL, Console);
 	~Level();
+	bool setState(LEVELSTATE);
+	enum LEVELSTATE getState();
+	void renderMap();
+	void renderObjsToMap();
 };
 
 

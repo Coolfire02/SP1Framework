@@ -3,12 +3,70 @@
 void tokenize(std::string const& str, const char delim,
 	std::vector<std::string>& out);
 
-Level::Level(LEVEL level)
+void Level::renderObjsToMap() {
+	if (currently_played_MG_ptr != NULL) {
+		//(*currently_played_MG_ptr).renderMGObjsToMap(); TODO
+	}
+	else {
+		switch (state) {
+		case LS_MAINGAME:
+			/*Main game should consist of:
+			Fire Station
+			Fire Truck
+			Fire Fighter
+			All Minigames
+			Roads
+			Forest Object*/
+
+			Map* map = levelspecific_maps[state];
+			//Rendering all characters collected in the Object_ptr vector to map. 
+			for (auto& object_ptr : obj_ptr) {
+				for (int x = 0; x < object_ptr->getXLength(); x++) {
+					for (int y = 0; y < object_ptr->getYLength(); y++) {
+						map->setCharAtLoc(x+object_ptr->getWorldPosition().X, y+object_ptr->getWorldPosition().Y, object_ptr->getArtAtLoc(x, y));
+					}
+				}
+			}
+
+
+		//and all other cases that are not minigames TODO
+		}
+	}
+}
+
+void Level::renderMap() {
+	if (currently_played_MG_ptr != NULL) {
+		//(*currently_played_MG_ptr).render(); TODO
+	}
+	for (auto& element : levelspecific_maps) {
+		if (state = element.first) {
+			CHAR_INFO** map = element.second->getMap();
+			COORD mapOffset = element.second->getMapToBufferOffset();
+			for (int i = 0; i < g_consoleSize.X; i++) {
+				for (int j = 0; j < g_consoleSize.Y; j++) {
+					associatedConsole.writeToBuffer(i, j, map[i + mapOffset.X][j + mapOffset.Y].Char.AsciiChar, map[i + mapOffset.X][j + mapOffset.Y].Attributes);
+				}
+			}
+		}
+	}
+}
+
+bool Level::setState(LEVELSTATE state) {
+	if (std::find(levelStates.begin(), levelStates.end(), state) != levelStates.end()) {
+		(*this).state = state;
+		return true;
+	}
+	return false; //not a state that exists in level
+}
+
+
+Level::Level(LEVEL level, Console console) : associatedConsole(console)
 {
 	player_ptr = NULL;
 	truck_ptr = NULL;
+	currently_played_MG_ptr = NULL;
 	state = LS_COUNT;
-	displayOrigin = { 0,0 };
+	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
 	
@@ -50,7 +108,9 @@ Level::Level(LEVEL level)
 				tokenize(line, ',', out);
 				
 				size_t lineCommas = std::count(line.begin(), line.end(), ',');
-				std::string* line_array = new std::string[lineCommas];
+				std::string* line_array;
+				size_t arraySize = lineCommas + 1;
+				line_array = new std::string[arraySize];
 
 				for (auto& line : out) {
 					line_array[split] = line;
@@ -62,8 +122,8 @@ Level::Level(LEVEL level)
 					mainMapSize.Y = std::stoi(line_array[2]);
 				}
 				else if (line_array[0] == "DisplayOrigin") {
-					displayOrigin.X = std::stoi(line_array[1]);
-					displayOrigin.X = std::stoi(line_array[2]);
+					mainDisplayOrigin.X = std::stoi(line_array[1]);
+					mainDisplayOrigin.Y = std::stoi(line_array[2]);
 				}
 				else if (line_array[0] == "FireStation") {
 					GameObject* ptr = new FireStation();
@@ -95,27 +155,40 @@ Level::Level(LEVEL level)
 	}
 	
 	//map_ptrs = new Map[levelStates.size()]();
+
 	for (unsigned int i = 0; i < levelStates.size(); i++) {
+		bool add = true;
 		COORD mapSize = { 213,50 };
+		COORD mapDisplayOffset{ 0,0 };
 		switch (levelStates[i]) {
 		case MAINMENU: mapSize = { 1000,50 }; break;
 		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
 
 		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME: 
-			mapSize = mainMapSize; break;
-
-		case LS_MINIGAME_WL:
-		case LS_MINIGAME_BHOS:
-			for (auto& entry : mg_ptr) {
-				if (entry->getAssociatedLSState() == levelStates[i]) {
-					mapSize = entry->getMapSize();
-				}
-			}
+			mapSize = mainMapSize; 
+			mapDisplayOffset = mainDisplayOrigin;
 			break;
+		
+
+		//Minigame maps to be accessed when LS_STATE is Minigame, render from Minigame class.
+		//case LS_MINIGAME_WL:
+		//case LS_MINIGAME_BHOS:
+		//	for (auto& entry : mg_ptr) {
+		//		if (entry->getAssociatedLSState() == levelStates[i]) {
+		//			mapSize = entry->getMapSize();
+		//		}
+		//	}
+		//	break;
 
 		case LS_FOREST_SCENE: mapSize = { 213, 50 }; break;
 		case LS_END_SCENE: mapSize = { 213, 50 }; break;
+		default:
+			add = false;
+		}
+		if (add) {
+			Map* map = new Map(mapSize.X, mapSize.Y);
+			levelspecific_maps.insert({ levelStates[i], map });
 		}
 	}
 }
@@ -125,9 +198,7 @@ Level::~Level()
 	for (auto& element : obj_ptr) { //deletes all pointers created under the level
 		delete element;
 	}
-	for (auto& entry : map_ptrs) {
-		delete entry.second;
-	}
+	delete currently_played_MG_ptr;
 }
 
 void tokenize(std::string const& str, const char delim,
@@ -142,3 +213,4 @@ void tokenize(std::string const& str, const char delim,
 		out.push_back(str.substr(start, end - start));
 	}
 }
+

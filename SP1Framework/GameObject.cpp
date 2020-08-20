@@ -27,6 +27,11 @@ CHAR_INFO GameObject::getArtAtLoc(COORD cord) {
 	return art.getArtAtLoc(cord);
 }
 
+CHAR_INFO GameObject::getArtAtLoc(int x, int y) {
+	COORD a = { x,y };
+	return art.getArtAtLoc(a);
+}
+
 COORD GameObject::getWorldPosition() {
 	return worldPosition;
 }

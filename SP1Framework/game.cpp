@@ -1,6 +1,7 @@
 // This is the main file for the game logic and function
 //
 //
+#include "global.h"
 #include "game.h"
 #include "Framework\console.h"
 #include <iostream>
@@ -22,10 +23,10 @@ SMouseEvent g_mouseEvent;
 SGameChar   g_sChar;
 
 EGAMESTATES g_eGameState = S_ACTIVE; // initial state
-Level g_Level = Level(MAINMENU); //initial state
 
 // Console object
-Console g_Console(213, 50, "SP1 Framework");
+Console g_Console(g_consoleSize, "SP1 Framework");
+Level g_Level = Level(TUTORIAL, g_Console); //initial state
 
 void updateOptions();
 void optionMenuClick();
@@ -304,7 +305,8 @@ void renderToScreen()
 }
 
 void renderLevel() {
-
+    g_Level.renderObjsToMap();
+    g_Level.renderMap();
 }
 
 void renderOptions() {

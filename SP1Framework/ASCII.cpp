@@ -95,14 +95,9 @@ bool ASCII::setArt(ARTTYPE type) {
 				art[i] = new CHAR_INFO[yLength];
 			}
 
-			CHAR_INFO a;
-			WORD c = 0x80;
-			a.Attributes = c;
-			a.Char.AsciiChar = ' ';
-
 			for (unsigned int i = 0; i < xLength; i++) {
 				for (unsigned int j = 0; j < yLength; j++) {
-					art[i][j] = a;
+					art[i][j] = g_background;
 				}
 			}
 
@@ -173,6 +168,10 @@ unsigned int ASCII::getXLength() {
 
 unsigned int ASCII::getYLength() {
 	return yLength;
+}
+
+CHAR_INFO** ASCII::getArt() {
+	return art;
 }
 
 CHAR_INFO ASCII::getArtAtLoc(COORD cord) {

@@ -1,0 +1,8 @@
+MapSize,300,500
+DisplayOrigin,150,250
+FireStation,100,250
+FireTruck,110,250
+Minigame_CE,75,225
+Minigame_WREF,150,200
+ROAD,150,227,UP
+ROAD,150,229,LEFT
