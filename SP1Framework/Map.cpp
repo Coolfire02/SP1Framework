@@ -1,10 +1,10 @@
 #include "Map.h"
 
-Map::Map(int x, int y, LEVELSTATE state) : map_type(state) {
+Map::Map(int x, int y) {
 	createMap(x, y);
 }
 
-Map::Map(LEVELSTATE state) : map_type(state) {
+Map::Map() {
 	createMap(213, 50);
 }
 
@@ -40,9 +40,6 @@ unsigned int Map::getYLength() {
 	return yLength;
 }
 
-LEVELSTATE Map::getMapType() {
-	return map_type;
-}
 
 Map::~Map() {
 	deleteMap();

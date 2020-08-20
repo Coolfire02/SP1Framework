@@ -14,8 +14,8 @@ public:
 	void setSize(int, int);
 	unsigned int getXLength();
 	unsigned int getYLength();
-	Map(int,int,LEVELSTATE);
-	Map(LEVELSTATE);
+	Map(int,int);
+	Map();
 	~Map();
 };
 
