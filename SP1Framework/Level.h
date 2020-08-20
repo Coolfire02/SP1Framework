@@ -9,6 +9,7 @@
 #include "MiniGame_WL.h"
 #include "Road.h"
 #include <vector>
+#include <unordered_map>
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -78,10 +79,10 @@ private:
 	MiniGame* mg_ptr;
 	LEVELSTATE state;
 	vector<GameObject*> obj_ptr;
-
+	vector<LEVELSTATE> levelStates;
 	COORD displayOrigin;
 	bool playerInTruck = false;
-	Map map;
+	unordered_map<LEVELSTATE, Map*> map_ptrs;
 
 	bool devMode = false;
 	

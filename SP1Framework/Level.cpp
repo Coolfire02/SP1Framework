@@ -10,21 +10,29 @@ Level::Level(LEVEL level)
 	mg_ptr = nullptr;
 	state = LS_COUNT;
 	displayOrigin = { 0,0 };
-	COORD mapSize = { (int) map.getXLength(), (int) map.getYLength() };
+	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
 	
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
+		levelStates.push_back(LS_MAINMENU);
 	}
 	else {
 		string levelName;
 		switch (level) {
-		case MAINMENU: levelName = "MAINMENU"; break;
 		case TUTORIAL: levelName = "TUTORIAL"; break;
 		case STAGE_1_LEVEL_1: levelName = "STAGE_1_LEVEL_1"; break;
 		case STAGE_2_LEVEL_1: levelName = "STAGE_2_LEVEL_1"; break;
 		default: levelName = "UNKNOWN";
 		}
+
+		levelStates.push_back(LS_BEGIN_SCENE);
+		levelStates.push_back(LS_MAINGAME);
+		levelStates.push_back(LS_FOREST_SCENE);
+		levelStates.push_back(LS_END_SCENE);
+
+		if (devMode)
+			levelStates.push_back(LS_LEVEL_BUILDER);
 
 		player_ptr = new Player();
 		truck_ptr = new FireTruck();
@@ -51,8 +59,8 @@ Level::Level(LEVEL level)
 				}
 
 				if (line_array[0] == "MapSize") {
-					mapSize.X = stoi(line_array[1]);
-					mapSize.Y = stoi(line_array[2]);
+					mainMapSize.X = stoi(line_array[1]);
+					mainMapSize.Y = stoi(line_array[2]);
 				}
 				else if (line_array[0] == "DisplayOrigin") {
 					displayOrigin.X = stoi(line_array[1]);
@@ -72,6 +80,8 @@ Level::Level(LEVEL level)
 					GameObject* ptr = new MiniGame_WL();
 					ptr->setWorldPosition(stoi(line_array[1]), stoi(line_array[2]));
 					obj_ptr.push_back(ptr);
+
+					levelStates.push_back(LS_MINIGAME_WL);
 				}
 				else if (line_array[0] == "ROAD") {
 					GameObject* ptr = new Road();
@@ -81,12 +91,23 @@ Level::Level(LEVEL level)
 				delete[] line_array;
 			}
 		}
-
-		if (map.getXLength() != mapSize.X || map.getYLength() != mapSize.Y) {
-			map.setSize(mapSize.X, mapSize.Y);
-		}
-
 	}
+	//map_ptrs = new Map[levelStates.size()]();
+	for (int i = 0; i < levelStates.size(); i++) {
+		COORD mapSize = { 213,50 };
+		switch (levelStates[i]) {
+		case MAINMENU: mapSize = { 1000,50 }; break;
+		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
+		case LS_MAINGAME: mapSize = { 213,50 }; break;
+		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
+		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
+		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
+		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
+		}
+		Map* map = new Map();
+		map_ptrs.push_back
+	}
+
 }
 
 Level::~Level()
@@ -94,6 +115,8 @@ Level::~Level()
 	for (auto& element : obj_ptr) { //deletes all pointers created under the level
 		delete element;
 	}
+	delete[] map_ptrs;
+	map_ptrs = NULL;
 }
 
 void tokenize(std::string const& str, const char delim,

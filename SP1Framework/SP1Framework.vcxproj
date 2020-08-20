@@ -95,6 +95,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="Road.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASCII.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Position.h" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Road.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Fireman.txt" />

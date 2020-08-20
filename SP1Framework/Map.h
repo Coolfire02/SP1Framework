@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include "Level.h"
 
 class Map
 {
@@ -13,7 +14,8 @@ public:
 	void setSize(int, int);
 	unsigned int getXLength();
 	unsigned int getYLength();
-	Map();
+	Map(int,int,LEVELSTATE);
+	Map(LEVELSTATE);
 	~Map();
 };
 
