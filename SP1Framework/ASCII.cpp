@@ -42,6 +42,7 @@ bool ASCII::setArt(ARTTYPE type) {
 	const char delim = ',';
 	std::string line1;
 	std::string line2;
+	std::string folder = "ASCII_art\\";
 	std::string arttxt;
 	switch (type)
 	{
@@ -68,6 +69,8 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "NA";
 		break;
 	}
+
+	arttxt = folder + arttxt;
 
 	if (arttxt != "NA")
 	{
