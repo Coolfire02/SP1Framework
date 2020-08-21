@@ -206,7 +206,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
-	state = LS_LEVEL_BUILDER; //TEMPORARY CODE FOR TESTING
+	state = LS_MAINGAME; //TEMPORARY CODE FOR TESTING
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
