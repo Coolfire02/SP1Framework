@@ -191,6 +191,11 @@ CHAR_INFO** ASCII::getArt() {
 
 CHAR_INFO ASCII::getArtAtLoc(COORD cord) {
 	if (art != nullptr)
-		return art[cord.X][cord.Y];
+		if (cord.X < xLength && cord.Y < yLength) {
+			return art[cord.X][cord.Y];
+		}
+		else {
+			return g_errorchar;
+		}
 	return g_background;
 }

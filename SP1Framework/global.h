@@ -2,6 +2,7 @@
 #include <Windows.h>
 
 extern CHAR_INFO g_background;
+extern CHAR_INFO g_errorchar;
 extern COORD g_consoleSize;
 
 // struct to store keyboard events

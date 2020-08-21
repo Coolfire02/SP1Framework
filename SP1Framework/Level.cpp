@@ -3,15 +3,56 @@
 void tokenize(std::string const& str, const char delim,
 	std::vector<std::string>& out);
 
-void Level::processKBEvents(SKeyEvent keyEvents[]) {
-	switch (state) {
-	case LS_LEVEL_BUILDER:
-		break;
+bool Level::processKBEvents(SKeyEvent keyEvents[]) {
+	bool eventIsProcessed = false;
+
+	//When it is MAINGAME State, if WASD move fire truck.. etc
+	if (state == LS_MAINGAME) {
+		Map* map = levelspecific_maps.at(state);
+		FireTruck truck = (*truck_ptr);
+		COORD truck_origPos = truck.getWorldPosition();
+		COORD future_pos = truck_origPos;
+		if (keyEvents[K_W].keyDown)
+			future_pos.Y--;
+		if (keyEvents[K_A].keyDown)
+			future_pos.X--;
+		if (keyEvents[K_S].keyDown)
+			future_pos.Y++;
+		if (keyEvents[K_D].keyDown)
+			future_pos.X++;
+		if (future_pos.X != truck_origPos.X || future_pos.Y != truck_origPos.Y) {
+			if (map->isInRange(future_pos)) {
+				eventIsProcessed = true;
+				bool canMove = false;
+				for (auto& obj : obj_ptr) {
+					if (obj->isCollided(truck)) {
+						if (obj->getType() == "Forest") {
+							canMove = false;
+							state = LS_FOREST_SCENE;
+							break;
+						}
+						else if (obj->getType() == "Road") {
+							canMove = true;
+						}
+					}
+				}
+				//debug to remove
+				canMove = true;
+				if(canMove)
+					truck.setWorldPosition(future_pos);
+			}
+		}
 	}
+	// init new stages if state change
+	(*this).checkStateChange();
+	return eventIsProcessed;
 }
 
-void Level::processMouseEvents(SMouseEvent &mouseEvents) {
+bool Level::processMouseEvents(SMouseEvent &mouseEvents) {
+	bool eventIsProcessed = false;
 
+	(*this).checkStateChange();
+	return eventIsProcessed;
 }
 
 void Level::renderObjsToMap() {
@@ -33,6 +74,7 @@ void Level::renderObjsToMap() {
 			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			for (auto& object_ptr : obj_ptr) {
+				if (!object_ptr->isActive()) continue;
 				for (int x = 0; x < object_ptr->getXLength(); x++) {
 					for (int y = 0; y < object_ptr->getYLength(); y++) {
 						map->setCharAtLoc(x+object_ptr->getWorldPosition().X, y+object_ptr->getWorldPosition().Y, object_ptr->getArtAtLoc(x, y));
@@ -77,7 +119,7 @@ bool Level::setState(LEVELSTATE state) {
 }
 
 
-Level::Level(LEVEL level, Console &console) : associatedConsole(console)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalState(LS_COUNT)
 {
 	player_ptr = NULL;
 	truck_ptr = NULL;
@@ -217,6 +259,30 @@ Level::~Level()
 		delete element;
 	}
 	delete currently_played_MG_ptr;
+}
+
+//always called at the start of each game loop. Making sure a level state is initialised as per
+//requested before its properly handled elsewhere.
+void Level::checkStateChange() {
+	if (originalState != state) {
+		originalState = state;
+		newStageinit();
+	}
+}
+
+//Whenever there is a state change, if there is any initialization to process, it'll be done here
+void Level::newStageinit() {
+	if (currently_played_MG_ptr != NULL) {
+		FireTruck truck = (*truck_ptr);
+		truck.setActive(false);
+	}
+	else {
+		switch (originalState) {
+		case LS_MAINMENU:
+			FireTruck truck = (*truck_ptr);
+			truck.setActive(false);
+		}
+	}
 }
 
 void tokenize(std::string const& str, const char delim,

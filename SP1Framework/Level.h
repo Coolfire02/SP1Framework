@@ -64,6 +64,7 @@ private:
 	FireTruck* truck_ptr; 
 	MiniGame* currently_played_MG_ptr;
 	std::vector<MiniGame*> mg_ptr;
+	LEVELSTATE originalState;
 	LEVELSTATE state;
 	std::vector<GameObject*> obj_ptr;
 	std::vector<LEVELSTATE> levelStates;
@@ -72,16 +73,17 @@ private:
 
 	bool devMode = false;
 	
-
+	void newStageinit();
 public:
 	Level(LEVEL, Console&);
 	~Level();
 	bool setState(LEVELSTATE);
 	enum LEVELSTATE getState();
+	void checkStateChange();
 	void renderMap();
 	void renderObjsToMap();
-	void processKBEvents(SKeyEvent[]);
-	void processMouseEvents(SMouseEvent&);
+	bool processKBEvents(SKeyEvent[]);
+	bool processMouseEvents(SMouseEvent&);
 };
 
 

@@ -222,7 +222,13 @@ void optionMenuClick() // handling of clicks in options menu
 }
 
 void updateLevel() {
-    g_Level.processKBEvents(g_skKeyEvent);
+
+    // processing key/mouse inputs for levels
+    if (g_keyCooldownTime < g_dElapsedTime) {
+        if (g_Level.processKBEvents(g_skKeyEvent)) { //successfully processed?
+            g_keyCooldownTime = g_dElapsedTime + 0.09; //add cooldown
+        }
+    }
     g_Level.processMouseEvents(g_mouseEvent);
 }
 
