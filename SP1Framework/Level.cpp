@@ -9,23 +9,22 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 	//When it is MAINGAME State, if WASD move fire truck.. etc
 	if (state == LS_MAINGAME) {
 		Map* map = levelspecific_maps.at(state);
-		FireTruck truck = (*truck_ptr);
-		COORD truck_origPos = truck.getWorldPosition();
+		COORD truck_origPos = truck_ptr->getWorldPosition();
 		COORD future_pos = truck_origPos;
 		if (keyEvents[K_W].keyDown)
 			future_pos.Y--;
 		if (keyEvents[K_A].keyDown)
-			future_pos.X--;
+			future_pos.X -= 2;
 		if (keyEvents[K_S].keyDown)
 			future_pos.Y++;
 		if (keyEvents[K_D].keyDown)
-			future_pos.X++;
+			future_pos.X += 2;
 		if (future_pos.X != truck_origPos.X || future_pos.Y != truck_origPos.Y) {
 			if (map->isInRange(future_pos)) {
 				eventIsProcessed = true;
 				bool canMove = false;
 				for (auto& obj : obj_ptr) {
-					if (obj->isCollided(truck)) {
+					if (obj->isCollided(*truck_ptr)) {
 						if (obj->getType() == "Forest") {
 							canMove = false;
 							state = LS_FOREST_SCENE;
@@ -39,13 +38,14 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 				//debug to remove
 				canMove = true;
 				if(canMove)
-					truck.setWorldPosition(future_pos);
+					truck_ptr->setWorldPosition(future_pos);
 			}
 		}
 	}
 	// init new stages if state change
 	(*this).checkStateChange();
 	return eventIsProcessed;
+	return true;
 }
 
 bool Level::processMouseEvents(SMouseEvent &mouseEvents) {
@@ -119,8 +119,9 @@ bool Level::setState(LEVELSTATE state) {
 }
 
 
-Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalState(LS_COUNT)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 {
+	originalState = LS_COUNT;
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
@@ -184,13 +185,12 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 					GameObject* ptr = player_ptr;
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 				}
+				else if (line_array.at(0) == "FireTruck") {
+					GameObject* ptr = truck_ptr;
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+				}
 				else if (line_array.at(0) == "FireStation") {
 					GameObject* ptr = new FireStation();
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "FireTruck") {
-					GameObject* ptr = new FireTruck();
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
@@ -279,8 +279,9 @@ void Level::newStageinit() {
 	else {
 		switch (originalState) {
 		case LS_MAINMENU:
-			FireTruck truck = (*truck_ptr);
-			truck.setActive(false);
+			break;
+		case LS_MAINGAME:
+			player_ptr->setActive(false);
 		}
 	}
 }

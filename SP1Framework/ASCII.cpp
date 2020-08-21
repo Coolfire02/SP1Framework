@@ -124,9 +124,9 @@ bool ASCII::setArt(ARTTYPE type) {
 			{
 				const char delim = ',';
 				int numPixel = 0;
-
+				int index = 0;
 				while (std::getline(ReadFile2, line2))
-				{
+				{	
 					int x = 0, y = 0;
 					//Initialization of pixel
 					CHAR_INFO pixel = g_background;
@@ -138,7 +138,7 @@ bool ASCII::setArt(ARTTYPE type) {
 
 					for (auto& line2 : out)
 					{
-						if (numPixel >= 1)
+						if (index >= 1)
 						{
 							if (pos == 0)
 							{
@@ -157,8 +157,9 @@ bool ASCII::setArt(ARTTYPE type) {
 						pos++;
 
 					}
-					art[x][y] = pixel;
-					numPixel++;
+					if(index > 0)
+						art[x][y] = pixel;
+					index++;
 				}
 
 				ReadFile2.close();

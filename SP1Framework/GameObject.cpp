@@ -10,6 +10,7 @@ GameObject::~GameObject() {
 }
 
 bool GameObject::isCollided(GameObject& otherObj) {
+	if (!(*this).isActive()) return false;
 	if (!(*this).isInteractable() || !otherObj.isInteractable()) return false;
 	if ((*this).getWorldPosition().X < otherObj.getWorldPosition().X + (int)otherObj.getXLength() &&
 		(*this).getWorldPosition().X + (int)(*this).getXLength() > otherObj.getWorldPosition().X &&
