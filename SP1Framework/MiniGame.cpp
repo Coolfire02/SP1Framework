@@ -44,8 +44,47 @@ void MiniGame::renderMap()
 
 }
 
-void MiniGame::renderObjsToMap()
+void MiniGame::renderObjsToMap(int gameType)
 {
+	switch (gameType)
+	{
+	case(MINIGAME_BHOS):
+
+		break;
+	
+	case(MINIGAME_CE):
+
+		break;
+
+	case(MINIGAME_CFT):
+
+		break;
+
+	case(MINIGAME_PCE):
+
+		break;
+
+	case(MINIGAME_RM):
+
+		break;
+
+	case(MINIGAME_RW):
+
+		break;
+
+	case(MINIGAME_WFAR):
+
+		break;
+
+	case(MINIGAME_WL):
+
+		break;
+
+	case(MINIGAME_WREST):
+
+		break;
+
+	}
 }
 
 bool MiniGame::processKBEvents(SKeyEvent[])

@@ -22,8 +22,21 @@ protected:
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
 public:
+	enum MiniGames
+	{
+		MINIGAME_WREST, //Restaurant
+		MINIGAME_CFT, //Cat from Tree
+		MINIGAME_CE, //Charity Event
+		MINIGAME_PCE, //Promote Charity Event
+		MINIGAME_RM, //Raining Money
+		MINIGAME_WL, //Water Leakage
+		MINIGAME_WFAR, //Water from Reservoir
+		MINIGAME_RW, //Collect Rain Water
+		MINIGAME_BHOS, //Bee Hive Removal
+	};
+
 	void renderMap();
-	void renderObjsToMap();
+	void renderObjsToMap(int gameType);
 	bool processKBEvents(SKeyEvent[]);
 	bool processMouseEvents(SMouseEvent&);
 
