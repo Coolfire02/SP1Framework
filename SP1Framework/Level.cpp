@@ -10,7 +10,7 @@ void Level::processKBEvents(SKeyEvent keyEvents[]) {
 	}
 }
 
-void Level::processMouseEvents(SMouseEvent mouseEvents) {
+void Level::processMouseEvents(SMouseEvent &mouseEvents) {
 
 }
 

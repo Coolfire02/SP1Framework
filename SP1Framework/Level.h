@@ -81,7 +81,7 @@ public:
 	void renderMap();
 	void renderObjsToMap();
 	void processKBEvents(SKeyEvent[]);
-	void processMouseEvents(SMouseEvent);
+	void processMouseEvents(SMouseEvent&);
 };
 
 
