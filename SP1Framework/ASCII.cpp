@@ -125,10 +125,8 @@ bool ASCII::setArt(ARTTYPE type) {
 				while (std::getline(ReadFile2, line2))
 				{
 					int x = 0, y = 0;
-					CHAR_INFO pixel;
 					//Initialization of pixel
-					pixel.Attributes = 0x15; // 0x <bg color> <char color>
-					pixel.Char.AsciiChar = 'A';
+					CHAR_INFO pixel = g_background;
 
 					int pos = 0; //To check what position it is checking in the txt file
 					std::vector<std::string> out;
