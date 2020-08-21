@@ -3,6 +3,7 @@
 FireTruck::FireTruck()
 {
     art.setArt(FIRE_TRUCK_ART);
+    weight = 900;
 }
 
 FireTruck::~FireTruck()

@@ -1,5 +1,9 @@
 #include "MiniGame.h"
 
+MiniGame::MiniGame() {
+	weight = 1000;
+}
+
 void MiniGame::WaterCollected(int)
 {
 }

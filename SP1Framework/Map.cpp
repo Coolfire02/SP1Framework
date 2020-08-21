@@ -48,6 +48,10 @@ COORD Map::getMapToBufferOffset() {
 	return mapToBufferOffset;
 }
 
+CHAR_INFO Map::getCharAtLoc(int x, int y) {
+	return (*this).map_ptr[x][y];
+}
+
 bool Map::setCharAtLoc(int x, int y, CHAR_INFO character) {
 	if (x < (*this).getXLength() && y < (*this).getYLength()) {
 		(*this).map_ptr[x][y] = character;

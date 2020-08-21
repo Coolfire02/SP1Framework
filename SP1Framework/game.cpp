@@ -310,6 +310,7 @@ void renderToScreen()
 }
 
 void renderLevel() {
+    
     g_Level.checkStateChange();
     g_Level.renderObjsToMap();
     g_Level.renderMap();

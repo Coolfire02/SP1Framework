@@ -14,6 +14,7 @@
 #include "LevelState.h"
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -71,7 +72,8 @@ private:
 	bool playerInTruck = false;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
 
-	bool devMode = false;
+	bool devMode = true;
+	GameObject* pickedUp_obj;
 	
 	void newStageinit();
 public:

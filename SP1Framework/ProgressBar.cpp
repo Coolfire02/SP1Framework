@@ -2,6 +2,7 @@
 
 ProgressBar::ProgressBar()
 {
+    weight = 10000;
 }
 
 ProgressBar::~ProgressBar()

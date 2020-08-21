@@ -3,6 +3,7 @@
 Player::Player()
 {
     art.setArt(FIREFIGHTER_ART);
+    weight = 800;
 }
 
 Player::~Player()

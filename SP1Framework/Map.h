@@ -19,6 +19,7 @@ public:
 	bool isInRange(COORD);
 	bool setMapToBufferOffset(COORD);
 	bool setCharAtLoc(int, int, CHAR_INFO);
+	CHAR_INFO getCharAtLoc(int, int);
 	CHAR_INFO** getMap();
 	unsigned int getXLength();
 	unsigned int getYLength();

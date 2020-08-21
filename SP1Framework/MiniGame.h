@@ -17,5 +17,5 @@ public:
 	virtual std::string getType() = 0;
 	COORD getMapSize();
 	
-
+	MiniGame();
 };

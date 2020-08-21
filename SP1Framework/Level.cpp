@@ -23,6 +23,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			if (map->isInRange(future_pos)) {
 				eventIsProcessed = true;
 				bool canMove = false;
+				truck_ptr->setWorldPosition(future_pos);
 				for (auto& obj : obj_ptr) {
 					if (obj->isCollided(*truck_ptr)) {
 						if (obj->getType() == "Forest") {
@@ -36,11 +37,23 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 					}
 				}
 				//debug to remove
-				canMove = true;
-				if(canMove)
-					truck_ptr->setWorldPosition(future_pos);
+				//canMove = true;
+				if(!canMove)
+					truck_ptr->setWorldPosition(truck_origPos);
 			}
 		}
+	}
+	else if (state == LS_LEVEL_BUILDER) {
+		Map* map = levelspecific_maps.at(state);
+		COORD mapOffset = map->getMapToBufferOffset();
+		if (keyEvents[K_W].keyDown)
+			mapOffset.Y -= 10;
+		if (keyEvents[K_A].keyDown)
+			mapOffset.X -= 10;
+		if (keyEvents[K_S].keyDown)
+			mapOffset.Y += 5;
+		if (keyEvents[K_D].keyDown)
+			mapOffset.X += 10;
 	}
 	// init new stages if state change
 	(*this).checkStateChange();
@@ -48,10 +61,67 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 	return true;
 }
 
-bool Level::processMouseEvents(SMouseEvent &mouseEvents) {
-	bool eventIsProcessed = false;
+bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
+	bool eventIsProcessed = true;
+	if (currently_played_MG_ptr != NULL || state == LS_MAINMENU || state == LS_LEVEL_BUILDER) {
+		COORD mousePos = { mouseEvent.mousePosition };
+		associatedConsole.writeToBuffer(mousePos.X, mousePos.Y, "ATTACHED");
+		switch (mouseEvent.eventFlags) {
+		case 0:
+			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
+				
+				if (currently_played_MG_ptr != NULL) {
+					//minigamehandlemouseevent()...
+				}
+				else {
+					Map* map = levelspecific_maps.at(state);
+					switch (state) {
+					case LS_MAINMENU:
+						//If mouse cursor is touching level obj, start level etc
+					case LS_LEVEL_BUILDER:
+						//if mouse cursor is touching level obj, clip onto it so u can move it around
+						std::map<short, GameObject*> sort;
+						for (auto& object_ptr : obj_ptr) {
+							if (!object_ptr->isActive()) continue;
+							sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+						}
+						COORD bufferOffset = map->getMapToBufferOffset();
+						if (pickedUp_obj == NULL) {
+							Beep(5140, 30);
+							//sort from highest weight to lowest allowing u to pickup the "most infront" obj
+							std::map<short, GameObject*> ::iterator it;
+							for (it = sort.begin(); it != sort.end(); it++) {
+								if((*it).second->isInLocation(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y)) {
+									pickedUp_obj = (*it).second;
+								}
+							}
+						}
+						else {
+							Beep(5140, 30);
+							pickedUp_obj->setWorldPosition(mousePos.X+bufferOffset.X, mousePos.Y+bufferOffset.Y);
+						}
+						
+					}
+				}
+			}
+		case DOUBLE_CLICK:
+			break;
+		case MOUSE_WHEELED:
+			break;
+		default:
+			if (state == LS_LEVEL_BUILDER) {
+				delete pickedUp_obj;
+				pickedUp_obj == NULL; //No longer holding obj
+			}
+			break;
+		}
 
-	(*this).checkStateChange();
+		(*this).checkStateChange();
+		return eventIsProcessed;
+	}
+	else {
+		eventIsProcessed = false;
+	}
 	return eventIsProcessed;
 }
 
@@ -61,6 +131,7 @@ void Level::renderObjsToMap() {
 	}
 	else {
 		switch (state) {
+		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME:
 			/*Main game should consist of:
 			Fire Station
@@ -73,11 +144,21 @@ void Level::renderObjsToMap() {
 			Map* map = levelspecific_maps[state];
 			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
+			std::map<short, GameObject*> sort;
 			for (auto& object_ptr : obj_ptr) {
 				if (!object_ptr->isActive()) continue;
-				for (int x = 0; x < object_ptr->getXLength(); x++) {
-					for (int y = 0; y < object_ptr->getYLength(); y++) {
-						map->setCharAtLoc(x+object_ptr->getWorldPosition().X, y+object_ptr->getWorldPosition().Y, object_ptr->getArtAtLoc(x, y));
+				sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+			}
+			for (auto& element : sort) {
+				for (int x = 0; x < element.second->getXLength(); x++) {
+					for (int y = 0; y < element.second->getYLength(); y++) {
+						COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+						//if this object art at this location is of a g_background, do not overwrite
+						if (element.second->getArtAtLoc(x, y).Attributes == g_background.Attributes &&
+							element.second->getArtAtLoc(x, y).Char.AsciiChar == g_background.Char.AsciiChar) {
+							continue;
+						}
+						map->setCharAtLoc(mapLoc.X, mapLoc.Y , element.second->getArtAtLoc(x, y));
 					}
 				}
 			}
@@ -125,7 +206,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
-	state = LS_MAINGAME; //TEMPORARY CODE FOR TESTING
+	state = LS_LEVEL_BUILDER; //TEMPORARY CODE FOR TESTING
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
@@ -204,7 +285,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 					levelStates.push_back(LS_MINIGAME_WL);
 				}
 				else if (line_array.at(0) == "ROAD") {
-
 					GameObject* ptr = new Road();
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
@@ -259,13 +339,13 @@ Level::~Level()
 		delete element;
 	}
 	delete currently_played_MG_ptr;
+	delete pickedUp_obj;
 }
 
 //always called at the start of each game loop. Making sure a level state is initialised as per
 //requested before its properly handled elsewhere.
 void Level::checkStateChange() {
 	if (originalState != state) {
-		originalState = state;
 		newStageinit();
 	}
 }
@@ -277,13 +357,14 @@ void Level::newStageinit() {
 		truck.setActive(false);
 	}
 	else {
-		switch (originalState) {
+		switch (state) {
 		case LS_MAINMENU:
 			break;
 		case LS_MAINGAME:
 			player_ptr->setActive(false);
 		}
 	}
+	originalState = state;
 }
 
 void tokenize(std::string const& str, const char delim,

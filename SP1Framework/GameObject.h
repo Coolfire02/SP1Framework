@@ -11,6 +11,7 @@ private:
 	bool active;
 protected:
 	ASCII art;
+	short weight; // > weight = > priority
 public:
 	GameObject();
 	~GameObject();
@@ -21,9 +22,12 @@ public:
 	CHAR_INFO getArtAtLoc(COORD);
 	CHAR_INFO getArtAtLoc(int,int);
 	COORD getWorldPosition();
+	short getWeight();
 	unsigned int getXLength();
 	unsigned int getYLength();
 	bool isActive();
+	bool isInLocation(COORD);
+	bool isInLocation(int, int);
 
 	virtual std::string getType() = 0;
 

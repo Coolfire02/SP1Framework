@@ -2,6 +2,7 @@
 
 FireStation::FireStation() {
 	art.setArt(FIRE_STATION_ART);
+	weight = 1000;
 }
 
 FireStation::~FireStation() {

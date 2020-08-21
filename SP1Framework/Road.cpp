@@ -3,6 +3,7 @@
 Road::Road() 
 {
 	art.setArt(HORIZONTAL_ROAD_ART);
+	weight = 0;
 }
 
 Road::Road(ROADTYPE type)
