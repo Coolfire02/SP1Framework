@@ -80,7 +80,7 @@ public:
 	enum LEVELSTATE getState();
 	void renderMap();
 	void renderObjsToMap();
-	void processKBEvents(SKeyEvent);
+	void processKBEvents(SKeyEvent[]);
 	void processMouseEvents(SMouseEvent);
 };
 

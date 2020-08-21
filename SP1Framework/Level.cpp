@@ -3,6 +3,14 @@
 void tokenize(std::string const& str, const char delim,
 	std::vector<std::string>& out);
 
+void Level::processKBEvents(SKeyEvent keyEvents[]) {
+
+}
+
+void Level::processMouseEvents(SMouseEvent mouseEvents) {
+
+}
+
 void Level::renderObjsToMap() {
 	if (currently_played_MG_ptr != NULL) {
 		//(*currently_played_MG_ptr).renderMGObjsToMap(); TODO

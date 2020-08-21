@@ -28,6 +28,7 @@ Console g_Console(g_consoleSize, "SP1 Framework");
 Level g_Level = Level(TUTORIAL, g_Console); //initial state
 
 void updateOptions();
+void updateLevel();
 void optionMenuClick();
 void renderLevel();
 void renderOptions();
@@ -287,7 +288,7 @@ void render()
         break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
-    renderInputEvents();    // renders status of input events
+    //renderInputEvents();    // renders status of input events
     renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
 }
 

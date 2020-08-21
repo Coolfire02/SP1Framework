@@ -8,6 +8,7 @@ class GameObject
 private:
 	COORD worldPosition;
 	bool interactable;
+	bool active;
 protected:
 	ASCII art;
 public:
@@ -22,9 +23,11 @@ public:
 	COORD getWorldPosition();
 	unsigned int getXLength();
 	unsigned int getYLength();
+	bool isActive();
 
 	virtual std::string getType() = 0;
 
+	void setActive(bool);
 	void setInteractable(bool);
 	bool setWorldPosition(COORD);
 	bool setWorldPosition(unsigned int, unsigned int);
