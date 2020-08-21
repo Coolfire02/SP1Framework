@@ -3,6 +3,7 @@
 GameObject::GameObject() {
 	worldPosition = { 0,0 };
 	interactable = true;
+	active = true;
 }
 
 GameObject::~GameObject() {
@@ -42,6 +43,14 @@ unsigned int GameObject::getXLength() {
 
 unsigned int GameObject::getYLength() {
 	return art.getYLength();
+}
+
+bool GameObject::isActive() {
+	return active;
+}
+
+void GameObject::setActive(bool active) {
+	(*this).active = active;
 }
 
 void GameObject::setInteractable(bool interactable) {

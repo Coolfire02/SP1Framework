@@ -63,6 +63,20 @@ bool Map::setMapToBufferOffset(COORD cord) {
 	return false;
 }
 
+bool Map::isInRange(int x, int y) {
+	if (x < (*this).getXLength() && y < (*this).getYLength()) {
+		return true;
+	}
+	return false;
+}
+
+bool Map::isInRange(COORD a) {
+	if (a.X < (*this).getXLength() && a.Y < (*this).getYLength()) {
+		return true;
+	}
+	return false;
+}
+
 unsigned int Map::getXLength() {
 	return xLength;
 }

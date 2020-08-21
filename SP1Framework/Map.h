@@ -1,4 +1,5 @@
 #pragma once
+#include "global.h"
 #include <Windows.h>
 
 class Map
@@ -14,6 +15,8 @@ public:
 	void setSize(int, int);
 	void clearMap();
 	COORD getMapToBufferOffset();
+	bool isInRange(int,int);
+	bool isInRange(COORD);
 	bool setMapToBufferOffset(COORD);
 	bool setCharAtLoc(int, int, CHAR_INFO);
 	CHAR_INFO** getMap();

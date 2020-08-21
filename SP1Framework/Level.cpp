@@ -40,13 +40,18 @@ void Level::renderMap() {
 		//(*currently_played_MG_ptr).render(); TODO
 	}
 	else {
-		CHAR_INFO** map = levelspecific_maps.at(state)->getMap();
-		COORD mapOffset = levelspecific_maps.at(state)->getMapToBufferOffset();
+		Map* actualMap = levelspecific_maps.at(state);
+		CHAR_INFO** map = actualMap->getMap();
+		COORD mapOffset = actualMap->getMapToBufferOffset();
 		for (int i = 0; i < g_consoleSize.X; i++) {
 			for (int j = 0; j < g_consoleSize.Y; j++) {
 				unsigned int worldX = i + mapOffset.X;
 				unsigned int worldY = j + mapOffset.Y;
-				associatedConsole.writeToBuffer(i, j, map[worldX][worldY].Char.AsciiChar, map[worldX][worldY].Attributes);
+				bool inRangetemp = actualMap->isInRange(worldX, worldY);
+				if (actualMap->isInRange(worldX, worldY) == true) 
+					associatedConsole.writeToBuffer(i, j, map[worldX][worldY].Char.AsciiChar, map[worldX][worldY].Attributes);
+				else 
+					associatedConsole.writeToBuffer(i, j, ' ', 0x00);
 			}
 		}
 	}
@@ -188,6 +193,7 @@ Level::Level(LEVEL level, Console &console) : associatedConsole(console)
 		}
 		if (add) {
 			Map* map = new Map(mapSize.X, mapSize.Y);
+			map->setMapToBufferOffset(mapDisplayOffset);
 			levelspecific_maps.insert({ levelStates[i], map });
 		}
 	}

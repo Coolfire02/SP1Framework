@@ -61,7 +61,7 @@ private:
 	Console associatedConsole;
 	LEVEL level;
 	Player* player_ptr;
-	FireTruck* truck_ptr;
+	FireTruck* truck_ptr; 
 	MiniGame* currently_played_MG_ptr;
 	std::vector<MiniGame*> mg_ptr;
 	LEVELSTATE state;
@@ -80,6 +80,8 @@ public:
 	enum LEVELSTATE getState();
 	void renderMap();
 	void renderObjsToMap();
+	void processKBEvents(SKeyEvent);
+	void processMouseEvents(SMouseEvent);
 };
 
 
