@@ -4,7 +4,10 @@ void tokenize(std::string const& str, const char delim,
 	std::vector<std::string>& out);
 
 void Level::processKBEvents(SKeyEvent keyEvents[]) {
-
+	switch (state) {
+	case LS_LEVEL_BUILDER:
+		break;
+	}
 }
 
 void Level::processMouseEvents(SMouseEvent mouseEvents) {
@@ -111,7 +114,7 @@ Level::Level(LEVEL level, Console &console) : associatedConsole(console)
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
 
-		std::ifstream file(levelName+".txt");
+		std::ifstream file("LEVELS\\"+levelName+".txt");
 		std::string line;
 		if (file.is_open()) {
 			int split;
@@ -159,6 +162,7 @@ Level::Level(LEVEL level, Console &console) : associatedConsole(console)
 					levelStates.push_back(LS_MINIGAME_WL);
 				}
 				else if (line_array.at(0) == "ROAD") {
+
 					GameObject* ptr = new Road();
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
