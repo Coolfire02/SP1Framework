@@ -19,15 +19,15 @@ enum ARTTYPE
 	MINIGAME_WREST_ART, //Restaurant
 
 	MINIGAME_CFT_ART, //Cat from Tree
-	MINIGAME_CFT_CAT_ART,
-	MINIGAME_CFT_TREE_ART,
+	CAT_ART,
+	TREE_ART,
 
 	MINIGAME_CE_ART, //Charity Event
 	MINIGAME_PCE_ART, //Promote Charity Event
 
 	MINIGAME_RM_ART, //Raining Money
-	MINIGAME_RM_COIN_ART,
-	MINIGAME_RM_JAR_ART,
+	COIN_ART,
+	JAR_ART,
 
 	MINIGAME_WL_ART, //Water Leakage
 	MINIGAME_WFAR_ART, //Water from Reservoir

@@ -2,6 +2,7 @@
 
 MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), associatedLevel(level)
 {
+	player_ptr = NULL;
 	Completed = false;
 	WaterCollected = 0;
 	MoneyEarned = 0;
@@ -48,26 +49,28 @@ void MiniGame::renderObjsToMap(int gameType)
 {
 	MiniGameMap.clearMap();
 	std::map<short, GameObject*> sort;
+	for (auto& object_ptr : mg_obj_ptr) {
+		if (!object_ptr->isActive()) continue;
+		sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+	}
+	for (auto& element : sort) {
+		for (int x = 0; x < element.second->getXLength(); x++) {
+			for (int y = 0; y < element.second->getYLength(); y++) {
+				COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+				//if this object art at this location is of a g_background, do not overwrite
+				if (element.second->getArtAtLoc(x, y).Attributes == g_background.Attributes &&
+					element.second->getArtAtLoc(x, y).Char.AsciiChar == g_background.Char.AsciiChar) {
+					continue;
+				}
+				MiniGameMap.setCharAtLoc(mapLoc.X, mapLoc.Y, element.second->getArtAtLoc(x, y));
+			}
+		}
+	}
+
+
+
 }
 
-bool MiniGame::processKBEvents(SKeyEvent keyEvents[])
-{
-	bool eventIsProcessed = false;
-	if (keyEvents[K_W].keyDown)
-		
-	if (keyEvents[K_A].keyDown)
-		
-	if (keyEvents[K_S].keyDown)
-		
-	if (keyEvents[K_D].keyDown)
-		
-	return false;
-}
-
-bool MiniGame::processMouseEvents(SMouseEvent& mouseEvents)
-{
-	return false;
-}
 
 int MiniGame::getWaterCollected()
 {
@@ -79,10 +82,6 @@ int MiniGame::getMoneyEarned()
 	return MoneyEarned;
 }
 
-void MiniGame::UpdateMinigamewithKeyFunctions()
-{
-
-}
 
 COORD MiniGame::getMapSize()
 {
@@ -91,5 +90,7 @@ COORD MiniGame::getMapSize()
 
 MiniGame::~MiniGame()
 {
-	
+	for (auto& element : mg_obj_ptr) { //deletes all pointers created under the minigames
+		delete element;
+	}
 }

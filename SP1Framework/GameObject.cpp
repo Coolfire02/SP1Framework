@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject() {
+	weight = 0;
 	worldPosition = { 0,0 };
 	interactable = true;
 	active = true;

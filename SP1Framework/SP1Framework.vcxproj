@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ASCII.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireStation.cpp" />
     <ClCompile Include="FireTruck.cpp" />
     <ClCompile Include="Framework\console.cpp" />
@@ -87,11 +88,13 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="Hose.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Jar.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="MiniGame_RM.cpp" />
     <ClCompile Include="MiniGame_WL.cpp" />
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -101,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASCII.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="FireStation.h" />
     <ClInclude Include="FireTruck.h" />
     <ClInclude Include="Framework\console.h" />
@@ -108,10 +112,12 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Hose.h" />
+    <ClInclude Include="Jar.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MiniGame.h" />
+    <ClInclude Include="MiniGame_RM.h" />
     <ClInclude Include="MiniGame_WL.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="Player.h" />

@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Objects">
       <UniqueIdentifier>{7d583813-18d8-4f0b-bcae-ca9b6151ea62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MiniGames">
+      <UniqueIdentifier>{82ad9f1d-0136-4347-9af2-2e2946437273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MiniGames">
+      <UniqueIdentifier>{0a0601dc-b432-4807-ae86-a428c6459731}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,16 +60,7 @@
     <ClCompile Include="ASCII.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MiniGame_WL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MiniGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
@@ -86,6 +83,24 @@
     </ClCompile>
     <ClCompile Include="Road.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGame.cpp">
+      <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGame_WL.cpp">
+      <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Jar.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGame_RM.cpp">
+      <Filter>Source Files\MiniGames</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,16 +128,7 @@
     <ClInclude Include="ASCII.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniGame_WL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
@@ -145,6 +151,24 @@
     </ClInclude>
     <ClInclude Include="Road.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGame_WL.h">
+      <Filter>Header Files\MiniGames</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGame.h">
+      <Filter>Header Files\MiniGames</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Jar.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGame_RM.h">
+      <Filter>Header Files\MiniGames</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

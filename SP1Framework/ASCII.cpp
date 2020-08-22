@@ -65,11 +65,10 @@ bool ASCII::setArt(ARTTYPE type) {
 	case VERTICAL_ROAD_ART:
 		arttxt = "Vroad.txt";
 		break;
-
-	case MINIGAME_CFT_CAT_ART:
+	case CAT_ART:
 		arttxt = "Cat.txt";
 		break;
-	case MINIGAME_CFT_TREE_ART:
+	case TREE_ART:
 		arttxt = "Tree.txt";
 		break;
 	default:

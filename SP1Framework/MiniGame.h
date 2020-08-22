@@ -12,13 +12,13 @@
 class MiniGame : public GameObject
 {
 private:
-	Player player;
 	Console associatedConsole;
 	LEVEL associatedLevel;
 	Map MiniGameMap;
 	int WaterCollected, MoneyEarned;
-	bool Completed;
 protected:
+	bool Completed;
+	Player* player_ptr;
 	enum MiniGames
 	{
 		MINIGAME_WREST, //Restaurant
@@ -41,18 +41,18 @@ public:
 
 	void renderMap();
 	void renderObjsToMap(int gameType);
-	bool processKBEvents(SKeyEvent[]);
-	bool processMouseEvents(SMouseEvent&);
 
 
 	bool CompletionCheck();  //To check whether the game is completed
 	int getWaterCollected(); //Returns the amount of Water Collected in minigame
 	int getMoneyEarned();  //Returns the amount of Money Earned in minigame
-	virtual void UpdateMinigamewithKeyFunctions();
-	virtual enum LEVELSTATE getAssociatedLSState() = 0;
-	virtual std::string getType() = 0;
 	COORD getMapSize();
 	
 	MiniGame(LEVEL level, Console& console);
 	~MiniGame();
+
+	virtual bool processKBEvents(SKeyEvent[]) = 0;
+	virtual bool processMouseEvents(SMouseEvent&) = 0;
+	virtual enum LEVELSTATE getAssociatedLSState() = 0;
+	virtual std::string getType() = 0;
 };
