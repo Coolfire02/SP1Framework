@@ -276,7 +276,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 					obj_ptr.push_back(ptr);
 				}
 				else if (line_array.at(0) == "MiniGame_WL") {
-					MiniGame* ptr = new MiniGame_WL();
+					MiniGame* ptr = new MiniGame_WL(level, console);
 					
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);

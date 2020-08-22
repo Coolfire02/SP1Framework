@@ -49,13 +49,6 @@
 // iterate through till u find the displayorigin (top left of buffer) start writing into the buffer
 // to get the map displayed on the screen.
 
-enum LEVEL {
-	MAINMENU,
-	TUTORIAL,
-	STAGE_1_LEVEL_1,
-	STAGE_2_LEVEL_1,
-};
-
 class Level
 {
 private:

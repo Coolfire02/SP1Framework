@@ -8,7 +8,7 @@ private:
   
 public:
     enum LEVELSTATE getAssociatedLSState();
-    MiniGame_WL();
+    MiniGame_WL(LEVEL level, Console& console);
     ~MiniGame_WL();
 };
 

@@ -1,6 +1,7 @@
 #include "MiniGame_WL.h"
 
-MiniGame_WL::MiniGame_WL() {
+MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, console)
+{
 	mapSize = { 300,300 };
 }
 

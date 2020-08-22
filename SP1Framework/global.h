@@ -46,3 +46,11 @@ enum EGAMESTATES
     S_END,
     S_COUNT
 };
+
+//Enumeration for different levels
+enum LEVEL {
+    MAINMENU,
+    TUTORIAL,
+    STAGE_1_LEVEL_1,
+    STAGE_2_LEVEL_1,
+};

@@ -120,9 +120,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Road.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="Fireman.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

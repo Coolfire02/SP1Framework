@@ -1,27 +1,24 @@
 #pragma once
+#include "Player.h"
+#include "Framework/console.h"
 #include "GameObject.h"
 #include "global.h"
 #include <string>
 #include "ASCII.h"
-#include "Level.h"
 #include "LevelState.h"
 #include "Map.h"
+#include <map>
 
 class MiniGame : public GameObject
 {
 private:
+	Player player;
 	Console associatedConsole;
 	LEVEL associatedLevel;
 	Map MiniGameMap;
 	int WaterCollected, MoneyEarned;
 	bool Completed;
 protected:
-	COORD mapSize;
-	ASCII MGascii;
-	std::vector<GameObject*> mg_obj_ptr;
-	void setWaterCollected(int w); //To set amount of Water collected in minigame
-	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
-public:
 	enum MiniGames
 	{
 		MINIGAME_WREST, //Restaurant
@@ -34,6 +31,13 @@ public:
 		MINIGAME_RW, //Collect Rain Water
 		MINIGAME_BHOS, //Bee Hive Removal
 	};
+
+	COORD mapSize;
+	ASCII MGascii;
+	std::vector<GameObject*> mg_obj_ptr;
+	void setWaterCollected(int w); //To set amount of Water collected in minigame
+	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
+public:
 
 	void renderMap();
 	void renderObjsToMap(int gameType);

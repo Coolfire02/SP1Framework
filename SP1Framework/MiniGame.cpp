@@ -46,53 +46,25 @@ void MiniGame::renderMap()
 
 void MiniGame::renderObjsToMap(int gameType)
 {
-	switch (gameType)
-	{
-	case(MINIGAME_BHOS):
-
-		break;
-	
-	case(MINIGAME_CE):
-
-		break;
-
-	case(MINIGAME_CFT):
-
-		break;
-
-	case(MINIGAME_PCE):
-
-		break;
-
-	case(MINIGAME_RM):
-
-		break;
-
-	case(MINIGAME_RW):
-
-		break;
-
-	case(MINIGAME_WFAR):
-
-		break;
-
-	case(MINIGAME_WL):
-
-		break;
-
-	case(MINIGAME_WREST):
-
-		break;
-
-	}
+	MiniGameMap.clearMap();
+	std::map<short, GameObject*> sort;
 }
 
-bool MiniGame::processKBEvents(SKeyEvent[])
+bool MiniGame::processKBEvents(SKeyEvent keyEvents[])
 {
+	bool eventIsProcessed = false;
+	if (keyEvents[K_W].keyDown)
+		
+	if (keyEvents[K_A].keyDown)
+		
+	if (keyEvents[K_S].keyDown)
+		
+	if (keyEvents[K_D].keyDown)
+		
 	return false;
 }
 
-bool MiniGame::processMouseEvents(SMouseEvent&)
+bool MiniGame::processMouseEvents(SMouseEvent& mouseEvents)
 {
 	return false;
 }
