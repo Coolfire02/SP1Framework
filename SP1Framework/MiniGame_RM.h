@@ -20,6 +20,7 @@ public:
 
     ~MiniGame_RM();
 
+    void gameLoopListener();
     bool processKBEvents(SKeyEvent KeyEvents[]);
     bool processMouseEvents(SMouseEvent&);
 

@@ -22,5 +22,5 @@ bool Player::PlayerInFT()
 }
 
 std::string Player::getType() {
-    return "Player";
+    return "FireMan";
 }

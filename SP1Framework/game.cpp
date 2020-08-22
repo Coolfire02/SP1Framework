@@ -16,8 +16,6 @@
 #include "MiniGame.h"
 #include "MiniGame_RM.h"
 
-double  g_dElapsedTime;
-double  g_dDeltaTime;
 double  g_keyCooldownTime;
 SKeyEvent g_skKeyEvent[K_COUNT];
 SMouseEvent g_mouseEvent;
@@ -149,6 +147,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case VK_RIGHT: key = K_RIGHT; break; 
     case VK_SPACE: key = K_SPACE; break;
     case VK_ESCAPE: key = K_ESCAPE; break; 
+    case VK_CONTROL: key = K_CTRL; break;
     case 0x57: key = K_W; break;
     case 0X41: key = K_A; break;
     case 0x53: key = K_S; break;
@@ -235,6 +234,8 @@ void updateLevel() {
         }
     }
     g_Level_ptr->processMouseEvents(g_mouseEvent);
+
+    g_Level_ptr->gameLoopListener(); //A while loop listened every 20ms.
 }
 
 //void moveCharacter()

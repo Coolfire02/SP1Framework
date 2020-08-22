@@ -8,6 +8,10 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 MiniGame_WL::~MiniGame_WL() {
 }
 
+void MiniGame_WL::gameLoopListener() {
+
+}
+
 bool MiniGame_WL::processKBEvents(SKeyEvent[])
 {
 	return false;

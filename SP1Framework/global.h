@@ -5,6 +5,9 @@ extern CHAR_INFO g_background;
 extern CHAR_INFO g_errorchar;
 extern COORD g_consoleSize;
 
+extern double  g_dElapsedTime;
+extern double  g_dDeltaTime;
+
 // struct to store keyboard events
 // a small subset of KEY_EVENT_RECORD
 struct SKeyEvent
@@ -31,6 +34,7 @@ enum EKEYS
     K_RIGHT,
     K_ESCAPE,
     K_SPACE,
+    K_CTRL,
     K_W,
     K_A,
     K_S,

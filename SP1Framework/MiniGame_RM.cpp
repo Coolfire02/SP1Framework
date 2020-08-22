@@ -29,52 +29,56 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 	player_ptr->setWorldPosition(playerPos);
 	jar_ptr->setWorldPosition(playerPos.X, playerPos.Y - jar_ptr->getYLength());
 
+	srand(time(NULL));
+}
+
+void MiniGame_RM::gameLoopListener() {
 	int interval = 100;
 	int ms = 1000;
-	srand(time(NULL));
-	while (Completed != true) {
-		//adding new coins to top of the map every 1000 millisecond
-		if (ms >= 1000) {
-			for (int i = 0; i < (rand() % 10 + 4); i++) {
-				COORD coinCord = { 0,0 };
-				ms = 0;
-				//10 attempts
-				bool colision = false;
-				for (int j = 0; j < 10; j++) {
-					coinCord.X = rand() % 153 + 60;
-					for (auto& coin : coin_ptrs) {
-						if (coin->getWorldPosition().X == coinCord.X &&
-							coin->getWorldPosition().Y == coinCord.Y)
-							colision = true;
-					}
-					if (colision == false) {
-						addCoin(coinCord);
-						break;
-					}
+	Beep(1440, 50);
+	//adding new coins to top of the map every 1000 millisecond
+	if (ms >= 1000) {
+		for (int i = 0; i < (rand() % 10 + 4); i++) {
+			COORD coinCord = { 0,0 };
+			ms = 0;
+			//10 attempts
+			bool colision = false;
+			for (int j = 0; j < 10; j++) {
+				coinCord.X = rand() % 153 + 60;
+				for (auto& coin : coin_ptrs) {
+					if (coin->getWorldPosition().X == coinCord.X &&
+						coin->getWorldPosition().Y == coinCord.Y)
+						colision = true;
+				}
+				if (colision == false) {
+					addCoin(coinCord);
+					break;
 				}
 			}
 		}
+	}
 
-		//Making coins fall
+	//Making coins fall
+	if (!coin_ptrs.empty()) {
 		for (auto it = coin_ptrs.begin(); it != coin_ptrs.end(); /*NOTHING*/) {
-			Coin* coin = (*it);
-			COORD coord = coin->getWorldPosition();
+			COORD coord = (*it)->getWorldPosition();
 			coord.Y -= 1;
-			coin->setWorldPosition(coord);
+			(*it)->setWorldPosition(coord);
 			if (coord.Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
 				it = coin_ptrs.erase(it);
-				delete coin;
+				Coin* ptr = (*it);
+				delete ptr;
 			}
-			else if (jar_ptr->isCollided(*coin)) {
-				MoneyEarned += coin->getCoinWorth();
+			else if (jar_ptr->isCollided(*(*it))) {
+				MoneyEarned += (*it)->getCoinWorth();
 				it = coin_ptrs.erase(it);
-				delete coin;
+				Coin* ptr = (*it);
+				delete ptr;
 			}
 		}
-
-		ms += interval;
-		Sleep(interval);
 	}
+
+	ms += interval;
 }
 
 void MiniGame_RM::addCoin(COORD coord)

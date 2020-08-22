@@ -50,6 +50,7 @@ public:
 	MiniGame(LEVEL level, Console& console);
 	~MiniGame();
 
+	virtual void gameLoopListener() = 0;
 	virtual bool processKBEvents(SKeyEvent[]) = 0;
 	virtual bool processMouseEvents(SMouseEvent&) = 0;
 	virtual enum LEVELSTATE getAssociatedLSState() = 0;

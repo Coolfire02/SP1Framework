@@ -54,6 +54,7 @@ class Level
 private:
 	Console associatedConsole;
 	LEVEL level;
+	std::string levelName;
 	Player* player_ptr;
 	FireTruck* truck_ptr; 
 	MiniGame* currently_played_MG_ptr;
@@ -69,7 +70,9 @@ private:
 	GameObject* pickedUp_obj;
 	
 	void newStageinit();
+	void saveLevel();
 public:
+	virtual void gameLoopListener();
 	Level(LEVEL, Console&);
 	~Level();
 	bool setState(LEVELSTATE);

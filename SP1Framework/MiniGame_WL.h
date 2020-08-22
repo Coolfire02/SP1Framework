@@ -9,7 +9,7 @@ public:
     ~MiniGame_WL();
 
 
-
+    void gameLoopListener();
     bool processKBEvents(SKeyEvent[]);
     bool processMouseEvents(SMouseEvent&);
     std::string getType();

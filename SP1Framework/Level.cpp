@@ -3,6 +3,12 @@
 void tokenize(std::string const& str, const char delim,
 	std::vector<std::string>& out);
 
+void Level::gameLoopListener() {
+	if (currently_played_MG_ptr != NULL) {
+		currently_played_MG_ptr->gameLoopListener();
+	}
+}
+
 bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 	bool eventIsProcessed = false;
 
@@ -31,7 +37,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 							state = LS_FOREST_SCENE;
 							break;
 						}
-						else if (obj->getType() == "Road") {
+						else if (obj->getType() == "Horizontal_Road" || obj->getType() == "Vertical_Road") {
 							canMove = true;
 						}
 					}
@@ -50,8 +56,15 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			mapOffset.Y -= 10;
 		if (keyEvents[K_A].keyDown)
 			mapOffset.X -= 10;
-		if (keyEvents[K_S].keyDown)
+		if (keyEvents[K_S].keyDown) {
+			if (keyEvents[K_W].keyDown) {
+				if (state == LS_LEVEL_BUILDER) {
+					saveLevel();
+					return true;
+				}
+			}
 			mapOffset.Y += 5;
+		}
 		if (keyEvents[K_D].keyDown)
 			mapOffset.X += 10;
 		map->setMapToBufferOffset(mapOffset);
@@ -59,53 +72,74 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 	// init new stages if state change
 	(*this).checkStateChange();
 	return eventIsProcessed;
-	return true;
 }
 
 bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 	bool eventIsProcessed = true;
 	if (currently_played_MG_ptr != NULL || state == LS_MAINMENU || state == LS_LEVEL_BUILDER) {
 		COORD mousePos = { mouseEvent.mousePosition };
-		associatedConsole.writeToBuffer(mousePos.X, mousePos.Y, "ATTACHED");
+		
+		// if left-mouse is currently being pressed
+		if (mouseEvent.buttonState & FROM_LEFT_1ST_BUTTON_PRESSED) {
+			switch (state) {
+			case LS_MAINMENU:
+				break;
+			case LS_LEVEL_BUILDER:
+				if (currently_played_MG_ptr == NULL) {
+					if (pickedUp_obj != NULL) {
+						Map* map = levelspecific_maps.at(state);
+						COORD bufferOffset = map->getMapToBufferOffset();
+						pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+					}
+				}
+			}
+		}
+		else {
+			if (pickedUp_obj != NULL)
+				pickedUp_obj = NULL;
+		}
+
+
 		switch (mouseEvent.eventFlags) {
 		case 0:
-			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
-				
-				if (currently_played_MG_ptr != NULL) {
-					//minigamehandlemouseevent()...
-				}
-				else {
-					Map* map = levelspecific_maps.at(state);
-					switch (state) {
-					case LS_MAINMENU:
-						//If mouse cursor is touching level obj, start level etc
-					case LS_LEVEL_BUILDER:
-						//if mouse cursor is touching level obj, clip onto it so u can move it around
-						std::map<short, GameObject*> sort;
-						for (auto& object_ptr : obj_ptr) {
-							if (!object_ptr->isActive()) continue;
-							sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight()*(-1), object_ptr));
-						}
-						COORD bufferOffset = map->getMapToBufferOffset();
-						if (pickedUp_obj == NULL) {
-							//Beep(5140, 30);
-							//sort from highest weight to lowest allowing u to pickup the "most infront" obj
-							for(auto element : sort) {
-								COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
-								if (element.second->isInLocation(cursorPos)) {
-									pickedUp_obj = element.second;
-									pickedUp_obj;
-									//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
-									break;
+			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) { //If clicked
+				if (FROM_LEFT_1ST_BUTTON_PRESSED != 0) {
+					if (currently_played_MG_ptr != NULL) {
+						//minigamehandlemouseevent()...
+					}
+					else {
+						Map* map = levelspecific_maps.at(state);
+						switch (state) {
+						case LS_MAINMENU:
+							//If mouse cursor is touching level obj, start level etc
+						case LS_LEVEL_BUILDER:
+							//if mouse cursor is touching level obj, clip onto it so u can move it around
+							std::multimap<short, GameObject*> sort;
+							for (auto& object_ptr : obj_ptr) {
+								if (!object_ptr->isActive()) continue;
+								sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
+							}
+							COORD bufferOffset = map->getMapToBufferOffset();
+							if (pickedUp_obj == NULL) {
+								//Beep(5140, 30);
+								//sort from highest weight to lowest allowing u to pickup the "most infront" obj
+								for (auto element : sort) {
+									COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+									if (element.second->isInLocation(cursorPos)) {
+										pickedUp_obj = element.second;
+										//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+										break;
+									}
 								}
 							}
 						}
-						else {
-							Beep(5140, 30);
-							pickedUp_obj->setWorldPosition(mousePos.X+bufferOffset.X, mousePos.Y+bufferOffset.Y);
-						}
-						
 					}
+				}
+				
+			}
+			else if (FROM_LEFT_1ST_BUTTON_PRESSED == 0) {
+				if (state == LS_LEVEL_BUILDER) {
+					pickedUp_obj == NULL; //No longer holding obj
 				}
 			}
 		case DOUBLE_CLICK:
@@ -113,9 +147,6 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 		case MOUSE_WHEELED:
 			break;
 		default:
-			if (state == LS_LEVEL_BUILDER) {
-				pickedUp_obj == NULL; //No longer holding obj
-			}
 			break;
 		}
 
@@ -147,7 +178,7 @@ void Level::renderObjsToMap() {
 			Map* map = levelspecific_maps[state];
 			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
-			std::map<short, GameObject*> sort;
+			std::multimap<short, GameObject*> sort;
 			for (auto& object_ptr : obj_ptr) {
 				if (!object_ptr->isActive()) continue;
 				sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
@@ -209,7 +240,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
-	state = LS_LEVEL_BUILDER; //TEMPORARY CODE FOR TESTING
+	state = LS_MAINGAME; //TEMPORARY CODE FOR TESTING
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
@@ -219,7 +250,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		levelStates.push_back(LS_MAINMENU);
 	}
 	else {
-		std::string levelName;
 		switch (level) {
 		case TUTORIAL: levelName = "TUTORIAL"; break;
 		case STAGE_1_LEVEL_1: levelName = "STAGE_1_LEVEL_1"; break;
@@ -287,8 +317,15 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 
 					levelStates.push_back(LS_MINIGAME_WL);
 				}
-				else if (line_array.at(0) == "ROAD") {
-					GameObject* ptr = new Road();
+				else if (line_array.at(0) == "Vertical_Road") {
+					ROADTYPE type = R_VERTICAL;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Horizontal_Road") {
+					ROADTYPE type = R_HORIZONTAL;
+					GameObject* ptr = new Road(type);
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
@@ -368,6 +405,23 @@ void Level::newStageinit() {
 		}
 	}
 	originalState = state;
+}
+
+void Level::saveLevel() {
+	std::ofstream file("LEVELS\\" + levelName + ".txt");
+	Map* mainMap = levelspecific_maps.at(LS_MAINGAME);
+	COORD MapSize = { mainMap->getXLength(), mainMap->getYLength() };
+	COORD DisplayOrigin = mainMap->getMapToBufferOffset();
+	file << "MapSize," << MapSize.X << "," << MapSize.Y << std::endl;
+	file << "DisplayOrigin," << DisplayOrigin.X << "," << DisplayOrigin.Y << std::endl;
+	std::multimap<short, GameObject*> sort;
+	for (auto& object_ptr : obj_ptr) {
+		sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight()*(-1), object_ptr));
+	}
+	for (auto& element : sort) {
+		file << element.second->getType() << "," << element.second->getWorldPosition().X << "," << element.second->getWorldPosition().Y << std::endl;
+	}
+
 }
 
 void tokenize(std::string const& str, const char delim,
