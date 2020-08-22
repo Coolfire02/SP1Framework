@@ -8,15 +8,17 @@
 #include "LevelState.h"
 #include "Map.h"
 #include <map>
+#include <vector>
 
 class MiniGame : public GameObject
 {
 private:
-	Console associatedConsole;
 	LEVEL associatedLevel;
+protected:
+	Console associatedConsole;
 	Map MiniGameMap;
 	int WaterCollected, MoneyEarned;
-protected:
+
 	bool Completed;
 	Player* player_ptr;
 	enum MiniGames
@@ -31,19 +33,16 @@ protected:
 		MINIGAME_RW, //Collect Rain Water
 		MINIGAME_BHOS, //Bee Hive Removal
 	};
-
-	COORD mapSize;
 	ASCII MGascii;
 	std::vector<GameObject*> mg_obj_ptr;
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
 public:
 
+	void renderObjsToMap();
 	void renderMap();
-	void renderObjsToMap(int gameType);
 
-
-	bool CompletionCheck();  //To check whether the game is completed
+	bool isCompleted();  //To check whether the game is completed
 	int getWaterCollected(); //Returns the amount of Water Collected in minigame
 	int getMoneyEarned();  //Returns the amount of Money Earned in minigame
 	COORD getMapSize();

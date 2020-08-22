@@ -17,13 +17,10 @@ void Map::createMap(int x, int y) {
 	for (unsigned int i = 0; i < xLength; i++) {
 		map_ptr[i] = new CHAR_INFO[yLength];
 	}
-	CHAR_INFO a;
-	WORD c = 0x80;
-	a = g_background;
 
 	for (unsigned int i = 0; i < xLength; i++) {
 		for (unsigned int j = 0; j < yLength; j++) {
-			map_ptr[i][j] = a;
+			map_ptr[i][j] = g_background;
 		}
 	}
 }

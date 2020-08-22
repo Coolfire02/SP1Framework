@@ -2,7 +2,7 @@
 
 MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, console)
 {
-	mapSize = { 300,300 };
+	
 }
 
 MiniGame_WL::~MiniGame_WL() {

@@ -6,13 +6,11 @@ MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), 
 	Completed = false;
 	WaterCollected = 0;
 	MoneyEarned = 0;
-
-	mapSize = g_consoleSize;
 	weight = 1000;
 }
 
 
-bool MiniGame::CompletionCheck()
+bool MiniGame::isCompleted()
 {
 	return Completed;
 }
@@ -29,6 +27,7 @@ void MiniGame::setMoneyEarned(int m)
 
 void MiniGame::renderMap()
 {
+	Beep(1440, 50);
 	CHAR_INFO** map = MiniGameMap.getMap();
 	COORD mapOffset = MiniGameMap.getMapToBufferOffset();
 	for (int i = 0; i < g_consoleSize.X; i++) {
@@ -45,7 +44,7 @@ void MiniGame::renderMap()
 
 }
 
-void MiniGame::renderObjsToMap(int gameType)
+void MiniGame::renderObjsToMap()
 {
 	MiniGameMap.clearMap();
 	std::map<short, GameObject*> sort;
@@ -85,7 +84,8 @@ int MiniGame::getMoneyEarned()
 
 COORD MiniGame::getMapSize()
 {
-	return mapSize;
+	COORD size = { MiniGameMap.getXLength(), MiniGameMap.getYLength() };
+	return size;
 }
 
 MiniGame::~MiniGame()

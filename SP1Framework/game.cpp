@@ -13,6 +13,9 @@
 #include "Player.h"
 #include "Level.h"
 
+#include "MiniGame.h"
+#include "MiniGame_RM.h"
+
 double  g_dElapsedTime;
 double  g_dDeltaTime;
 double  g_keyCooldownTime;
@@ -25,7 +28,8 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-Level g_Level = Level(TUTORIAL, g_Console); //initial state
+//Level g_Level = Level(TUTORIAL, g_Console); //initial state
+MiniGame* g_Level_ptr = new MiniGame_RM(TUTORIAL, g_Console);
 
 void updateOptions();
 void updateLevel();
@@ -183,6 +187,7 @@ void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 //--------------------------------------------------------------
 void update(double dt)
 {
+    Beep(8000, 30);
     // get the delta time
     g_dElapsedTime += dt;
     g_dDeltaTime = dt;
@@ -225,11 +230,11 @@ void updateLevel() {
 
     // processing key/mouse inputs for levels
     if (g_keyCooldownTime < g_dElapsedTime) {
-        if (g_Level.processKBEvents(g_skKeyEvent)) { //successfully processed?
+        if (g_Level_ptr->processKBEvents(g_skKeyEvent)) { //successfully processed?
             g_keyCooldownTime = g_dElapsedTime + 0.09; //add cooldown
         }
     }
-    g_Level.processMouseEvents(g_mouseEvent);
+    g_Level_ptr->processMouseEvents(g_mouseEvent);
 }
 
 //void moveCharacter()
@@ -311,9 +316,10 @@ void renderToScreen()
 
 void renderLevel() {
     
-    g_Level.checkStateChange();
-    g_Level.renderObjsToMap();
-    g_Level.renderMap();
+    //g_Level_ptr->checkStateChange();
+    Beep(8000, 30);
+    g_Level_ptr->renderObjsToMap();
+    g_Level_ptr->renderMap();
 }
 
 void renderOptions() {
