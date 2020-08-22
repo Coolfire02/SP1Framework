@@ -54,6 +54,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			mapOffset.Y += 5;
 		if (keyEvents[K_D].keyDown)
 			mapOffset.X += 10;
+		map->setMapToBufferOffset(mapOffset);
 	}
 	// init new stages if state change
 	(*this).checkStateChange();
@@ -83,16 +84,19 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 						std::map<short, GameObject*> sort;
 						for (auto& object_ptr : obj_ptr) {
 							if (!object_ptr->isActive()) continue;
-							sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+							sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight()*(-1), object_ptr));
 						}
 						COORD bufferOffset = map->getMapToBufferOffset();
 						if (pickedUp_obj == NULL) {
-							Beep(5140, 30);
+							//Beep(5140, 30);
 							//sort from highest weight to lowest allowing u to pickup the "most infront" obj
-							std::map<short, GameObject*> ::iterator it;
-							for (it = sort.begin(); it != sort.end(); it++) {
-								if((*it).second->isInLocation(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y)) {
-									pickedUp_obj = (*it).second;
+							for(auto element : sort) {
+								COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+								if (element.second->isInLocation(cursorPos)) {
+									pickedUp_obj = element.second;
+									pickedUp_obj;
+									//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+									break;
 								}
 							}
 						}
@@ -110,7 +114,6 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 			break;
 		default:
 			if (state == LS_LEVEL_BUILDER) {
-				delete pickedUp_obj;
 				pickedUp_obj == NULL; //No longer holding obj
 			}
 			break;
@@ -206,7 +209,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
-	state = LS_MAINGAME; //TEMPORARY CODE FOR TESTING
+	state = LS_LEVEL_BUILDER; //TEMPORARY CODE FOR TESTING
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
