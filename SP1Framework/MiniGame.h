@@ -9,6 +9,7 @@
 #include "Map.h"
 #include <map>
 #include <vector>
+#include <time.h>
 
 class MiniGame : public GameObject
 {
