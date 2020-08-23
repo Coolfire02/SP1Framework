@@ -1,6 +1,7 @@
 MapSize,650,150
 DisplayOrigin,200,50
 FireStation,221,60
+MiniGame_RM,280,63
 FireTruck,244,66
 FireMan,296,68
 Horizontal_Road,243,68

@@ -20,6 +20,7 @@ public:
     MiniGame_RM(LEVEL level, Console& console);
     ~MiniGame_RM();
 
+    void mgGameInit();
     void gameLoopListener();
     bool processKBEvents(SKeyEvent KeyEvents[]);
     bool processMouseEvents(SMouseEvent&);

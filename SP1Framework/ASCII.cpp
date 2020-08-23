@@ -63,6 +63,11 @@ bool ASCII::setArt(ARTTYPE type) {
 		break;
 
 
+	case MINIGAME_RM_ART:
+		arttxt = "MiniGame_RM.txt";
+		break;
+
+
 	case HORIZONTAL_ROAD_ART:
 		arttxt = "Roads\\Hroad.txt";
 		break;

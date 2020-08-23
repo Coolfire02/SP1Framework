@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "MiniGame.h"
 #include "Map.h"
-#include "MiniGame_WL.h"
+#include "MiniGame_RM.h"
 #include "Road.h"
 #include "LevelState.h"
 #include <vector>
@@ -72,7 +72,7 @@ private:
 	void newStageinit();
 	void saveLevel();
 public:
-	virtual void gameLoopListener();
+	void gameLoopListener();
 	Level(LEVEL, Console&);
 	~Level();
 	bool setState(LEVELSTATE);

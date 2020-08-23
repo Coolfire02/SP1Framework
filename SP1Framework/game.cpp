@@ -26,8 +26,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-//Level* g_Level_ptr = new Level(TUTORIAL, g_Console); //initial state
-MiniGame* g_Level_ptr = new MiniGame_RM(TUTORIAL, g_Console);
+Level g_Level = Level(TUTORIAL, g_Console); //initial state
 
 void updateOptions();
 void updateLevel();
@@ -225,16 +224,14 @@ void optionMenuClick() // handling of clicks in options menu
 }
 
 void updateLevel() {
-
+    g_Level.gameLoopListener(); //A while loop listened every 20ms.
     // processing key/mouse inputs for levels
     if (g_keyCooldownTime < g_dElapsedTime) {
-        if (g_Level_ptr->processKBEvents(g_skKeyEvent)) { //successfully processed?
+        if (g_Level.processKBEvents(g_skKeyEvent)) { //successfully processed?
             g_keyCooldownTime = g_dElapsedTime + 0.09; //add cooldown
         }
     }
-    g_Level_ptr->processMouseEvents(g_mouseEvent);
-
-    g_Level_ptr->gameLoopListener(); //A while loop listened every 20ms.
+    g_Level.processMouseEvents(g_mouseEvent);
 }
 
 //void moveCharacter()
@@ -316,9 +313,9 @@ void renderToScreen()
 
 void renderLevel() {
     
-    //g_Level_ptr->checkStateChange();
-    g_Level_ptr->renderObjsToMap();
-    g_Level_ptr->renderMap();
+    //g_Level.checkStateChange();
+    g_Level.renderObjsToMap();
+    g_Level.renderMap();
 }
 
 void renderOptions() {

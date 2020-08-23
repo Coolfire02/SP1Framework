@@ -16,6 +16,9 @@ class MiniGame : public GameObject
 {
 private:
 	LEVEL associatedLevel;
+	double mg_start_time;
+	bool mg_started;
+	virtual void mgGameInit() = 0; // when start() is called, it'll call this for all MGs to read
 protected:
 	Console associatedConsole;
 	Map MiniGameMap;
@@ -39,12 +42,15 @@ protected:
 	std::vector<GameObject*> mg_obj_ptr;
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
+	double getStartTime();
+	bool isStarted();
 public:
-
+	
 	void renderObjsToMap();
 	void renderMap();
 
 	bool isCompleted();  //To check whether the game is completed
+	void start();
 	int getWaterCollected(); //Returns the amount of Water Collected in minigame
 	int getMoneyEarned();  //Returns the amount of Money Earned in minigame
 	COORD getMapSize();

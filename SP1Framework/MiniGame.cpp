@@ -2,6 +2,8 @@
 
 MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), associatedLevel(level)
 {
+	mg_started = false;
+	mg_start_time = g_dElapsedTime;
 	player_ptr = NULL;
 	Completed = false;
 	WaterCollected = 0;
@@ -13,6 +15,12 @@ MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), 
 bool MiniGame::isCompleted()
 {
 	return Completed;
+}
+
+void MiniGame::start() {
+	mg_started = true;
+	mg_start_time = g_dElapsedTime;
+	(*this).mgGameInit();
 }
 
 void MiniGame::setWaterCollected(int w)
@@ -64,11 +72,15 @@ void MiniGame::renderObjsToMap()
 			}
 		}
 	}
-
-
-
 }
 
+double MiniGame::getStartTime() {
+	return mg_start_time;
+}
+
+bool MiniGame::isStarted() {
+	return mg_started;
+}
 
 int MiniGame::getWaterCollected()
 {
