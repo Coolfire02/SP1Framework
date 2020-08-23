@@ -186,7 +186,6 @@ void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 //--------------------------------------------------------------
 void update(double dt)
 {
-    Beep(8000, 30);
     // get the delta time
     g_dElapsedTime += dt;
     g_dDeltaTime = dt;
@@ -318,7 +317,6 @@ void renderToScreen()
 void renderLevel() {
     
     //g_Level_ptr->checkStateChange();
-    Beep(8000, 30);
     g_Level_ptr->renderObjsToMap();
     g_Level_ptr->renderMap();
 }

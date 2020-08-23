@@ -33,9 +33,8 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 }
 
 void MiniGame_RM::gameLoopListener() {
-	int interval = 100;
+	int interval = 20;
 	int ms = 1000;
-	Beep(1440, 50);
 	//adding new coins to top of the map every 1000 millisecond
 	if (ms >= 1000) {
 		for (int i = 0; i < (rand() % 10 + 4); i++) {
@@ -65,15 +64,17 @@ void MiniGame_RM::gameLoopListener() {
 			coord.Y -= 1;
 			(*it)->setWorldPosition(coord);
 			if (coord.Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
+				delete (*it);
 				it = coin_ptrs.erase(it);
-				Coin* ptr = (*it);
-				delete ptr;
+				
 			}
 			else if (jar_ptr->isCollided(*(*it))) {
 				MoneyEarned += (*it)->getCoinWorth();
+				delete (*it);
 				it = coin_ptrs.erase(it);
-				Coin* ptr = (*it);
-				delete ptr;
+				
+			}else{
+				++it;
 			}
 		}
 	}
