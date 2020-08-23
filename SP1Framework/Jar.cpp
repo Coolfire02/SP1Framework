@@ -2,6 +2,7 @@
 
 std::string Jar::getType()
 {
+    art.setArt(JAR_ART);
     return "Jar";
 }
 

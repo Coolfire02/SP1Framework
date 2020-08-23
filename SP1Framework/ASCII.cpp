@@ -55,23 +55,64 @@ bool ASCII::setArt(ARTTYPE type) {
 	case FIRE_STATION_ART:
 		arttxt = "FireStation.txt";
 		break;
+	case BANK_ART:
+		arttxt = "Bank.txt";
+		break;
 	case RESERVOIR_ART:
 		arttxt = "Reservoir.txt";
 		break;
+
+
 	case HORIZONTAL_ROAD_ART:
-		arttxt = "Hroad.txt";
+		arttxt = "Roads\\Hroad.txt";
 		break;
 	case VERTICAL_ROAD_ART:
-		arttxt = "Vroad.txt";
+		arttxt = "Roads\\Vroad.txt";
 		break;
+	case L_ROAD_ART:
+		arttxt = "Roads\\Lroad.txt";
+		break;
+	case RL_ROAD_ART:
+		arttxt = "Roads\\RLroad.txt";
+		break;
+	case LUL_ROAD_ART:
+		arttxt = "Roads\\LULroad.txt";
+		break;
+	case RUL_ROAD_ART:
+		arttxt = "Roads\\RULroad.txt";
+		break;
+	case DT_ROAD_ART:
+		arttxt = "Roads\\DTroad.txt";
+		break;
+	case UT_ROAD_ART:
+		arttxt = "Roads\\UTroad.txt";
+		break;
+	case LVT_ROAD_ART:
+		arttxt = "Roads\\LVTroad.txt";
+		break;
+	case RVT_ROAD_ART:
+		arttxt = "Roads\\RVTroad.txt";
+		break;
+	case X_ROAD_ART:
+		arttxt = "Roads\\Xroad.txt";
+		break;
+
 	case CAT_ART:
 		arttxt = "Cat.txt";
 		break;
 	case TREE_ART:
 		arttxt = "Tree.txt";
 		break;
+
+	case BEEHIVE_ART:
+		arttxt = "BeeHive.txt";
+		break;
+
 	case COIN_ART:
 		arttxt = "Coin.txt";
+		break;
+	case JAR_ART:
+		arttxt = "Jar.txt";
 		break;
 	default:
 		arttxt = "NA";

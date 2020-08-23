@@ -12,9 +12,9 @@ enum ARTTYPE
 	FIRE_TRUCK_ART,
 	FIREFIGHTER_ART,
 	FIRE_STATION_ART,
+	BANK_ART,
 	RESERVOIR_ART,
 	FOREST_ART,
-
 
 	HORIZONTAL_ROAD_ART,
 	VERTICAL_ROAD_ART,
@@ -27,7 +27,6 @@ enum ARTTYPE
 	LVT_ROAD_ART,//Left Vertical T turns
 	RVT_ROAD_ART,//Right Vertical T turns
 	X_ROAD_ART,//Crossroad
-
 
 	MINIGAME_WREST_ART, //Restaurant
 
@@ -45,7 +44,11 @@ enum ARTTYPE
 	MINIGAME_WL_ART, //Water Leakage
 	MINIGAME_WFAR_ART, //Water from Reservoir
 	MINIGAME_RW_ART, //Collect Rain Water
+
 	MINIGAME_BHOS_ART, //Bee Hive Removal
+	BEEHIVE_ART,
+
+
 	DEFAULT_ART
 };
 

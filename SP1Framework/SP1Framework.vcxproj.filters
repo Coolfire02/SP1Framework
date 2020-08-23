@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\Framework">
-      <UniqueIdentifier>{07667b27-3d02-4514-a465-3fd8b26758ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{37c19c94-9502-4b2b-b3f1-70fa908b49af}</UniqueIdentifier>
     </Filter>
@@ -34,49 +31,31 @@
     <Filter Include="Header Files\Icons/Buildings">
       <UniqueIdentifier>{b47754e9-6164-4746-aff5-69389f41b5c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Progression">
+      <UniqueIdentifier>{4cb4893e-649b-43da-bd89-76ba1da5c90f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Base Game">
+      <UniqueIdentifier>{7905cee9-078f-4098-bf2a-ad927ab81cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework">
+      <UniqueIdentifier>{07667b27-3d02-4514-a465-3fd8b26758ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Progression">
+      <UniqueIdentifier>{a3522325-9137-4f41-b1d5-40e769dc4327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Base Game">
+      <UniqueIdentifier>{7802be16-7666-4298-a302-5f2d4b83414d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Icons/Buildings">
+      <UniqueIdentifier>{2f456cc6-e63e-4b4c-bbd2-21f661f21c47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\console.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="Framework\timer.cpp">
       <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgressBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Money.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Position.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ASCII.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FireStation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="global.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FireTruck.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -105,6 +84,42 @@
     <ClCompile Include="MiniGame_RM.cpp">
       <Filter>Source Files\MiniGames</Filter>
     </ClCompile>
+    <ClCompile Include="FireStation.cpp">
+      <Filter>Source Files\Icons/Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="ASCII.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelState.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Money.cpp">
+      <Filter>Source Files\Progression</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>Source Files\Progression</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -112,33 +127,6 @@
     </ClInclude>
     <ClInclude Include="Framework\timer.h">
       <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgressBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Money.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Position.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ASCII.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="global.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FireTruck.h">
       <Filter>Header Files\Objects</Filter>
@@ -172,6 +160,33 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Money.h">
+      <Filter>Header Files\Progression</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>Header Files\Progression</Filter>
+    </ClInclude>
+    <ClInclude Include="ASCII.h">
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelState.h">
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files\Base Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
