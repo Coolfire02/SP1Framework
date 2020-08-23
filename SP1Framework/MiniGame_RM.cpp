@@ -43,7 +43,6 @@ void MiniGame_RM::gameLoopListener() {
 			ms = 0;
 			//10 attempts
 			bool colision = false;
-			Beep(8000, 50);
 			for (int j = 0; j < 10; j++) {
 				coinCord.X = rand() % 153 + 60;
 				coinCord.X += j;
@@ -96,7 +95,6 @@ void MiniGame_RM::gameLoopListener() {
 						++mg_it;
 					}
 				}
-				Beep(5000, 50);
 				delete (*it);
 				it = coin_ptrs.erase(it);
 				
