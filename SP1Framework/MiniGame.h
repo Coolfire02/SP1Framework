@@ -36,7 +36,7 @@ protected:
 		MINIGAME_BHOS, //Bee Hive Removal
 	};
 	ASCII MGascii;
-	std::list<GameObject*> mg_obj_ptr;
+	std::vector<GameObject*> mg_obj_ptr;
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
 public:

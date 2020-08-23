@@ -37,21 +37,25 @@ void MiniGame_RM::gameLoopListener() {
 	int interval = 20;
 	//adding new coins to top of the map every 1000 millisecond
 	if (ms >= 1000) {
-		for (int i = 0; i < (rand() % 10 + 4); i++) {
+		int spawnCount = (rand() % 10 + 4);
+		for (int i = 0; i < spawnCount ; i++) {
 			COORD coinCord = { 0,0 };
 			ms = 0;
 			//10 attempts
 			bool colision = false;
+			Beep(8000, 50);
 			for (int j = 0; j < 10; j++) {
 				coinCord.X = rand() % 153 + 60;
+				coinCord.X += j;
 				for (auto& coin : coin_ptrs) {
 					if (coin->getWorldPosition().X == coinCord.X &&
 						coin->getWorldPosition().Y == coinCord.Y)
 						colision = true;
 				}
 				if (colision == false) {
+					Beep(1440, 50);
 					addCoin(coinCord);
-					break;
+					j = 10;
 				}
 			}
 		}
@@ -65,12 +69,34 @@ void MiniGame_RM::gameLoopListener() {
 			(*it)->setWorldPosition(coord);
 			if (coord.Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
 				
+				for (auto mg_it = mg_obj_ptr.begin(); mg_it != mg_obj_ptr.end(); /*NOTHING*/) {
+					GameObject* objPtr = (*it);
+					if ((*mg_it) == objPtr) {
+						mg_it = mg_obj_ptr.erase(mg_it);
+					}
+					else {
+						++mg_it;
+					}
+				}
+				
+
 				delete (*it);
 				it = coin_ptrs.erase(it);
 				
 			}
 			else if (jar_ptr->isCollided(*(*it))) {
 				MoneyEarned += (*it)->getCoinWorth();
+
+				for (auto mg_it = mg_obj_ptr.begin(); mg_it != mg_obj_ptr.end(); /*NOTHING*/) {
+					GameObject* objPtr = (*it);
+					if ((*mg_it) == objPtr) {
+						mg_it = mg_obj_ptr.erase(mg_it);
+					}
+					else {
+						++mg_it;
+					}
+				}
+				Beep(5000, 50);
 				delete (*it);
 				it = coin_ptrs.erase(it);
 				

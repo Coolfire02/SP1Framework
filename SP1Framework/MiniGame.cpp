@@ -46,7 +46,7 @@ void MiniGame::renderMap()
 void MiniGame::renderObjsToMap()
 {
 	MiniGameMap.clearMap();
-	std::map<short, GameObject*> sort;
+	std::multimap<short, GameObject*> sort;
 	for (auto& object_ptr : mg_obj_ptr) {
 		if (!object_ptr->isActive()) continue;
 		sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
