@@ -11,11 +11,24 @@ enum ARTTYPE
 {
 	FIRE_TRUCK_ART,
 	FIREFIGHTER_ART,
-	HORIZONTAL_ROAD_ART,
-	VERTICAL_ROAD_ART,
 	FIRE_STATION_ART,
 	RESERVOIR_ART,
 	FOREST_ART,
+
+
+	HORIZONTAL_ROAD_ART,
+	VERTICAL_ROAD_ART,
+	L_ROAD_ART, //L turn
+	RL_ROAD_ART, //Right L turn
+	LUL_ROAD_ART,//Left Up L turn
+	RUL_ROAD_ART,//Right Up L turn
+	DT_ROAD_ART,//Down T turns
+	UT_ROAD_ART,//Up T turns
+	LVT_ROAD_ART,//Left Vertical T turns
+	RVT_ROAD_ART,//Right Vertical T turns
+	X_ROAD_ART,//Crossroad
+
+
 	MINIGAME_WREST_ART, //Restaurant
 
 	MINIGAME_CFT_ART, //Cat from Tree
