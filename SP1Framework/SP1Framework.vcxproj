@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ASCII.cpp" />
+    <ClCompile Include="Bank.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireStation.cpp" />
     <ClCompile Include="FireTruck.cpp" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASCII.h" />
+    <ClInclude Include="Bank.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireStation.h" />
     <ClInclude Include="FireTruck.h" />

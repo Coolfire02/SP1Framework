@@ -120,6 +120,9 @@
     <ClCompile Include="Position.cpp">
       <Filter>Source Files\Base Game</Filter>
     </ClCompile>
+    <ClCompile Include="Bank.cpp">
+      <Filter>Source Files\Icons/Buildings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Position.h">
       <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Bank.h">
+      <Filter>Header Files\Icons/Buildings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
