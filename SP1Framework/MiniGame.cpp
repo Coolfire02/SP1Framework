@@ -27,7 +27,6 @@ void MiniGame::setMoneyEarned(int m)
 
 void MiniGame::renderMap()
 {
-	Beep(1440, 50);
 	CHAR_INFO** map = MiniGameMap.getMap();
 	COORD mapOffset = MiniGameMap.getMapToBufferOffset();
 	for (int i = 0; i < g_consoleSize.X; i++) {

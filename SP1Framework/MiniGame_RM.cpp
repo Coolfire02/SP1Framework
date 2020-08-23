@@ -1,5 +1,6 @@
 #include "MiniGame_RM.h"
 
+int ms = 1000;
 
 std::string MiniGame_RM::getType()
 {
@@ -34,7 +35,6 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 
 void MiniGame_RM::gameLoopListener() {
 	int interval = 20;
-	int ms = 1000;
 	//adding new coins to top of the map every 1000 millisecond
 	if (ms >= 1000) {
 		for (int i = 0; i < (rand() % 10 + 4); i++) {
@@ -61,9 +61,10 @@ void MiniGame_RM::gameLoopListener() {
 	if (!coin_ptrs.empty()) {
 		for (auto it = coin_ptrs.begin(); it != coin_ptrs.end(); /*NOTHING*/) {
 			COORD coord = (*it)->getWorldPosition();
-			coord.Y -= 1;
+			coord.Y += 1;
 			(*it)->setWorldPosition(coord);
 			if (coord.Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
+				
 				delete (*it);
 				it = coin_ptrs.erase(it);
 				
@@ -108,7 +109,7 @@ bool MiniGame_RM::processKBEvents(SKeyEvent keyEvents[])
 		future_pos.X += 2;
 		eventIsProcessed = true;
 	}
-
+	player_ptr->setWorldPosition(future_pos);
 	return eventIsProcessed;
 }
 

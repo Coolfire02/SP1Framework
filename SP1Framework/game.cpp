@@ -26,7 +26,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-//Level g_Level = Level(TUTORIAL, g_Console); //initial state
+//Level* g_Level_ptr = new Level(TUTORIAL, g_Console); //initial state
 MiniGame* g_Level_ptr = new MiniGame_RM(TUTORIAL, g_Console);
 
 void updateOptions();

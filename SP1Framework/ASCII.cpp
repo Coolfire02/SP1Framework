@@ -58,7 +58,6 @@ bool ASCII::setArt(ARTTYPE type) {
 	case RESERVOIR_ART:
 		arttxt = "Reservoir.txt";
 		break;
-		//case etc:
 	case HORIZONTAL_ROAD_ART:
 		arttxt = "Hroad.txt";
 		break;
@@ -70,6 +69,9 @@ bool ASCII::setArt(ARTTYPE type) {
 		break;
 	case TREE_ART:
 		arttxt = "Tree.txt";
+		break;
+	case COIN_ART:
+		arttxt = "Coin.txt";
 		break;
 	default:
 		arttxt = "NA";
