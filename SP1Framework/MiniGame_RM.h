@@ -16,8 +16,8 @@ private:
 public:
     std::string getType();
     enum LEVELSTATE getAssociatedLSState();
-    MiniGame_RM(LEVEL level, Console& console);
 
+    MiniGame_RM(LEVEL level, Console& console);
     ~MiniGame_RM();
 
     void gameLoopListener();
