@@ -2,6 +2,7 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
+#include "Level.h"
 
 extern CStopWatch g_swTimer;
 extern bool g_bQuitGame;
@@ -10,6 +11,7 @@ void init        ( void );      // initialize your variables, allocate memory, e
 void getInput    ( void );      // get input from player
 void update      ( double dt ); // update the game and the state of the game
 void render      ( void );      // renders the current state of the game to the console
+void updateGameState(void);		// helps change the game after all renders and inputs have been processed
 void shutdown    ( void );      // do clean up, free memory
 
 //void splashScreenWait();    // waits for time to pass in splash screen

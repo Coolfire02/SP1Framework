@@ -2,6 +2,7 @@
 
 #include "Framework/console.h"
 #include "global.h"
+#include "game.h"
 #include "GameObject.h"
 #include "FireTruck.h"
 #include "FireStation.h"
@@ -54,9 +55,10 @@ class Level
 private:
 	Console associatedConsole;
 	LEVEL level;
+	LEVEL nextLevel;
 	std::string levelName;
 	Player* player_ptr;
-	FireTruck* truck_ptr; 
+	FireTruck* truck_ptr;
 	MiniGame* currently_played_MG_ptr;
 	std::vector<MiniGame*> mg_ptr;
 	LEVELSTATE originalState;
@@ -77,6 +79,8 @@ public:
 	~Level();
 	bool setState(LEVELSTATE);
 	enum LEVELSTATE getState();
+	LEVEL getLevel();
+	LEVEL getNextLevel();
 	void checkStateChange();
 	void renderMap();
 	void renderObjsToMap();

@@ -11,7 +11,6 @@
 #include "GameObject.h"
 #include "FireTruck.h"
 #include "Player.h"
-#include "Level.h"
 
 #include "MiniGame.h"
 #include "MiniGame_RM.h"
@@ -26,7 +25,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-Level g_Level = Level(TUTORIAL, g_Console); //initial state
+Level* g_Level = new Level(MAINMENU, g_Console); //initial state
 
 void updateOptions();
 void updateLevel();
@@ -71,7 +70,7 @@ void shutdown( void )
 {
     colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
     g_Console.clearBuffer();
-    //delete level ptr UNDONE
+    delete g_Level;
 }
 
 //--------------------------------------------------------------
@@ -93,6 +92,12 @@ void getInput( void )
     memset(g_skKeyEvent, 0, K_COUNT * sizeof(*g_skKeyEvent));
     // then call the console to detect input from user
     g_Console.readConsoleInput();    
+}
+
+void startNextLevel(LEVEL level) {
+    delete g_Level;
+    g_Level = nullptr;
+    g_Level = new Level(TUTORIAL, g_Console);
 }
 
 //--------------------------------------------------------------
@@ -146,7 +151,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case VK_RIGHT: key = K_RIGHT; break; 
     case VK_SPACE: key = K_SPACE; break;
     case VK_ESCAPE: key = K_ESCAPE; break; 
-    case VK_CONTROL: key = K_CTRL; break;
+    case VK_LCONTROL: key = K_CTRL; break;
     case 0x57: key = K_W; break;
     case 0X41: key = K_A; break;
     case 0x53: key = K_S; break;
@@ -188,7 +193,6 @@ void update(double dt)
     // get the delta time
     g_dElapsedTime += dt;
     g_dDeltaTime = dt;
-
     switch (g_eGameState)
     {
         case S_ACTIVE : updateGame();
@@ -224,14 +228,14 @@ void optionMenuClick() // handling of clicks in options menu
 }
 
 void updateLevel() {
-    g_Level.gameLoopListener(); //A while loop listened every 20ms.
+    g_Level->gameLoopListener(); //A while loop listened every 20ms.
     // processing key/mouse inputs for levels
     if (g_keyCooldownTime < g_dElapsedTime) {
-        if (g_Level.processKBEvents(g_skKeyEvent)) { //successfully processed?
+        if (g_Level->processKBEvents(g_skKeyEvent)) { //successfully processed?
             g_keyCooldownTime = g_dElapsedTime + 0.09; //add cooldown
         }
     }
-    g_Level.processMouseEvents(g_mouseEvent);
+    g_Level->processMouseEvents(g_mouseEvent);
 }
 
 //void moveCharacter()
@@ -314,8 +318,8 @@ void renderToScreen()
 void renderLevel() {
     
     //g_Level.checkStateChange();
-    g_Level.renderObjsToMap();
-    g_Level.renderMap();
+    g_Level->renderObjsToMap();
+    g_Level->renderMap();
 }
 
 void renderOptions() {
@@ -416,6 +420,25 @@ void renderFramerate()
     c.X = 0;
     c.Y = 0;
     g_Console.writeToBuffer(c, ss.str(), 0x59);
+}
+int once = false;
+
+void updateGameState() {
+    /*if (g_Level->getLevel() != g_Level->getNextLevel()) {
+        startNextLevel(g_Level->getNextLevel());
+        return;
+    }*/
+    /*delete g_Level;
+    g_Level = nullptr;
+    g_Level = new Level(TUTORIAL, g_Console);*/
+    if (g_dElapsedTime > 3.0 && !once) {
+        once = true;
+        Beep(5000, 50);
+        //startNextLevel(TUTORIAL);
+        delete g_Level;
+        g_Level = nullptr;
+        g_Level = new Level(TUTORIAL, g_Console);
+    }
 }
 
 // this is an example of how you would use the input events

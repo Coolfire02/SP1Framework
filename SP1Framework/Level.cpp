@@ -217,7 +217,6 @@ void Level::renderObjsToMap() {
 		Map* map = levelspecific_maps.at(state);
 		switch (state) {
 		case LS_MAINMENU:
-			
 			map->clearMap();
 			
 			break;
@@ -296,10 +295,15 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	currently_played_MG_ptr = NULL;
-	state = LS_MAINGAME; //TEMPORARY CODE FOR TESTING
+	if(level == MAINMENU)
+		state = LS_MAINMENU;
+	else {
+		state = LS_MAINGAME;
+	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
+	nextLevel = level;
 	
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
@@ -431,8 +435,17 @@ Level::~Level()
 {
 	for (auto& element : obj_ptr) { //deletes all pointers created under the level
 		delete element;
+		element = nullptr;
+	}
+	for (auto& entry : levelspecific_maps) {
+		delete entry.second;
+		entry.second = nullptr;
 	}
 	delete pickedUp_obj;
+	currently_played_MG_ptr = NULL;
+	pickedUp_obj = NULL;
+	player_ptr = NULL;
+	truck_ptr = NULL;
 }
 
 //always called at the start of each game loop. Making sure a level state is initialised as per
@@ -467,6 +480,14 @@ void Level::newStageinit() {
 		}
 	}
 	originalState = state;
+}
+
+LEVEL Level::getLevel() {
+	return level;
+}
+
+LEVEL Level::getNextLevel() {
+	return nextLevel;
 }
 
 void Level::saveLevel() {

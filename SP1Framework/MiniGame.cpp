@@ -35,6 +35,7 @@ void MiniGame::setMoneyEarned(int m)
 
 void MiniGame::renderMap()
 {
+	if (!isStarted()) return;
 	CHAR_INFO** map = MiniGameMap.getMap();
 	COORD mapOffset = MiniGameMap.getMapToBufferOffset();
 	for (int i = 0; i < g_consoleSize.X; i++) {
@@ -53,6 +54,8 @@ void MiniGame::renderMap()
 
 void MiniGame::renderObjsToMap()
 {
+	if (!isStarted()) return;
+
 	MiniGameMap.clearMap();
 	std::multimap<short, GameObject*> sort;
 	for (auto& object_ptr : mg_obj_ptr) {
