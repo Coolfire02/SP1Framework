@@ -39,6 +39,7 @@ enum ARTTYPE
 	MINIGAME_RM_ART, //Raining Money
 	COIN_ART,
 	JAR_ART,
+	BUCKET_ART,
 
 	MINIGAME_WL_ART, //Water Leakage
 	MINIGAME_WFAR_ART, //Water from Reservoir

@@ -22,6 +22,10 @@ bool MiniGame_WL::processMouseEvents(SMouseEvent&)
 	return false;
 }
 
+void MiniGame_WL::setWaterText()
+{
+}
+
 std::string MiniGame_WL::getType() {
 	return "MiniGame_WL";
 }
