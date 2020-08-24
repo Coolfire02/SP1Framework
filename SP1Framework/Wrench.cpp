@@ -23,6 +23,7 @@ Wrench::Wrench(std::string type)
 
 Wrench::~Wrench()
 {
+	//Intentionally left blank
 }
 
 std::string Wrench::getType()

@@ -116,6 +116,18 @@ bool ASCII::setArt(ARTTYPE type) {
 	case JAR_ART:
 		arttxt = "Jar.txt";
 		break;
+	case PIPE_ART:
+		arttxt = "Pipe.txt";
+		break;
+	case WRENCH_HEAD_ART:
+		arttxt = "Wrench_Head.txt";
+		break;
+	case WRENCH_TAIL_ART:
+		arttxt = "Wrench_Tail.txt";
+		break;
+	case BUCKET_ART:
+		arttxt = "Bucket.txt";
+		break;
 	default:
 		arttxt = "NA";
 		break;

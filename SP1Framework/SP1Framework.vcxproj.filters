@@ -126,6 +126,9 @@
     <ClCompile Include="Bucket.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Wrench.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -198,6 +201,9 @@
       <Filter>Header Files\Base Game</Filter>
     </ClInclude>
     <ClInclude Include="Bucket.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrench.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>

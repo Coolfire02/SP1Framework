@@ -103,6 +103,7 @@
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="Text.cpp" />
+    <ClCompile Include="Wrench.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASCII.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="Wrench.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
