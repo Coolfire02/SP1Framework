@@ -189,7 +189,7 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 				}
 				else if (FROM_LEFT_1ST_BUTTON_PRESSED == 0) {
 					if (state == LS_LEVEL_BUILDER) {
-						pickedUp_obj == NULL; //No longer holding obj
+						pickedUp_obj = NULL; //No longer holding obj
 					}
 				}
 			case DOUBLE_CLICK:
@@ -214,7 +214,13 @@ void Level::renderObjsToMap() {
 		currently_played_MG_ptr->renderObjsToMap();
 	}
 	else {
+		Map* map = levelspecific_maps.at(LS_MAINMENU);
 		switch (state) {
+		case LS_MAINMENU:
+			
+			map->clearMap();
+			
+			break;
 		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME:
 			/*
@@ -226,8 +232,6 @@ void Level::renderObjsToMap() {
 			Roads
 			Forest Object
 			*/
-
-			Map* map = levelspecific_maps[state];
 			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			std::multimap<short, GameObject*> sort;
@@ -309,6 +313,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		default: levelName = "UNKNOWN";
 		}
 
+		levelStates.push_back(LS_MAINMENU);
 		levelStates.push_back(LS_BEGIN_SCENE);
 		levelStates.push_back(LS_MAINGAME);
 		levelStates.push_back(LS_FOREST_SCENE);
@@ -391,7 +396,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		COORD mapSize = { 213,50 };
 		COORD mapDisplayOffset{ 0,0 };
 		switch (levelStates[i]) {
-		case MAINMENU: mapSize = { 1000,50 }; break;
+		case MAINMENU: mapSize = { (213 + 71 * (short)levelStates.size()) ,50 }; break;
 		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
 
 		case LS_LEVEL_BUILDER:
