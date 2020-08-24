@@ -5,6 +5,15 @@ enum ROADTYPE
 {
 	R_HORIZONTAL,
 	R_VERTICAL,
+	R_L, //L turn
+	R_RL, //Right L turn
+	R_LUL,//Left Up L turn
+	R_RUL,//Right Up L turn
+	R_DT,//Down T turns
+	R_UT,//Up T turns
+	R_LVT,//Left Vertical T turns
+	R_RVT,//Right Vertical T turns
+	R_X, //CrossRoad
 	R_COUNT
 };
 
