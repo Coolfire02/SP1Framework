@@ -59,7 +59,6 @@ void MiniGame_RM::gameLoopListener() {
 								colision = true;
 						}
 						if (colision == false) {
-							Beep(1440, 50);
 							addCoin(coinCord);
 							j = 10;
 						}
