@@ -214,7 +214,7 @@ void Level::renderObjsToMap() {
 		currently_played_MG_ptr->renderObjsToMap();
 	}
 	else {
-		Map* map = levelspecific_maps.at(LS_MAINMENU);
+		Map* map = levelspecific_maps.at(state);
 		switch (state) {
 		case LS_MAINMENU:
 			
@@ -312,8 +312,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		case STAGE_2_LEVEL_1: levelName = "STAGE_2_LEVEL_1"; break;
 		default: levelName = "UNKNOWN";
 		}
-
-		levelStates.push_back(LS_MAINMENU);
 		levelStates.push_back(LS_BEGIN_SCENE);
 		levelStates.push_back(LS_MAINGAME);
 		levelStates.push_back(LS_FOREST_SCENE);
@@ -396,7 +394,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		COORD mapSize = { 213,50 };
 		COORD mapDisplayOffset{ 0,0 };
 		switch (levelStates[i]) {
-		case MAINMENU: mapSize = { (213 + 71 * (short)levelStates.size()) ,50 }; break;
+		case LS_MAINMENU: mapSize = { (213 + 71 * (short)levelStates.size()) ,50 }; break;
 		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
 
 		case LS_LEVEL_BUILDER:
