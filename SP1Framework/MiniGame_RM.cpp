@@ -142,7 +142,7 @@ void MiniGame_RM::addCoin(COORD coord)
 
 MiniGame_RM::~MiniGame_RM()
 {
-
+	//Intentionally left blank (deletion of obj_ptrs is handled in Level)
 }
 
 bool MiniGame_RM::processKBEvents(SKeyEvent keyEvents[])
