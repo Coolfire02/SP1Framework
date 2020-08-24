@@ -101,7 +101,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			if (keyEvents[K_A].keyDown)
 				mapOffset.X -= 10;
 			if (keyEvents[K_S].keyDown) {
-				if (keyEvents[K_W].keyDown) {
+				if (keyEvents[K_CTRL].keyDown) {
 					if (state == LS_LEVEL_BUILDER) {
 						saveLevel();
 						return true;
@@ -217,20 +217,8 @@ void Level::renderObjsToMap() {
 		Map* map = levelspecific_maps.at(state);
 		switch (state) {
 		case LS_MAINMENU:
-			map->clearMap();
-			
-			break;
 		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME:
-			/*
-			LS_MAINGAME objects:
-			Fire Station
-			Fire Truck
-			Fire Fighter
-			All Minigames
-			Roads
-			Forest Object
-			*/
 			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			std::multimap<short, GameObject*> sort;
@@ -308,6 +296,9 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
+		Text* text = new Text("MAINMENU this is a text object - game starts in 3", 0xF0);
+		text->setWorldPosition(g_consoleSize.X/2-text->getText().size()/2,g_consoleSize.Y/2);
+		obj_ptr.push_back(text);
 	}
 	else {
 		switch (level) {
@@ -458,27 +449,14 @@ void Level::checkStateChange() {
 
 //Whenever there is a state change, if there is any initialization to process, it'll be done here
 void Level::newStageinit() {
-	if (originalState == LS_MAINGAME) {
-		if (currently_played_MG_ptr != NULL) {
-			for (auto& objs : obj_ptr) {
-				objs->setActive(false);
-			}
+	switch (state) {
+	case LS_MAINGAME:
+		for (auto& objs : obj_ptr) {
+			objs->setActive(true);
 		}
+		player_ptr->setActive(false);
 	}
-	else {
-		switch (state) {
-		case LS_MAINMENU:
-			for (auto& objs : obj_ptr) {
-				objs->setActive(false);
-			}
-			break;
-		case LS_MAINGAME:
-			for (auto& objs : obj_ptr) {
-				objs->setActive(true);
-			}
-			player_ptr->setActive(false);
-		}
-	}
+	
 	originalState = state;
 }
 

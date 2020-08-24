@@ -25,7 +25,9 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-Level* g_Level = new Level(MAINMENU, g_Console); //initial state
+Level* levels[2] = { new Level(MAINMENU, g_Console),
+                    new Level(TUTORIAL, g_Console) };
+Level* g_Level;
 
 void updateOptions();
 void updateLevel();
@@ -49,7 +51,7 @@ void init( void )
     g_eGameState = S_ACTIVE;
     
     //level declaration (use ptrs)
-    //UNDONE
+    g_Level = levels[MAINMENU];
 
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
@@ -95,9 +97,7 @@ void getInput( void )
 }
 
 void startNextLevel(LEVEL level) {
-    delete g_Level;
-    g_Level = nullptr;
-    g_Level = new Level(TUTORIAL, g_Console);
+    g_Level = levels[level];
 }
 
 //--------------------------------------------------------------
@@ -317,7 +317,7 @@ void renderToScreen()
 
 void renderLevel() {
     
-    //g_Level.checkStateChange();
+    g_Level->checkStateChange();
     g_Level->renderObjsToMap();
     g_Level->renderMap();
 }
@@ -433,11 +433,7 @@ void updateGameState() {
     g_Level = new Level(TUTORIAL, g_Console);*/
     if (g_dElapsedTime > 3.0 && !once) {
         once = true;
-        Beep(5000, 50);
-        //startNextLevel(TUTORIAL);
-        delete g_Level;
-        g_Level = nullptr;
-        g_Level = new Level(TUTORIAL, g_Console);
+        startNextLevel(TUTORIAL);
     }
 }
 

@@ -3,7 +3,10 @@
 class Text :
     public GameObject
 {
+private:
+    std::string text;
 public:
+    std::string getText();
     Text();
     Text(std::string text);
     Text(std::string text, WORD bg);
