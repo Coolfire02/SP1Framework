@@ -123,6 +123,9 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files\Base Game</Filter>
     </ClCompile>
+    <ClCompile Include="Bucket.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Bucket.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
