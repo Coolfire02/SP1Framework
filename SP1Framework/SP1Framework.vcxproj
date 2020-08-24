@@ -79,7 +79,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ASCII.cpp" />
-    <ClCompile Include="Bank.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireStation.cpp" />
     <ClCompile Include="FireTruck.cpp" />
@@ -102,10 +101,10 @@
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="Road.cpp" />
+    <ClCompile Include="Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASCII.h" />
-    <ClInclude Include="Bank.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireStation.h" />
     <ClInclude Include="FireTruck.h" />
@@ -127,6 +126,7 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Road.h" />
+    <ClInclude Include="Text.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

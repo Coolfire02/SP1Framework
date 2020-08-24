@@ -55,9 +55,6 @@ bool ASCII::setArt(ARTTYPE type) {
 	case FIRE_STATION_ART:
 		arttxt = "FireStation.txt";
 		break;
-	case BANK_ART:
-		arttxt = "Bank.txt";
-		break;
 	case RESERVOIR_ART:
 		arttxt = "Reservoir.txt";
 		break;
@@ -230,6 +227,67 @@ bool ASCII::setArt(ARTTYPE type) {
 		art = nullptr;
 	}
 	return false;
+}
+
+bool ASCII::setArt(std::string txt)
+{
+	CHAR_INFO txt_bg;
+	txt_bg.Attributes = 0x20;
+	yLength = 1;
+	xLength = txt.length();
+
+	art = new CHAR_INFO * [xLength];
+	for (unsigned int i = 0; i < xLength; i++) {
+		art[i] = new CHAR_INFO[yLength];
+	}
+
+	for (unsigned int i = 0; i < xLength; i++) {
+		for (unsigned int j = 0; j < yLength; j++) {
+			art[i][j] = txt_bg;
+		}
+	}
+
+	for (unsigned int t = 0; t < txt.length(); t++)
+	{
+		art[t][0].Char.AsciiChar = txt[t];
+	}
+	return false;
+}
+
+bool ASCII::setArt(std::string txt, WORD bg)
+{
+	CHAR_INFO txt_bg;
+	txt_bg.Attributes = bg;
+	yLength = 1;
+	xLength = txt.length();
+
+	art = new CHAR_INFO * [xLength];
+	for (unsigned int i = 0; i < xLength; i++) {
+		art[i] = new CHAR_INFO[yLength];
+	}
+
+	for (unsigned int i = 0; i < xLength; i++) {
+		for (unsigned int j = 0; j < yLength; j++) {
+			art[i][j] = txt_bg;
+		}
+	}
+
+	for (unsigned int t = 0; t < txt.length(); t++)
+	{
+		art[t][0].Char.AsciiChar = txt[t];
+	}
+	return false;
+}
+
+void ASCII::deleteArt()
+{
+	xLength = 0;
+	yLength = 0;
+	for (unsigned int i = 0; i < xLength; i++) {
+		delete[] art[i];
+	}
+	delete[] art;
+	art = nullptr;
 }
 
 unsigned int ASCII::getXLength() {

@@ -10,10 +10,15 @@ class MiniGame_RM :
     public MiniGame
 {
 private:
+    std::string amount;
+    int ms;
+    int coin_spawn_delay;
     std::vector<Coin*> coin_ptrs;
     Jar* jar_ptr;
+    Text* Money_ptr;
     void addCoin(COORD);
 public:
+    void setMoneyText();
     std::string getType();
     enum LEVELSTATE getAssociatedLSState();
 

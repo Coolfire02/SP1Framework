@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Framework/console.h"
 #include "GameObject.h"
+#include "Text.h"
 #include "global.h"
 #include <string>
 #include "ASCII.h"

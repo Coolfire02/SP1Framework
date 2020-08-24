@@ -9,6 +9,7 @@ Money::Money()
 
 Money::~Money()
 {
+	//Intentionally left blank.
 }
 
 int Money::Getmoney(int)
@@ -31,13 +32,10 @@ bool Money::Spend(int price)
 
 void Money::Receive(int amt)
 {
-	//cout << "You Received: ";
-	//cout << amt << " dollars" << endl;
 	MoneyCount += amt;
-
 }
 
 void Money::ShowMoney()
 {
-	/*cout << MoneyCount << endl;*/
+	
 }

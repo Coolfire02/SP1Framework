@@ -2,13 +2,13 @@
 
 std::string Jar::getType()
 {
-    art.setArt(JAR_ART);
     return "Jar";
 }
 
 Jar::Jar()
 {
-    weight = 800;
+    art.setArt(JAR_ART);
+    weight = 1000;
 }
 
 Jar::~Jar()

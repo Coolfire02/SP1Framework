@@ -12,7 +12,6 @@ enum ARTTYPE
 	FIRE_TRUCK_ART,
 	FIREFIGHTER_ART,
 	FIRE_STATION_ART,
-	BANK_ART,
 	RESERVOIR_ART,
 	FOREST_ART,
 
@@ -67,6 +66,9 @@ public:
 	CHAR_INFO getArtAtLoc(COORD);
 	
 	bool setArt(ARTTYPE);
+	bool setArt(std::string txt);
+	bool setArt(std::string txt, WORD bg);
+	void deleteArt();
 	ASCII(ARTTYPE);
 	ASCII();
 	~ASCII();
