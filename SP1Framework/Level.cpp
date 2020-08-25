@@ -81,6 +81,19 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 								stopLoop = true;
 							}
 
+							else if (type == "MiniGame_WL") {
+								for (auto& minigame_ptr : mg_ptr) {
+									if (minigame_ptr->getType() == "MiniGame_WL") {
+										currently_played_MG_ptr = minigame_ptr;
+										currently_played_MG_ptr->start();
+										state = LS_MINIGAME_WL;
+										break;
+									}
+								}
+								canMove = false;
+								stopLoop = true;
+							}
+
 							else if (type.rfind("Road") != std::string::npos) {
 								canMove = true;
 							}
@@ -224,7 +237,7 @@ void Level::renderObjsToMap() {
 		case LS_MAINGAME:
 			map->clearMap();
 			if(Money_ptr != nullptr)
-			 Money_ptr->setWorldPosition(map->getMapToBufferOffset().X, (map->getMapToBufferOffset().Y + 1));
+				Money_ptr->setWorldPosition(map->getMapToBufferOffset().X, (map->getMapToBufferOffset().Y + 1));
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			std::multimap<short, GameObject*> sort;
 			for (auto& object_ptr : obj_ptr) {
