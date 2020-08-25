@@ -10,39 +10,23 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 MiniGame_WL::~MiniGame_WL() {
 }
 
-void MiniGame_WL::gameLoopListener() {
-
-}
-
 bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 {
-	COORD player_orig_pos = player_ptr->getWorldPosition();
-	COORD player_future_pos = player_orig_pos;
-	COORD bucket_orig_pos = bucket_ptr->getWorldPosition();
-	COORD bucket_future_pos = bucket_orig_pos;
+
+	COORD wrenchTail_orig_pos = wrench_ptr2->getWorldPosition();
+	COORD  wrenchTail_future_pos = wrenchTail_orig_pos;
 	bool eventIsProcessed = false;
-	if (keyEvents[K_A].keyDown) {
-		player_future_pos.X -= 2;
-		bucket_future_pos.X -= 2;
-		eventIsProcessed = true;
-	}
-	if (keyEvents[K_D].keyDown) {
-		player_future_pos.X += 2;
-		bucket_future_pos.X += 2;
-		eventIsProcessed = true;
-	}
 	if (keyEvents[K_W].keyDown) {
-		player_future_pos.Y -= 2;
-		bucket_future_pos.Y -= 2;
+		wrenchTail_future_pos.Y -= 2;
 		eventIsProcessed = true;
+		UPcount += 1;
 	}
 	if (keyEvents[K_S].keyDown) {
-		player_future_pos.Y += 2;
-		bucket_future_pos.Y += 2;
+		wrenchTail_future_pos.Y += 2;
 		eventIsProcessed = true;
+		DOWNcount += 1;
 	}
-	player_ptr->setWorldPosition(player_future_pos);
-	bucket_ptr->setWorldPosition(bucket_future_pos);
+	wrench_ptr2->setWorldPosition(wrenchTail_future_pos);
 	return eventIsProcessed;
 }
 
@@ -55,7 +39,7 @@ void MiniGame_WL::setWaterText()
 {
 	std::string water = std::to_string(WaterCollected);
 	water += water;
-	Water_ptr->setText(water);
+	water_ptr->setText(water);
 }
 
 std::string MiniGame_WL::getType() {
@@ -68,20 +52,47 @@ enum LEVELSTATE MiniGame_WL::getAssociatedLSState() {
 
 void MiniGame_WL::mgGameInit() {
 	bucket_ptr = new Bucket;
-	player_ptr = new Player;
-	Water_ptr = new Text;
-	mg_obj_ptr.push_back(player_ptr);
+	water_ptr = new Text;
+	wrench_ptr = new Wrench("HEAD");
+	wrench_ptr2 = new Wrench("TAIL");
+	pipe_ptr = new Pipe;
 	mg_obj_ptr.push_back(bucket_ptr);
-	mg_obj_ptr.push_back(Water_ptr);
+	mg_obj_ptr.push_back(water_ptr);
+	mg_obj_ptr.push_back(wrench_ptr);
+	mg_obj_ptr.push_back(pipe_ptr);
+	mg_obj_ptr.push_back(wrench_ptr2);
 	MiniGameMap.setSize(213, 50);
 
 	//Game initialization
-	COORD playerPos;
-	playerPos.X = (MiniGameMap.getXLength() / 2 - (player_ptr->getXLength() / 2));
-	playerPos.Y = (MiniGameMap.getYLength() - player_ptr->getYLength() - 1);
-
-	player_ptr->setWorldPosition(playerPos);
-	bucket_ptr->setWorldPosition(playerPos.X - 1, playerPos.Y - bucket_ptr->getYLength());
-	Water_ptr->setWorldPosition(0, 1);
+	pipe_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
+	bucket_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
+	water_ptr->setWorldPosition(0, 1);
+	wrench_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);// wrench head
+	wrench_ptr2->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+		(MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2) - wrench_ptr->getYLength());// wrench tail
 	srand(time(NULL));
+}
+
+void MiniGame_WL::gameLoopListener(SKeyEvent  keyEvents[])
+{
+	if (isStarted()) {
+		setWaterText();
+		if ((UPcount == 6) && (DOWNcount == 6)) {
+			Completed = true;
+		}
+		else {
+			if (ms >= 1000) {
+				COORD wrenchCord = { 0,0 };
+				if (keyEvents[K_W].keyDown) {
+					wrenchCord.Y - 4;
+				if (keyEvents[K_S].keyDown) {
+					wrenchCord.Y + 4;
+				};
+				}
+			};
+		}
+	}
 }
