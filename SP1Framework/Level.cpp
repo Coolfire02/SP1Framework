@@ -284,6 +284,9 @@ bool Level::setState(LEVELSTATE state) {
 
 Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 {
+	// Fire setting
+	fire = 100 * level;
+
 	originalState = LS_COUNT;
 	player_ptr = NULL;
 	truck_ptr = NULL;

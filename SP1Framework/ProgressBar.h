@@ -1,16 +1,20 @@
 #pragma once
 
 #include "GameObject.h"
-#include"Position.h"
 
 class ProgressBar : public GameObject
 {
 private:
-	int FillColour, BorderColour, Width, Length;
+	BAR barType;
+	double progress;
+	int fillColour, borderColour, width, height;
 	std::string getType();
-	Position PBpos1;
+	
 public:
-	ProgressBar();
+	ProgressBar(BAR barType, short width, short height, WORD border, WORD fill);
+	ProgressBar(BAR barType, short width, short height);
+	void updateBar();
+	void setProgress(double);
 	~ProgressBar();
 };
 

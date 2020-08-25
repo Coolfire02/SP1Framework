@@ -58,3 +58,8 @@ enum LEVEL {
     STAGE_1_LEVEL_1,
     STAGE_2_LEVEL_1,
 };
+
+enum BAR {
+    B_HORIZONTAL,
+    B_VERTICAL
+};
