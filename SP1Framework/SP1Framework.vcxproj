@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ASCII.cpp" />
+    <ClCompile Include="BeeHive.cpp" />
     <ClCompile Include="Bucket.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireStation.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="MiniGame_BHOS.cpp" />
     <ClCompile Include="MiniGame_RM.cpp" />
     <ClCompile Include="MiniGame_WL.cpp" />
     <ClCompile Include="Money.cpp" />
@@ -109,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ASCII.h" />
+    <ClInclude Include="BeeHive.h" />
     <ClInclude Include="Bucket.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireStation.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="LevelState.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MiniGame.h" />
+    <ClInclude Include="MiniGame_BHOS.h" />
     <ClInclude Include="MiniGame_RM.h" />
     <ClInclude Include="MiniGame_WL.h" />
     <ClInclude Include="Money.h" />

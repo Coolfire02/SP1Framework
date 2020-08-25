@@ -129,8 +129,14 @@
     <ClCompile Include="Wrench.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="MiniGame_BHOS.cpp">
+      <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
     <ClCompile Include="Pipe.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BeeHive.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Forest.cpp">
       <Filter>Source Files</Filter>
@@ -212,8 +218,14 @@
     <ClInclude Include="Wrench.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="MiniGame_BHOS.h">
+      <Filter>Header Files\MiniGames</Filter>
+    </ClInclude>
     <ClInclude Include="Pipe.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="BeeHive.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Forest.h">
       <Filter>Header Files</Filter>

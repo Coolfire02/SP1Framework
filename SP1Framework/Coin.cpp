@@ -19,4 +19,5 @@ Coin::Coin()
 
 Coin::~Coin()
 {
+	//Intentionally left blank
 }
