@@ -27,5 +27,6 @@ public:
 	~Road();
 	std::string getType();
 	void setRoadType(ROADTYPE);
+	ROADTYPE getRoadType();
 };
 

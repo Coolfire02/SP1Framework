@@ -61,6 +61,10 @@ Road::~Road() {
 
 }
 
+ROADTYPE Road::getRoadType() {
+	return type;
+}
+
 std::string Road::getType() 
 {
 	switch (type) 

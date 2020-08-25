@@ -10,15 +10,16 @@ void Level::gameLoopListener() {
 			// if minigame is completed, delete it from mg_ptr but keep in obj_ptr
 			// this is so that the minigame still exists in the level, but can no longer be played further
 			for (auto& pointer : mg_ptr) {
-				if(pointer == currently_played_MG_ptr);
+				if (pointer == currently_played_MG_ptr) {
 					pointer = nullptr;
+				}
 			}
 			mg_ptr.erase(std::remove(mg_ptr.begin(), mg_ptr.end(), nullptr), mg_ptr.end()); //Removes all nullptrs from vector
 
 			// TODO adding of money and water
 			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned());
 			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected());
-
+			truck_ptr->FillWater(10);
 			Money_ptr->setText("$" + std::to_string(player_ptr->getMoney()));
 			ft_waterCollected->setProgress((truck_ptr->getCurrentWaterLevel() / truck_ptr->getMaxWater()) * 100);
 
@@ -31,6 +32,7 @@ void Level::gameLoopListener() {
 			currently_played_MG_ptr->gameLoopListener();
 		}
 	}
+	//If mouse cursor is touching level obj, start level etc
 }
 
 bool Level::processKBEvents(SKeyEvent keyEvents[]) {
@@ -77,8 +79,6 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 									fire = 0;
 									//GAME END TODO
 								}
-
-								state = LS_FOREST_SCENE;
 								stopLoop = true;
 							}
 
@@ -121,6 +121,8 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 					if (!canMove)
 						truck_ptr->setWorldPosition(truck_origPos);
 				}
+				COORD mapOffset = { truck_ptr->getWorldPosition().X - g_consoleSize.X / 2 + 10 , truck_ptr->getWorldPosition().Y - g_consoleSize.Y / 2 - 2 };
+				map->setMapToBufferOffset(mapOffset);
 			}
 		}
 		else if (state == LS_LEVEL_BUILDER) {
@@ -131,7 +133,8 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			if (keyEvents[K_A].keyDown)
 				mapOffset.X -= 10;
 			if (keyEvents[K_S].keyDown) {
-				if (keyEvents[K_CTRL].keyDown) {
+				if (keyEvents[K_W].keyDown) {
+					//Beep(5500, 50);
 					if (state == LS_LEVEL_BUILDER) {
 						saveLevel();
 						return true;
@@ -196,9 +199,9 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 						}
 						else {
 							Map* map = levelspecific_maps.at(state);
+							COORD bufferOffset = map->getMapToBufferOffset();
 							switch (state) {
 							case LS_MAINMENU:
-								//If mouse cursor is touching level obj, start level etc
 							case LS_LEVEL_BUILDER:
 								//if mouse cursor is touching level obj, clip onto it so u can move it around
 								std::multimap<short, GameObject*> sort;
@@ -206,7 +209,7 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 									if (!object_ptr->isActive()) continue;
 									sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
 								}
-								COORD bufferOffset = map->getMapToBufferOffset();
+
 								if (pickedUp_obj == NULL) {
 									//Beep(5140, 30);
 									//sort from highest weight to lowest allowing u to pickup the "most infront" obj
@@ -232,7 +235,6 @@ bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
 			case DOUBLE_CLICK:
 				break;
 			case MOUSE_WHEELED:
-				break;
 			default:
 				break;
 			}
@@ -332,7 +334,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if(level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
-		state = LS_LEVEL_BUILDER;
+		state = LS_MAINGAME;
 	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -371,6 +373,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		ft_waterCollected->setRelativePos(cord.X, cord.Y + 1);
 		level_progress = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0x20);
 		level_progress->setRelativePos(cord.X, cord.Y + 4);
+		level_progress->setProgress(100);
 
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);

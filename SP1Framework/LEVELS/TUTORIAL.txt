@@ -7,11 +7,14 @@ MiniGame_RM,328,80
 MiniGame_WL,289,49
 FireTruck,252,64
 FireMan,224,68
-Forest,230,89
+Forest,248,95
 Horizontal_Road,251,67
 Vertical_Road,293,55
 Horizontal_Road,303,85
+Vertical_Road,293,90
 Vertical_Road,293,72
 Horizontal_Road,267,67
 Right_Vertical_T_Road,293,67
-L_Road,293,85
+Right_L_Road,293,103
+Left_Vertical_T_Road,293,85
+Horizontal_Road,268,103
