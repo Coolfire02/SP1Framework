@@ -14,8 +14,10 @@ public:
 	~FireTruck();
 	std::string getType();
 	void setMaxWaterLevel(double map);
-	void FillWater(int);
+	void FillWater(double);
 	bool MaxWaterFilled();
-	int getCurrentWaterLevel();
+	double getCurrentWaterLevel();
+	double getMaxWater();
+	void setWaterLevel(double);
 };
 

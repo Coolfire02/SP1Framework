@@ -20,7 +20,12 @@ void FireTruck::setMaxWaterLevel(double max)
     maxWaterLevel = max;
 }
 
-void FireTruck::FillWater(int litres)
+void FireTruck::setWaterLevel(double max)
+{
+    currentWaterLevel = max;
+}
+
+void FireTruck::FillWater(double litres)
 {
     if (currentWaterLevel < maxWaterLevel)
     {
@@ -39,7 +44,12 @@ bool FireTruck::MaxWaterFilled()
     return isTankFull;
 }
 
-int FireTruck::getCurrentWaterLevel()
+double FireTruck::getCurrentWaterLevel()
 {
     return currentWaterLevel;
+}
+
+double FireTruck::getMaxWater()
+{
+    return maxWaterLevel;
 }

@@ -66,6 +66,18 @@ bool GameObject::setRelativePos(COORD cord) {
 	return true;
 }
 
+bool GameObject::setRelativePos(unsigned int x, unsigned int y) {
+	if (relativePosition == nullptr) {
+		COORD* a = new COORD { (short) x, (short) y };
+		relativePosition = a;
+	}
+	else {
+		relativePosition->X = x;
+		relativePosition->Y = y;
+	}
+	return true;
+}
+
 COORD GameObject::getRelativePos() {
 	return *relativePosition;
 }

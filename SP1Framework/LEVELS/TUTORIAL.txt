@@ -1,11 +1,13 @@
 MapSize,650,150
 DisplayOrigin,200,50
-Text,200,41
+ProgressBar,0,0
+ProgressBar,0,0
 FireStation,229,59
-MiniGame_RM,327,80
-MiniGame_WL,288,51
+MiniGame_RM,328,80
+MiniGame_WL,289,49
 FireTruck,252,64
-FireMan,333,85
+FireMan,224,68
+Forest,230,89
 Horizontal_Road,251,67
 Vertical_Road,293,55
 Horizontal_Road,303,85

@@ -4,13 +4,18 @@ ProgressBar::ProgressBar(BAR barType, short width, short height, WORD border, WO
 {
     if (height < 3) height = 3;
     if (width < 3) width = 3;
+    (*this).height = height;
+    (*this).width = width;
     weight = 10000;
+    (*this).updateBar();
 }
 
 ProgressBar::ProgressBar(BAR barType, short width, short height) : barType(barType), borderColour(0x30), fillColour(0xF0), progress(0.0)
 {
     if (height < 3) height = 3;
     if (width < 3) width = 3;
+    (*this).height = height;
+    (*this).width = width;
     weight = 10000;
     (*this).updateBar();
 }
@@ -20,7 +25,10 @@ void ProgressBar::updateBar() {
 }
 
 void ProgressBar::setProgress(double prog) {
+    if (prog < 0) prog = 0;
+    if (prog > 100) prog = 100;
     progress = prog;
+    (*this).updateBar();
 }
 
 ProgressBar::~ProgressBar()

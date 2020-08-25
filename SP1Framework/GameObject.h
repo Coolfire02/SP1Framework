@@ -17,6 +17,8 @@ public:
 	GameObject();
 	~GameObject();
 
+	virtual GameObject* clone() = 0;
+
 	bool hasRelativePos();
 	bool isCollided(GameObject&);
 	bool isInteractable();
@@ -37,6 +39,7 @@ public:
 	void setActive(bool);
 	void setInteractable(bool);
 	bool setRelativePos(COORD);
+	bool setRelativePos(unsigned int, unsigned int);
 	bool setWorldPosition(COORD);
 	bool setWorldPosition(unsigned int, unsigned int);
 

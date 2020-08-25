@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "FireTruck.h"
 #include "FireStation.h"
+#include "Forest.h"
 #include "ASCII.h"
 #include "Player.h"
 #include "MiniGame.h"
@@ -77,6 +78,7 @@ private:
 	GameObject* pickedUp_obj;
 	
 	double fire;
+	const double originalTotalFire;
 
 	void newStageinit();
 	void saveLevel();
