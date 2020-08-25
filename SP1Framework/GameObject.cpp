@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject() {
+GameObject::GameObject() : relativePosition(nullptr) {
 	weight = 0;
 	worldPosition = { 0,0 };
 	interactable = true;
@@ -8,6 +8,9 @@ GameObject::GameObject() {
 }
 
 GameObject::~GameObject() {
+	if (relativePosition != nullptr) {
+		delete relativePosition;
+	}
 }
 
 bool GameObject::isCollided(GameObject& otherObj) {
@@ -40,6 +43,36 @@ bool GameObject::isInLocation(int x, int y) {
 		(*this).getWorldPosition().X + (int)(*this).getXLength() > coord.X &&
 		(*this).getWorldPosition().Y < coord.Y &&
 		(*this).getWorldPosition().Y + (int)(*this).getYLength() > coord.Y) {
+		return true;
+	}
+	return false;
+}
+
+bool GameObject::hasRelativePos() {
+	if (relativePosition != nullptr) {
+		return true;
+	}
+	return false;
+}
+
+bool GameObject::setRelativePos(COORD cord) {
+	if (relativePosition == nullptr) {
+		relativePosition = new COORD(cord);
+	}
+	else {
+		relativePosition->X = cord.X;
+		relativePosition->Y = cord.Y;
+	}
+	return true;
+}
+
+COORD GameObject::getRelativePos() {
+	return *relativePosition;
+}
+
+bool GameObject::removeRelativePos() {
+	if (relativePosition != nullptr) {
+		delete relativePosition;
 		return true;
 	}
 	return false;

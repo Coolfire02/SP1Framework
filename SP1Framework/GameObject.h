@@ -7,6 +7,7 @@ class GameObject
 {
 private:
 	COORD worldPosition;
+	COORD* relativePosition;
 	bool interactable;
 	bool active;
 protected:
@@ -16,11 +17,13 @@ public:
 	GameObject();
 	~GameObject();
 
+	bool hasRelativePos();
 	bool isCollided(GameObject&);
 	bool isInteractable();
 
 	CHAR_INFO getArtAtLoc(COORD);
 	CHAR_INFO getArtAtLoc(int,int);
+	COORD getRelativePos();
 	COORD getWorldPosition();
 	short getWeight();
 	unsigned int getXLength();
@@ -33,7 +36,10 @@ public:
 
 	void setActive(bool);
 	void setInteractable(bool);
+	bool setRelativePos(COORD);
 	bool setWorldPosition(COORD);
 	bool setWorldPosition(unsigned int, unsigned int);
+
+	bool removeRelativePos();
 };
 

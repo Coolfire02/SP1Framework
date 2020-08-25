@@ -236,8 +236,6 @@ void Level::renderObjsToMap() {
 		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME:
 			map->clearMap();
-			if(Money_ptr != nullptr)
-				Money_ptr->setWorldPosition(map->getMapToBufferOffset().X, (map->getMapToBufferOffset().Y + 1));
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			std::multimap<short, GameObject*> sort;
 			for (auto& object_ptr : obj_ptr) {
@@ -248,6 +246,10 @@ void Level::renderObjsToMap() {
 				for (int x = 0; x < element.second->getXLength(); x++) {
 					for (int y = 0; y < element.second->getYLength(); y++) {
 						COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+						if (element.second->hasRelativePos()) {
+							mapLoc = { (short) (x + element.second->getRelativePos().X + map->getMapToBufferOffset().X) , (short) (y + element.second->getRelativePos().Y + map->getMapToBufferOffset().Y) };
+						}
+						
 						//if this object art at this location is of a g_background, do not overwrite
 						if (element.second->getArtAtLoc(x, y).Attributes == g_background.Attributes &&
 							element.second->getArtAtLoc(x, y).Char.AsciiChar == g_background.Char.AsciiChar) {
@@ -321,7 +323,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
 		Text* text = new Text("MAINMENU this is a text object - game starts in 3", 0xF0);
-		text->setWorldPosition(g_consoleSize.X/2-text->getText().size()/2,g_consoleSize.Y/2);
+		COORD cord = { g_consoleSize.X / 2 - text->getText().size() / 2,g_consoleSize.Y / 2 };
+		text->setRelativePos(cord);
 		obj_ptr.push_back(text);
 	}
 	else {
@@ -342,7 +345,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		player_ptr = new Player();
 		truck_ptr = new FireTruck(100);
 		Money_ptr = new Text("$0");
-		
+		COORD cord = { 0,1 };
+		Money_ptr->setRelativePos(cord);
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);
