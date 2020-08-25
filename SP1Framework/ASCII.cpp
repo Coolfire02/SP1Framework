@@ -342,6 +342,49 @@ bool ASCII::setArt(std::string txt, WORD bg)
 	return true;
 }
 
+bool ASCII::setArt(int width, int height, WORD bg, WORD border)
+{
+	xLength = width;
+	yLength = height;
+
+	CHAR_INFO background;
+	CHAR_INFO border_color;
+	border_color.Attributes = border;
+	background.Attributes = bg;
+	yLength = width;
+	xLength = height;
+
+	art = new CHAR_INFO * [xLength];
+	for (unsigned int i = 0; i < xLength; i++) 
+	{
+		for (unsigned int j = 0; j < yLength; j++)
+		{
+			art[i] = new CHAR_INFO[yLength];
+		}
+	}
+
+	for (unsigned int i = 0; i < xLength; i++) 
+	{
+		for (unsigned int j = 0; j < yLength; j++) {
+			art[i][j] = background;
+		}
+	}
+	if ((yLength >= 3) && (xLength >= 3))
+	{
+		for (unsigned int i = 0; i < xLength; i++)
+		{
+			art[i][0] = border_color;
+			art[i][yLength - 1] = border_color;
+		}
+		for (unsigned int j = 0; j < yLength; j++)
+		{
+			art[0][j] = border_color;
+			art[xLength - 1][j] = border_color;
+		}
+	}
+	return true;
+}
+
 void ASCII::deleteArt()
 {
 	xLength = 0;

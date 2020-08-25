@@ -75,7 +75,8 @@ public:
 	bool setArt(std::string txt);
 	bool setArt(std::string txt, WORD bg);
 
-	bool setArt(WORD bg, WORD border);
+	bool setArt(int width, int height, WORD bg, WORD border);
+
 	void deleteArt();
 	ASCII(ARTTYPE);
 	ASCII();
