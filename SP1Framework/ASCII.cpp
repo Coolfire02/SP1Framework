@@ -241,6 +241,57 @@ bool ASCII::setArt(ARTTYPE type) {
 	return false;
 }
 
+bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fill, double progress) {
+	if (art != nullptr) {
+		deleteArt();
+	}
+	art = new CHAR_INFO * [xLength];
+	for (unsigned int i = 0; i < xLength; i++) {
+		art[i] = new CHAR_INFO[yLength];
+	}
+	CHAR_INFO borderChar = g_background;
+	borderChar.Attributes = border;
+	for (unsigned int i = 0; i < xLength; i++) {
+		for (unsigned int j = 0; j < yLength; j++) {
+			art[i][j] = borderChar;
+
+		}
+	}
+	if (progress > 100) progress = 100;
+	short insideWidth, insideHeight;
+	insideWidth = width - 2;
+	insideHeight = height - 2;
+	int totalBars = 0;
+	int usedBars = 0;
+	switch (barType) {
+	case B_HORIZONTAL:
+		totalBars = insideWidth;
+		usedBars = round((progress / 100) * totalBars);
+		for (int i = 1; i <= insideWidth; i++) {
+			for (int j = 1; j <= insideHeight; j++) {
+				if (i <= usedBars) {
+					art[i][j].Attributes = fill;
+				}
+			}
+		}
+		break;
+	case B_VERTICAL:
+		totalBars = insideHeight;
+		usedBars = round((progress / 100) * totalBars);
+		int count = 0;
+		for (int i = height-1; i >= 1; i--) {
+			count++;
+			for (int j = 1; j <= insideWidth; j++) {
+				if (count <= usedBars) {
+					art[i][j].Attributes = fill;
+				}
+			}
+		}
+		break;
+	}
+	return true;
+}
+
 bool ASCII::setArt(std::string txt)
 {
 	CHAR_INFO txt_bg;
@@ -263,7 +314,7 @@ bool ASCII::setArt(std::string txt)
 	{
 		art[t][0].Char.AsciiChar = txt[t];
 	}
-	return false;
+	return true;
 }
 
 bool ASCII::setArt(std::string txt, WORD bg)
@@ -288,7 +339,7 @@ bool ASCII::setArt(std::string txt, WORD bg)
 	{
 		art[t][0].Char.AsciiChar = txt[t];
 	}
-	return false;
+	return true;
 }
 
 void ASCII::deleteArt()
