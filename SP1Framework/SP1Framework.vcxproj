@@ -83,6 +83,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="FireStation.cpp" />
     <ClCompile Include="FireTruck.cpp" />
+    <ClCompile Include="Forest.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Coin.h" />
     <ClInclude Include="FireStation.h" />
     <ClInclude Include="FireTruck.h" />
+    <ClInclude Include="Forest.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />

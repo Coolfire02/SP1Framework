@@ -10,15 +10,18 @@ void Level::gameLoopListener() {
 			// if minigame is completed, delete it from mg_ptr but keep in obj_ptr
 			// this is so that the minigame still exists in the level, but can no longer be played further
 			for (auto& pointer : mg_ptr) {
-				pointer == currently_played_MG_ptr;
-				pointer = nullptr;
+				if(pointer == currently_played_MG_ptr);
+					pointer = nullptr;
 			}
 			mg_ptr.erase(std::remove(mg_ptr.begin(), mg_ptr.end(), nullptr), mg_ptr.end()); //Removes all nullptrs from vector
 
 			// TODO adding of money and water
 			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned());
 			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected());
+
 			Money_ptr->setText("$" + std::to_string(player_ptr->getMoney()));
+			ft_waterCollected->setProgress((truck_ptr->getCurrentWaterLevel() / truck_ptr->getMaxWater()) * 100);
+
 			currently_played_MG_ptr = NULL;
 			state = LS_MAINGAME;
 			(*this).checkStateChange();
@@ -63,6 +66,18 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 							//Interaction Handling between truck & other objs
 							if (type == "Forest") {
 								canMove = false;
+								//state = LS_FOREST_SCENE;
+								double waterInFT = truck_ptr->getCurrentWaterLevel();
+								truck_ptr->setWaterLevel(0);
+								ft_waterCollected->setProgress(0);
+								
+								fire -= waterInFT;
+								level_progress->setProgress(fire / originalTotalFire * 100);
+								if (fire <= 0) {
+									fire = 0;
+									//GAME END TODO
+								}
+
 								state = LS_FOREST_SCENE;
 								stopLoop = true;
 							}
@@ -116,13 +131,20 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			if (keyEvents[K_A].keyDown)
 				mapOffset.X -= 10;
 			if (keyEvents[K_S].keyDown) {
-				if (keyEvents[K_W].keyDown) {
+				if (keyEvents[K_CTRL].keyDown) {
 					if (state == LS_LEVEL_BUILDER) {
 						saveLevel();
 						return true;
 					}
 				}
 				mapOffset.Y += 5;
+			}
+			if (keyEvents[K_C].keyReleased) {
+				if (keyEvents[K_CTRL].keyDown) {
+					if (pickedUp_obj != NULL) {
+						//pickedUp_obj = (*pickedUp_obj)
+					}
+				}
 			}
 			if (keyEvents[K_D].keyDown)
 				mapOffset.X += 10;
@@ -295,11 +317,10 @@ bool Level::setState(LEVELSTATE state) {
 	return false; //not a state that exists in level
 }
 
-
-Level::Level(LEVEL level, Console& console) : associatedConsole(console)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100*level)
 {
 	// Fire setting
-	fire = 100 * level;
+	fire = originalTotalFire;
 
 	originalState = LS_COUNT;
 	player_ptr = NULL;
@@ -311,7 +332,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	if(level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
-		state = LS_MAINGAME;
+		state = LS_LEVEL_BUILDER;
 	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -346,9 +367,16 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 		Money_ptr = new Text("$0");
 		COORD cord = { 0,1 };
 		Money_ptr->setRelativePos(cord);
+		ft_waterCollected = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0x20);
+		ft_waterCollected->setRelativePos(cord.X, cord.Y + 1);
+		level_progress = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0x20);
+		level_progress->setRelativePos(cord.X, cord.Y + 4);
+
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);
+		obj_ptr.push_back(ft_waterCollected);
+		obj_ptr.push_back(level_progress);
 		std::ifstream file("LEVELS\\"+levelName+".txt");
 		std::string line;
 		if (file.is_open()) {
@@ -383,6 +411,11 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 				}
 				else if (line_array.at(0) == "FireStation") {
 					GameObject* ptr = new FireStation();
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Forest") {
+					GameObject* ptr = new Forest();
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
@@ -573,7 +606,8 @@ void Level::saveLevel() {
 	file << "DisplayOrigin," << DisplayOrigin.X << "," << DisplayOrigin.Y << std::endl;
 	std::multimap<short, GameObject*> sort;
 	for (auto& object_ptr : obj_ptr) {
-		sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight()*(-1), object_ptr));
+		if(object_ptr->getType() != "Text")
+			sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight()*(-1), object_ptr));
 	}
 	for (auto& element : sort) {
 		file << element.second->getType() << "," << element.second->getWorldPosition().X << "," << element.second->getWorldPosition().Y << std::endl;

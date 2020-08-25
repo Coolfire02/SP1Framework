@@ -58,7 +58,9 @@ bool ASCII::setArt(ARTTYPE type) {
 	case RESERVOIR_ART:
 		arttxt = "Reservoir.txt";
 		break;
-
+	case FOREST_ART:
+		arttxt = "WildFireIcon.txt";
+		break;
 
 	case MINIGAME_RM_ART:
 		arttxt = "MiniGame_RM.txt";
@@ -249,6 +251,8 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 	if (art != nullptr) {
 		deleteArt();
 	}
+	xLength = width;
+	yLength = height;
 	art = new CHAR_INFO * [xLength];
 	for (unsigned int i = 0; i < xLength; i++) {
 		art[i] = new CHAR_INFO[yLength];

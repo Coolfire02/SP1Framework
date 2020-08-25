@@ -151,7 +151,10 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case VK_RIGHT: key = K_RIGHT; break; 
     case VK_SPACE: key = K_SPACE; break;
     case VK_ESCAPE: key = K_ESCAPE; break; 
+    case VK_CONTROL:
+    case VK_RCONTROL:
     case VK_LCONTROL: key = K_CTRL; break;
+    case 0x43: key = K_C; break;
     case 0x57: key = K_W; break;
     case 0X41: key = K_A; break;
     case 0x53: key = K_S; break;
@@ -232,7 +235,7 @@ void updateLevel() {
     // processing key/mouse inputs for levels
     if (g_keyCooldownTime < g_dElapsedTime) {
         if (g_Level->processKBEvents(g_skKeyEvent)) { //successfully processed?
-            g_keyCooldownTime = g_dElapsedTime + 0.09; //add cooldown
+            g_keyCooldownTime = g_dElapsedTime + 0.05; //add cooldown
         }
     }
     g_Level->processMouseEvents(g_mouseEvent);
