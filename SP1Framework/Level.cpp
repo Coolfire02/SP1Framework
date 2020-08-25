@@ -114,6 +114,19 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 								stopLoop = true;
 							}
 
+							else if (type == "MiniGame_BHOS") {
+								for (auto& minigame_ptr : mg_ptr) {
+									if (minigame_ptr->getType() == "MiniGame_BHOS") {
+										currently_played_MG_ptr = minigame_ptr;
+										currently_played_MG_ptr->start();
+										state = LS_MINIGAME_BHOS;
+										break;
+									}
+								}
+								canMove = false;
+								stopLoop = true;
+							}
+
 							else if (type.rfind("Road") != std::string::npos) {
 								canMove = true;
 							}
@@ -438,6 +451,14 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				}
 				else if (line_array.at(0) == "MiniGame_WL") {
 					MiniGame* ptr = new MiniGame_WL(level, console);
+					levelStates.push_back(ptr->getAssociatedLSState());
+
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+					mg_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "MiniGame_BHOS") {
+					MiniGame* ptr = new MiniGame_BHOS(level, console);
 					levelStates.push_back(ptr->getAssociatedLSState());
 
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));

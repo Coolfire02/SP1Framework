@@ -8,6 +8,8 @@ extern COORD g_consoleSize;
 extern double  g_dElapsedTime;
 extern double  g_dDeltaTime;
 
+extern int g_loopInterval;
+
 // struct to store keyboard events
 // a small subset of KEY_EVENT_RECORD
 struct SKeyEvent

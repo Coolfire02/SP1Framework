@@ -9,7 +9,24 @@ private:
     int ms;
     Text* Instructions;
     Text* Money_ptr;
-    //BeeHive* Hive_ptr;
+    BeeHive* selectedHive;
+    std::vector<BeeHive*> mg_hive_ptr;
+
+    //for beehive grabbing
+    COORD lastMousePos;
+    int beeHiveLeft;
+    int beeHiveRight;
+
+    //stats
+    int msPassed;
+
+    //player game stat
+    int playerLives;
+    int maxPlayerLives;
+
+    //health bar
+    ProgressBar* health_bar;
+
     COORD TreeMax, TreeMin;
     int numHive;
 public:
