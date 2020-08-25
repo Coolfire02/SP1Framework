@@ -17,7 +17,7 @@ public:
 	GameObject();
 	~GameObject();
 
-	virtual GameObject* clone() = 0;
+	//virtual GameObject* clone() = 0;
 
 	bool hasRelativePos();
 	bool isCollided(GameObject&);

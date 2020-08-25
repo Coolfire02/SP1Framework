@@ -36,6 +36,9 @@ void ASCII::tokenize(std::string const& str, const char delim,
 }
 
 bool ASCII::setArt(ARTTYPE type) {
+	if (art != nullptr) {
+		deleteArt();
+	}
 	xLength = 0;
 	yLength = 0;
 	int lineNum = 0;
@@ -309,6 +312,9 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 
 bool ASCII::setArt(std::string txt)
 {
+	if (art != nullptr) {
+		deleteArt();
+	}
 	CHAR_INFO txt_bg;
 	txt_bg.Attributes = 0x20;
 	yLength = 1;
@@ -334,6 +340,9 @@ bool ASCII::setArt(std::string txt)
 
 bool ASCII::setArt(std::string txt, WORD bg)
 {
+	if (art != nullptr) {
+		deleteArt();
+	}
 	CHAR_INFO txt_bg;
 	txt_bg.Attributes = bg;
 	yLength = 1;
@@ -359,6 +368,9 @@ bool ASCII::setArt(std::string txt, WORD bg)
 
 bool ASCII::setArt(int width, int height, WORD bg, WORD border)
 {
+	if (art != nullptr) {
+		deleteArt();
+	}
 	xLength = width;
 	yLength = height;
 

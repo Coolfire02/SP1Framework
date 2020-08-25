@@ -2,14 +2,18 @@
 
 Road::Road() 
 {
-	type = R_HORIZONTAL;
-	art.setArt(HORIZONTAL_ROAD_ART);
+	setRoadType(R_HORIZONTAL);
 	weight = 0;
 }
 
-Road::Road(ROADTYPE type) : type(type)
+Road::Road(ROADTYPE type)
 {
 	weight = 0;
+	setRoadType(type);
+}
+
+void Road::setRoadType(ROADTYPE type) {
+	(*this).type = type;
 	switch (type)
 	{
 	case R_HORIZONTAL:
@@ -50,6 +54,7 @@ Road::Road(ROADTYPE type) : type(type)
 		art.setArt(HORIZONTAL_ROAD_ART);
 		break;
 	}
+
 }
 
 Road::~Road() {

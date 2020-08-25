@@ -7,7 +7,7 @@ public:
     Pipe();
     ~Pipe();
     std::string getType();
-    Pipe* clone();
+    //Pipe* clone();
 };
 
 
