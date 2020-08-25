@@ -16,6 +16,9 @@ void Level::gameLoopListener() {
 			mg_ptr.erase(std::remove(mg_ptr.begin(), mg_ptr.end(), nullptr), mg_ptr.end()); //Removes all nullptrs from vector
 
 			// TODO adding of money and water
+			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned());
+			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected());
+			Money_ptr->setText("$" + std::to_string(player_ptr->getMoney()));
 			currently_played_MG_ptr = NULL;
 			state = LS_MAINGAME;
 			(*this).checkStateChange();
@@ -220,6 +223,8 @@ void Level::renderObjsToMap() {
 		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME:
 			map->clearMap();
+			if(Money_ptr != nullptr)
+			 Money_ptr->setWorldPosition(map->getMapToBufferOffset().X, (map->getMapToBufferOffset().Y + 1));
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			std::multimap<short, GameObject*> sort;
 			for (auto& object_ptr : obj_ptr) {
@@ -282,6 +287,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	originalState = LS_COUNT;
 	player_ptr = NULL;
 	truck_ptr = NULL;
+	Money_ptr = NULL;
 	currently_played_MG_ptr = NULL;
 	if(level == MAINMENU)
 		state = LS_MAINMENU;
@@ -317,10 +323,10 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 
 		player_ptr = new Player();
 		truck_ptr = new FireTruck();
-
+		Money_ptr = new Text("$" + std::to_string(player_ptr->getMoney()));
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
-
+		obj_ptr.push_back(Money_ptr);
 		std::ifstream file("LEVELS\\"+levelName+".txt");
 		std::string line;
 		if (file.is_open()) {
@@ -418,8 +424,10 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 			Map* map = new Map(mapSize.X, mapSize.Y);
 			map->setMapToBufferOffset(mapDisplayOffset);
 			levelspecific_maps.insert({ levelStates[i], map });
+
 		}
 	}
+
 }
 
 Level::~Level()

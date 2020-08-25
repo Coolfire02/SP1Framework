@@ -7,11 +7,10 @@ protected:
 public:
 	Money();
 	~Money();
-	int Getmoney(int);
-	int Setmoney(int);
-	bool Spend(int price);
-	void Receive(int amt);
-	void ShowMoney();
+	int setMoney(int);
+	bool spendMoney(int price);
+	void receiveMoney(int amt);
+	int getMoney();
 
 };
 

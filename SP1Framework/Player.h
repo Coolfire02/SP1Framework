@@ -19,5 +19,9 @@ public:
 	int TaskCompleteCount(int);
 	bool PlayerInFT();
 
+	bool spendMoney(int price);
+	void receiveMoney(int amt);
+	int getMoney();
+
 };
 

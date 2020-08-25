@@ -59,6 +59,7 @@ private:
 	std::string levelName;
 	Player* player_ptr;
 	FireTruck* truck_ptr;
+	Text* Money_ptr;
 	MiniGame* currently_played_MG_ptr;
 	std::vector<MiniGame*> mg_ptr;
 	LEVELSTATE originalState;
