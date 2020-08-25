@@ -56,22 +56,27 @@ private:
 	Console associatedConsole;
 	LEVEL level;
 	LEVEL nextLevel;
+	LEVELSTATE originalState;
+	LEVELSTATE state;
 	std::string levelName;
+
 	Player* player_ptr;
 	FireTruck* truck_ptr;
 	Text* Money_ptr;
 	MiniGame* currently_played_MG_ptr;
+
+	ProgressBar* ft_waterCollected;
+	ProgressBar* level_progress;
+
 	std::vector<MiniGame*> mg_ptr;
-	LEVELSTATE originalState;
-	LEVELSTATE state;
 	std::vector<GameObject*> obj_ptr;
 	std::vector<LEVELSTATE> levelStates;
-	bool playerInTruck = false;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
-
 	bool devMode = true;
 	GameObject* pickedUp_obj;
 	
+	double fire;
+
 	void newStageinit();
 	void saveLevel();
 public:

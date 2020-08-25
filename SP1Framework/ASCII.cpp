@@ -272,6 +272,10 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 				if (i <= usedBars) {
 					art[i][j].Attributes = fill;
 				}
+				else {
+					WORD word = g_background.Attributes;
+					art[i][j].Attributes = word;
+				}
 			}
 		}
 		break;
@@ -284,6 +288,9 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 			for (int j = 1; j <= insideWidth; j++) {
 				if (count <= usedBars) {
 					art[i][j].Attributes = fill;
+				}
+				else {
+					art[i][j].Attributes = g_background.Attributes;
 				}
 			}
 		}

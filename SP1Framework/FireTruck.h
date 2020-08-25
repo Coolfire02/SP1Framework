@@ -6,14 +6,14 @@
 class FireTruck : public GameObject
 {
 private:
-	int currentWaterLevel;
-	int MaxWaterLevel;
+	double currentWaterLevel;
+	double maxWaterLevel;
 	Hose H1;
 public:
-	FireTruck();
+	FireTruck(double maxWater);
 	~FireTruck();
 	std::string getType();
-	void setMaxWaterLevel(int litres);
+	void setMaxWaterLevel(double map);
 	void FillWater(int);
 	bool MaxWaterFilled();
 	int getCurrentWaterLevel();

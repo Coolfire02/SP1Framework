@@ -19,6 +19,10 @@ void ProgressBar::updateBar() {
     art.setArt(barType, width, height, borderColour, fillColour, progress);
 }
 
+void ProgressBar::setProgress(double prog) {
+    progress = prog;
+}
+
 ProgressBar::~ProgressBar()
 {
     // intentionally left blank

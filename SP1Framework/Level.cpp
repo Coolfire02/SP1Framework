@@ -291,6 +291,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	Money_ptr = NULL;
+	ft_waterCollected = NULL;
+	level_progress = NULL;
 	currently_played_MG_ptr = NULL;
 	if(level == MAINMENU)
 		state = LS_MAINMENU;
@@ -325,8 +327,9 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 			levelStates.push_back(LS_LEVEL_BUILDER);
 
 		player_ptr = new Player();
-		truck_ptr = new FireTruck();
-		Money_ptr = new Text("$" + std::to_string(player_ptr->getMoney()));
+		truck_ptr = new FireTruck(100);
+		Money_ptr = new Text("$0");
+		
 		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);

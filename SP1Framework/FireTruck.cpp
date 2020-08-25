@@ -1,9 +1,7 @@
 #include "FireTruck.h"
 
-FireTruck::FireTruck()
+FireTruck::FireTruck(double maxWater) : maxWaterLevel(maxWater), currentWaterLevel(0);
 {
-    currentWaterLevel = 100;
-    MaxWaterLevel = 100;
     art.setArt(FIRE_TRUCK_ART);
     weight = 900;
 }
@@ -17,9 +15,9 @@ std::string FireTruck::getType() {
     return "FireTruck";
 }
 
-void FireTruck::setMaxWaterLevel(int litres)
+void FireTruck::setMaxWaterLevel(double max)
 {
-    MaxWaterLevel = litres;
+    maxWaterLevel = max;
 }
 
 void FireTruck::FillWater(int litres)
