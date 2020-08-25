@@ -17,19 +17,23 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 	COORD  wrenchTail_future_pos = wrenchTail_orig_pos;
 	bool eventIsProcessed = false;
 	if (keyEvents[K_W].keyDown) {
-		wrenchTail_future_pos.Y -= 2;
+		wrenchTail_future_pos.Y--;
 		eventIsProcessed = true;
 		UPcount += 1;
 	}
 	if (keyEvents[K_S].keyDown) {
-		wrenchTail_future_pos.Y += 2;
+		wrenchTail_future_pos.Y++;
 		eventIsProcessed = true;
 		DOWNcount += 1;
 	}
-	wrench_ptr2->setWorldPosition(wrenchTail_future_pos);
+	if (wrenchTail_future_pos.Y != wrenchTail_orig_pos.Y) {
+		wrench_ptr2->setWorldPosition(wrenchTail_future_pos);
+		if ((wrench_ptr2->isCollided(*wrench_ptr)) == false) {
+			wrench_ptr2->setWorldPosition(wrenchTail_orig_pos);
+		}
+	}
 	return eventIsProcessed;
 }
-
 bool MiniGame_WL::processMouseEvents(SMouseEvent&)
 {
 	return false;

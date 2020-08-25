@@ -64,7 +64,6 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 							if (type == "Forest") {
 								canMove = false;
 								state = LS_FOREST_SCENE;
-								
 								stopLoop = true;
 							}
 

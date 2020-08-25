@@ -4,7 +4,7 @@
 Pipe::Pipe()
 {
 	art.setArt(PIPE_ART);
-	weight = 700;
+	weight = 100;
 }
 
 Pipe::~Pipe()
