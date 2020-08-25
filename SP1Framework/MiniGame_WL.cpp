@@ -94,14 +94,14 @@ void MiniGame_WL::mgGameInit() {
 	MiniGameMap.setSize(213, 50);
 
 	//Game initialization
-	pipe_ptr->setWorldPosition((MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2) - 80,
+	pipe_ptr->setWorldPosition((MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2) - 72,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
-	bucket_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+	bucket_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 - 7,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
 	water_ptr->setWorldPosition(0, 1);
 	wrench_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);// wrench head
-	wrench_ptr2->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+	wrench_ptr2->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 + 2,
 		(MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2) - wrench_ptr->getYLength());// wrench tail
 	srand(time(NULL));
 }
