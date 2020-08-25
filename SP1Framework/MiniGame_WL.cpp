@@ -5,6 +5,9 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 	ms = 1000;
 	water_spawn_delay = 200;
 	art.setArt(MINIGAME_WL_ART);
+	UPcount = 0;
+	DOWNcount = 0;
+	isDown = false;
 }
 
 MiniGame_WL::~MiniGame_WL() {
@@ -19,21 +22,44 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 	if (keyEvents[K_W].keyDown) {
 		wrenchTail_future_pos.Y--;
 		eventIsProcessed = true;
-		UPcount += 1;
+		
 	}
-	if (keyEvents[K_S].keyDown) {
+	if (keyEvents[K_S].keyDown ) {
 		wrenchTail_future_pos.Y++;
 		eventIsProcessed = true;
-		DOWNcount += 1;
+		
 	}
 	if (wrenchTail_future_pos.Y != wrenchTail_orig_pos.Y) {
 		wrench_ptr2->setWorldPosition(wrenchTail_future_pos);
 		if ((wrench_ptr2->isCollided(*wrench_ptr)) == false) {
+			if (wrenchTail_future_pos.Y > bucket_ptr->getWorldPosition().Y) {
+				if (isDown != true) {
+					isDown = true;
+					DOWNcount++;
+				}
+			}
+			else if (wrenchTail_future_pos.Y < bucket_ptr->getWorldPosition().Y) {
+				if (isDown != false) {
+					isDown = false;
+					UPcount++;
+				}
+			}
 			wrench_ptr2->setWorldPosition(wrenchTail_orig_pos);
 		}
 	}
 	return eventIsProcessed;
 }
+void MiniGame_WL::gameLoopListener()
+{
+	if (isStarted()) {
+		setWaterText();
+		if ((UPcount >= 4) && (DOWNcount >= 4)) {
+			Completed = true;
+		}
+
+	}
+}
+
 bool MiniGame_WL::processMouseEvents(SMouseEvent&)
 {
 	return false;
@@ -68,7 +94,7 @@ void MiniGame_WL::mgGameInit() {
 	MiniGameMap.setSize(213, 50);
 
 	//Game initialization
-	pipe_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
+	pipe_ptr->setWorldPosition((MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2) - 80,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
 	bucket_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
@@ -80,13 +106,3 @@ void MiniGame_WL::mgGameInit() {
 	srand(time(NULL));
 }
 
-void MiniGame_WL::gameLoopListener()
-{
-	if (isStarted()) {
-		setWaterText();
-		if ((UPcount == 6) && (DOWNcount == 6)) {
-			Completed = true;
-		}
-		
-	}
-}

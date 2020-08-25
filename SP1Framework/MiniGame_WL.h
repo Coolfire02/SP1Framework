@@ -14,8 +14,9 @@ class MiniGame_WL :
 {
 private:
     int ms;
-    int UPcount = 0;
-    int DOWNcount = 0;
+    int UPcount;
+    int DOWNcount;
+    bool isDown;
     int water_spawn_delay;
     Bucket* bucket_ptr;
     Text* water_ptr;
