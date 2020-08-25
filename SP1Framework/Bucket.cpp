@@ -8,7 +8,7 @@ std::string Bucket::getType()
 Bucket::Bucket()
 {
 	art.setArt(BUCKET_ART);
-	weight = 1000;
+	weight = 0;
 }
 
 Bucket::~Bucket()

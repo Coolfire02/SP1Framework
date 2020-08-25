@@ -4,6 +4,7 @@
 #include "MiniGame.h"
 #include <stdlib.h>
 #include <time.h>  
+#include <iostream>
 #include "Bucket.h"
 #include "Wrench.h"
 #include "Pipe.h"

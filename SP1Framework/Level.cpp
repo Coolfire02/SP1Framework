@@ -78,6 +78,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 									//GAME END TODO
 								}
 
+								state = LS_FOREST_SCENE;
 								stopLoop = true;
 							}
 
