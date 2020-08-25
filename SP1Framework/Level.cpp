@@ -104,7 +104,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			if (keyEvents[K_A].keyDown)
 				mapOffset.X -= 10;
 			if (keyEvents[K_S].keyDown) {
-				if (keyEvents[K_CTRL].keyDown) {
+				if (keyEvents[K_W].keyDown) {
 					if (state == LS_LEVEL_BUILDER) {
 						saveLevel();
 						return true;
@@ -372,6 +372,14 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 				}
 				else if (line_array.at(0) == "MiniGame_RM") {
 					MiniGame* ptr = new MiniGame_RM(level, console);
+					levelStates.push_back(ptr->getAssociatedLSState());
+
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+					mg_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "MiniGame_WL") {
+					MiniGame* ptr = new MiniGame_WL(level, console);
 					levelStates.push_back(ptr->getAssociatedLSState());
 
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));

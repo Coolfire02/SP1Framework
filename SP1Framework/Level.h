@@ -11,6 +11,7 @@
 #include "MiniGame.h"
 #include "Map.h"
 #include "MiniGame_RM.h"
+#include "MiniGame_WL.h"
 #include "Road.h"
 #include "LevelState.h"
 #include <vector>

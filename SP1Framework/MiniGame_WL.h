@@ -30,7 +30,7 @@ public:
     ~MiniGame_WL();
 
     void mgGameInit();
-    void gameLoopListener(SKeyEvent[]);
+    void gameLoopListener();
     bool processKBEvents(SKeyEvent KeyEvents[]);
     bool processMouseEvents(SMouseEvent&);
 

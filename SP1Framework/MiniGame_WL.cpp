@@ -76,23 +76,13 @@ void MiniGame_WL::mgGameInit() {
 	srand(time(NULL));
 }
 
-void MiniGame_WL::gameLoopListener(SKeyEvent  keyEvents[])
+void MiniGame_WL::gameLoopListener()
 {
 	if (isStarted()) {
 		setWaterText();
 		if ((UPcount == 6) && (DOWNcount == 6)) {
 			Completed = true;
 		}
-		else {
-			if (ms >= 1000) {
-				COORD wrenchCord = { 0,0 };
-				if (keyEvents[K_W].keyDown) {
-					wrenchCord.Y - 4;
-				if (keyEvents[K_S].keyDown) {
-					wrenchCord.Y + 4;
-				};
-				}
-			};
-		}
+		
 	}
 }
