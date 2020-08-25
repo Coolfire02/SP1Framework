@@ -23,5 +23,6 @@ public:
 	void receiveMoney(int amt);
 	int getMoney();
 
+	Player* clone() const { return new Player(*this); };
 };
 

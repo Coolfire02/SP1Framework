@@ -10,4 +10,6 @@ public:
     Wrench(std::string type);
     ~Wrench();
     std::string getType();
+
+    Wrench* clone() const { return new Wrench(*this); };
 };

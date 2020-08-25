@@ -2,12 +2,26 @@
 
 FireTruck::FireTruck(double maxWater) : maxWaterLevel(maxWater), currentWaterLevel(0)
 {
+    direction = T_RIGHT;
     art.setArt(FIRE_TRUCK_ART);
     weight = 900;
 }
 
 FireTruck::~FireTruck()
 {
+}
+
+void FireTruck::setDirection(TRUCK_DIRECTION direc) {
+    if (direc == direction) return;
+    direction = direc;
+    switch (direc) {
+    case T_LEFT:
+        art.setArt(FIRE_TRUCK_LEFT_ART);
+        break;
+    case T_RIGHT:
+        art.setArt(FIRE_TRUCK_ART);
+        break;
+    }
 }
 
 

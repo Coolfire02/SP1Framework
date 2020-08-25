@@ -12,5 +12,7 @@ public:
     int getHiveWorth();
     BeeHive();
     ~BeeHive();
+
+    BeeHive* clone() const { return new BeeHive(*this); };
 };
 

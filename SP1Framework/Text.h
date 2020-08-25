@@ -14,5 +14,7 @@ public:
     void setText(std::string text, WORD bg);
     std::string getType();
     ~Text();
+
+    Text* clone() const { return new Text(*this); };
 };
 

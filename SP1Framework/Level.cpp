@@ -49,11 +49,17 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			if (keyEvents[K_W].keyDown)
 				future_pos.Y--;
 			if (keyEvents[K_A].keyDown)
+			{
 				future_pos.X -= 2;
+				truck_ptr->setDirection(T_LEFT);
+			}
 			if (keyEvents[K_S].keyDown)
 				future_pos.Y++;
 			if (keyEvents[K_D].keyDown)
+			{
 				future_pos.X += 2;
+				truck_ptr->setDirection(T_RIGHT);
+			}
 			if (future_pos.X != truck_origPos.X || future_pos.Y != truck_origPos.Y) {
 				if (map->isInRange(future_pos)) {
 					eventIsProcessed = true;

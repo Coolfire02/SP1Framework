@@ -3,15 +3,22 @@
 #include "GameObject.h"
 #include"Hose.h"
 
+enum TRUCK_DIRECTION {
+	T_LEFT,
+	T_RIGHT
+};
+
 class FireTruck : public GameObject
 {
 private:
 	double currentWaterLevel;
 	double maxWaterLevel;
 	Hose H1;
+	TRUCK_DIRECTION direction;
 public:
 	FireTruck(double maxWater);
 	~FireTruck();
+	void setDirection(TRUCK_DIRECTION);
 	std::string getType();
 	void setMaxWaterLevel(double map);
 	void FillWater(double);
@@ -19,5 +26,7 @@ public:
 	double getCurrentWaterLevel();
 	double getMaxWater();
 	void setWaterLevel(double);
+
+	FireTruck* clone() const { return new FireTruck(*this); };
 };
 

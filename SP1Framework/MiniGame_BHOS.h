@@ -24,5 +24,7 @@ public:
     void gameLoopListener();
     bool processKBEvents(SKeyEvent KeyEvents[]);
     bool processMouseEvents(SMouseEvent&);
+
+    MiniGame_BHOS* clone() const { return new MiniGame_BHOS(*this); };
 };
 

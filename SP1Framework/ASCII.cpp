@@ -53,6 +53,9 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "Fireman.txt";
 		break;
 	case FIRE_TRUCK_ART:
+		arttxt = "FireTruck.txt";
+		break;
+	case FIRE_TRUCK_LEFT_ART:
 		arttxt = "FireTruck_Left.txt";
 		break;
 	case FIRE_STATION_ART:

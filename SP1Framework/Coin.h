@@ -10,5 +10,7 @@ public:
     int getCoinWorth();
     Coin();
     ~Coin();
+
+    Coin* clone() const { return new Coin(*this); };
 };
 

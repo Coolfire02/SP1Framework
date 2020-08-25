@@ -36,5 +36,6 @@ public:
     bool processKBEvents(SKeyEvent KeyEvents[]);
     bool processMouseEvents(SMouseEvent&);
 
+    MiniGame_WL* clone() const { return new MiniGame_WL(*this); };
 };
 

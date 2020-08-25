@@ -64,4 +64,6 @@ public:
 	virtual bool processMouseEvents(SMouseEvent&) = 0;
 	virtual enum LEVELSTATE getAssociatedLSState() = 0;
 	virtual std::string getType() = 0;
+
+	virtual MiniGame* clone() const = 0;
 };

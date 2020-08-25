@@ -16,5 +16,7 @@ public:
 	void updateBar();
 	void setProgress(double);
 	~ProgressBar();
+
+	ProgressBar* clone() const { return new ProgressBar(*this); };
 };
 

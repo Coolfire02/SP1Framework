@@ -7,5 +7,7 @@ public:
 	FireStation();
 	~FireStation();
 	std::string getType();
+
+	FireStation* clone() const { return new FireStation(*this); };
 };
 

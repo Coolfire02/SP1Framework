@@ -7,5 +7,7 @@ public:
 	Hose();
 	~Hose();
 	void UpgradeHost(int muliplier);
+
+	Hose* clone() const { return new Hose(*this); };
 };
 
