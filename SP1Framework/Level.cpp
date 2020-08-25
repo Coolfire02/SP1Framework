@@ -384,6 +384,64 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console)
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
+				else if (line_array.at(0) == "L_Road") {
+					ROADTYPE type = R_L;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Right_L_Road") {
+					ROADTYPE type = R_RL;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Left_Up_L_Road") {
+					ROADTYPE type = R_LUL;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Right_Up_L_Road") {
+					ROADTYPE type = R_RUL;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Down_T_Road") {
+					ROADTYPE type = R_DT;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Up_T_Road") {
+					ROADTYPE type = R_UT;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Left_Vertical_T_Road") {
+					ROADTYPE type = R_LVT;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Right_Vertical_T_Road") {
+					ROADTYPE type = R_RVT;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Cross_Road") {
+					ROADTYPE type = R_X;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+
+
+
+
 			}
 		}
 	}
