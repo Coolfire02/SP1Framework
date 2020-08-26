@@ -1,26 +1,25 @@
 #include "Map.h"
 
-Map::Map(int x, int y) {
+Map::Map(int x, int y) : background(g_background) {
 	mapToBufferOffset = { 0,0 };
 	createMap(x, y);
 }
 
-Map::Map() {
+Map::Map() : background(g_background) {
 	mapToBufferOffset = { 0,0 };
 	createMap(213, 50);
 }
 
-void Map::createMap(int x, int y) {
+void Map::createMap(int x, int y){
 	xLength = x;
 	yLength = y;
 	map_ptr = new CHAR_INFO * [xLength];
 	for (unsigned int i = 0; i < xLength; i++) {
 		map_ptr[i] = new CHAR_INFO[yLength];
 	}
-
 	for (unsigned int i = 0; i < xLength; i++) {
 		for (unsigned int j = 0; j < yLength; j++) {
-			map_ptr[i][j] = g_background;
+			map_ptr[i][j] = background;
 		}
 	}
 }
@@ -33,8 +32,8 @@ void Map::setSize(int x, int y) {
 void Map::clearMap() {
 	for (unsigned int i = 0; i < xLength; i++) {
 		for (unsigned int j = 0; j < yLength; j++) {
-			if (map_ptr[i][j].Char.AsciiChar != g_background.Char.AsciiChar || map_ptr[i][j].Attributes != g_background.Attributes) {
-				map_ptr[i][j] = g_background;
+			if (map_ptr[i][j].Char.AsciiChar != background.Char.AsciiChar || map_ptr[i][j].Attributes != background.Attributes) {
+				map_ptr[i][j] = background;
 			}
 		}
 	}
@@ -75,6 +74,11 @@ bool Map::isInRange(COORD a) {
 		return true;
 	}
 	return false;
+}
+
+void Map::setBackground(WORD word) {
+	if(background.Attributes != word)
+		background.Attributes = word;
 }
 
 unsigned int Map::getXLength() {

@@ -10,6 +10,7 @@ private:
 	unsigned int yLength;
 	void createMap(int, int);
 	COORD mapToBufferOffset;
+	CHAR_INFO background;
 public:
 	void deleteMap(void);
 	void setSize(int, int);
@@ -17,6 +18,7 @@ public:
 	COORD getMapToBufferOffset();
 	bool isInRange(int,int);
 	bool isInRange(COORD);
+	void setBackground(WORD bg);
 	bool setMapToBufferOffset(COORD);
 	bool setCharAtLoc(int, int, CHAR_INFO);
 	CHAR_INFO getCharAtLoc(int, int);

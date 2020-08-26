@@ -77,7 +77,7 @@ bool ASCII::setArt(ARTTYPE type) {
 		break;
 
 	case MINIGAME_BHOS_ART:
-		arttxt = "MiniGame_WL.txt"; //TODO rectify
+		arttxt = "MiniGame_BHOS.txt";
 		break;
 
 	case HORIZONTAL_ROAD_ART:

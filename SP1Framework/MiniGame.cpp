@@ -66,6 +66,9 @@ void MiniGame::renderObjsToMap()
 		for (int x = 0; x < element.second->getXLength(); x++) {
 			for (int y = 0; y < element.second->getYLength(); y++) {
 				COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+				if (element.second->hasRelativePos()) {
+					mapLoc = { (short)(x + element.second->getRelativePos().X + MiniGameMap.getMapToBufferOffset().X) , (short)(y + element.second->getRelativePos().Y + MiniGameMap.getMapToBufferOffset().Y) };
+				}
 				//if this object art at this location is of a g_background, do not overwrite
 				if (element.second->getArtAtLoc(x, y).Attributes == g_background.Attributes &&
 					element.second->getArtAtLoc(x, y).Char.AsciiChar == g_background.Char.AsciiChar) {
@@ -95,6 +98,9 @@ int MiniGame::getMoneyEarned()
 	return MoneyEarned;
 }
 
+LEVEL MiniGame::getAssociatedLevel() {
+	return associatedLevel;
+}
 
 COORD MiniGame::getMapSize()
 {

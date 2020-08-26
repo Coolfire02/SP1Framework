@@ -4,12 +4,13 @@ ProgressBar,0,0
 ProgressBar,0,0
 FireStation,229,59
 MiniGame_RM,328,80
-MiniGame_BHOS,289,49
+MiniGame_WL,289,48
+MiniGame_BHOS,317,60
 FireTruck,252,64
 FireMan,224,68
 Forest,248,95
 Horizontal_Road,251,67
-Vertical_Road,293,55
+Vertical_Road,293,54
 Horizontal_Road,303,85
 Vertical_Road,293,90
 Vertical_Road,293,72

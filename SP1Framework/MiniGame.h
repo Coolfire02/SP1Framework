@@ -41,6 +41,7 @@ protected:
 	};
 	ASCII MGascii;
 	std::vector<GameObject*> mg_obj_ptr;
+	LEVEL getAssociatedLevel();
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
 	double getStartTime();

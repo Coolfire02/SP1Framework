@@ -9,11 +9,14 @@ private:
     int ms;
     Text* Instructions;
     Text* Money_ptr;
+    Text* hive_selected_text;
     BeeHive* selectedHive;
     std::vector<BeeHive*> mg_hive_ptr;
+    std::vector<BeeHive*> mg_fallingHive_ptr;
 
     //for beehive grabbing
     COORD lastMousePos;
+    COORD* grabbedHivePos;
     int beeHiveLeft;
     int beeHiveRight;
 
