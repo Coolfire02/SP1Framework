@@ -42,6 +42,21 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 		currently_played_MG_ptr->processKBEvents(keyEvents);
 	}
 	else {
+		if (state == LS_MAINMENU) {
+			Map* map = levelspecific_maps.at(state);
+			COORD player_origPos = player_ptr->getWorldPosition();
+			COORD future_pos = player_origPos;
+			if (keyEvents[K_SPACE].keyReleased)
+				future_pos.Y++;
+			if (keyEvents[K_A].keyDown)
+				future_pos.X -= 2;
+			if (keyEvents[K_D].keyDown)
+				future_pos.X += 2;
+			if (future_pos.X != player_origPos.X || future_pos.Y != player_origPos.Y) {
+				player_ptr->setWorldPosition(future_pos);
+			}
+		}
+
 		if (state == LS_MAINGAME) {
 			Map* map = levelspecific_maps.at(state);
 			COORD truck_origPos = truck_ptr->getWorldPosition();
@@ -360,9 +375,14 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	(*this).level = level;
 	nextLevel = level;
 	
+	player_ptr = new Player();
+	obj_ptr.push_back(player_ptr);
+	
+
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
+		player_ptr->setWorldPosition(0, 209);
 		Text* text = new Text("MAINMENU this is a text object - game starts in 3", 0xF0);
 		COORD cord = { g_consoleSize.X / 2 - text->getText().size() / 2,g_consoleSize.Y / 2 };
 		text->setRelativePos(cord);
@@ -383,7 +403,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		if (devMode)
 			levelStates.push_back(LS_LEVEL_BUILDER);
 
-		player_ptr = new Player();
+
 		truck_ptr = new FireTruck(100);
 		Money_ptr = new Text("$0");
 		COORD cord = { 0,1 };
@@ -394,7 +414,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		level_progress->setRelativePos(cord.X, cord.Y + 4);
 		level_progress->setProgress(100);
 
-		obj_ptr.push_back(player_ptr);
+		
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);
 		obj_ptr.push_back(ft_waterCollected);

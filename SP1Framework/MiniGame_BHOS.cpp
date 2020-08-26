@@ -134,6 +134,7 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 						for (auto& element : mg_hive_ptr) {
 							if (element->isInLocation(mousePos.X, mousePos.Y)) {
 								selectedHive = element;
+								grabbedHivePos = new COORD(mousePos);
 								break;
 							}
 						}
@@ -179,6 +180,7 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 			}
 			else {
 				if (grabbedHivePos != nullptr) {
+					Beep(5500, 50);
 					if (mousePos.X - grabbedHivePos->X < -2) {
 						if (beeHiveLeft - beeHiveRight < 1) {
 							if (beeHiveLeft - beeHiveRight < 0) {
@@ -193,6 +195,7 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 								beeHiveRight = beeHiveLeft;
 							}
 							beeHiveRight++;
+							Beep(5500, 50);
 						}
 					}
 					if (beeHiveRight >= 4 && beeHiveLeft >= 4) {
