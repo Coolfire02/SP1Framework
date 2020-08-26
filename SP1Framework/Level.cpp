@@ -42,6 +42,29 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 		currently_played_MG_ptr->processKBEvents(keyEvents);
 	}
 	else {
+		if (state == LS_MAINMENU) {
+			Map* map = levelspecific_maps.at(state);
+			COORD player_origPos = player_ptr->getWorldPosition();
+			COORD future_pos = player_origPos;
+			if (keyEvents[K_SPACE].keyReleased)
+				future_pos.Y++;
+			if (keyEvents[K_A].keyDown)
+				future_pos.X -= 2;
+			if (keyEvents[K_D].keyDown)
+				future_pos.X += 2;
+			if ((future_pos.X != player_origPos.X || future_pos.Y != player_origPos.Y) && map->isInRange(future_pos)) {
+				player_ptr->setWorldPosition(future_pos);
+				if (player_ptr->getWorldPosition().X - map->getMapToBufferOffset().X > 183) {
+					COORD newMapOffset = { player_ptr->getWorldPosition().X - 183, 0 };
+					if(map->isInRange(newMapOffset.X + g_consoleSize.X - 1, newMapOffset.Y + g_consoleSize.Y - 1))
+						map->setMapToBufferOffset(newMapOffset);
+				}else if (player_ptr->getWorldPosition().X - map->getMapToBufferOffset().X < 30) {
+					COORD newMapOffset = { player_ptr->getWorldPosition().X - 31, 0 };
+					map->setMapToBufferOffset(newMapOffset);
+				}
+			}
+		}
+
 		if (state == LS_MAINGAME) {
 			Map* map = levelspecific_maps.at(state);
 			COORD truck_origPos = truck_ptr->getWorldPosition();
@@ -120,6 +143,19 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 										currently_played_MG_ptr = minigame_ptr;
 										currently_played_MG_ptr->start();
 										state = LS_MINIGAME_BHOS;
+										break;
+									}
+								}
+								canMove = false;
+								stopLoop = true;
+							}
+
+							else if (type == "MiniGame_RW") {
+								for (auto& minigame_ptr : mg_ptr) {
+									if (minigame_ptr->getType() == "MiniGame_RW") {
+										currently_played_MG_ptr = minigame_ptr;
+										currently_played_MG_ptr->start();
+										state = LS_MINIGAME_RW;
 										break;
 									}
 								}
@@ -360,13 +396,35 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	(*this).level = level;
 	nextLevel = level;
 	
+	player_ptr = new Player();
+	obj_ptr.push_back(player_ptr);
+
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
+		player_ptr->setWorldPosition(0, 45);
 		Text* text = new Text("MAINMENU this is a text object - game starts in 3", 0xF0);
 		COORD cord = { g_consoleSize.X / 2 - text->getText().size() / 2,g_consoleSize.Y / 2 };
 		text->setRelativePos(cord);
-		obj_ptr.push_back(text);
+
+		Stage* TUTORIAL = new Stage(LEVEL::TUTORIAL);
+		Stage* STAGE_1_LEVEL_1 = new Stage(LEVEL::STAGE_1_LEVEL_1);
+		Stage* STAGE_2_LEVEL_1 = new Stage(LEVEL::STAGE_2_LEVEL_1);
+
+		obj_ptr.push_back(TUTORIAL);
+		obj_ptr.push_back(STAGE_1_LEVEL_1);
+		obj_ptr.push_back(STAGE_2_LEVEL_1);
+
+		COORD worldCordAssignment = { 213, 8 };
+		for (auto& stages : obj_ptr) {
+			if (stages->getType() == "Stage") {
+				if (worldCordAssignment.X % 213 == 0)
+					worldCordAssignment.X += 10;
+				stages->setWorldPosition(worldCordAssignment);
+				
+				worldCordAssignment.X = worldCordAssignment.X + (short)67;
+			}
+		}
 	}
 	else {
 		switch (level) {
@@ -383,7 +441,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		if (devMode)
 			levelStates.push_back(LS_LEVEL_BUILDER);
 
-		player_ptr = new Player();
+
 		truck_ptr = new FireTruck(100);
 		Money_ptr = new Text("$0");
 		COORD cord = { 0,1 };
@@ -394,7 +452,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		level_progress->setRelativePos(cord.X, cord.Y + 4);
 		level_progress->setProgress(100);
 
-		obj_ptr.push_back(player_ptr);
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);
 		obj_ptr.push_back(ft_waterCollected);
@@ -459,6 +516,14 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				}
 				else if (line_array.at(0) == "MiniGame_BHOS") {
 					MiniGame* ptr = new MiniGame_BHOS(level, console);
+					levelStates.push_back(ptr->getAssociatedLSState());
+
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+					mg_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "MiniGame_RW") {
+					MiniGame* ptr = new MiniGame_RW(level, console);
 					levelStates.push_back(ptr->getAssociatedLSState());
 
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
@@ -546,7 +611,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		COORD mapSize = { 213,50 };
 		COORD mapDisplayOffset{ 0,0 };
 		switch (levelStates[i]) {
-		case LS_MAINMENU: mapSize = { (213 + 71 * (short)levelStates.size()) ,50 }; break;
+		case LS_MAINMENU: mapSize = { (213 + 67 * 3 + 20) ,50 }; break;
 		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
 
 		case LS_LEVEL_BUILDER:

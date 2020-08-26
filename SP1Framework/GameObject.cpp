@@ -27,9 +27,9 @@ bool GameObject::isCollided(GameObject& otherObj) {
 
 bool GameObject::isInLocation(COORD coord) {
 	if (!(*this).isActive()) return false;
-	if ((*this).getWorldPosition().X < coord.X &&
+	if ((*this).getWorldPosition().X <= coord.X &&
 		(*this).getWorldPosition().X + (int)(*this).getXLength() > coord.X &&
-		(*this).getWorldPosition().Y < coord.Y &&
+		(*this).getWorldPosition().Y <= coord.Y &&
 		(*this).getWorldPosition().Y + (int)(*this).getYLength() > coord.Y) {
 		return true;
 	}
@@ -39,9 +39,9 @@ bool GameObject::isInLocation(COORD coord) {
 bool GameObject::isInLocation(int x, int y) {
 	COORD coord = { x,y };
 	if (!(*this).isActive()) return false;
-	if ((*this).getWorldPosition().X < coord.X &&
+	if ((*this).getWorldPosition().X <= coord.X &&
 		(*this).getWorldPosition().X + (int)(*this).getXLength() > coord.X &&
-		(*this).getWorldPosition().Y < coord.Y &&
+		(*this).getWorldPosition().Y <= coord.Y &&
 		(*this).getWorldPosition().Y + (int)(*this).getYLength() > coord.Y) {
 		return true;
 	}

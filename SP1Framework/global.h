@@ -60,6 +60,7 @@ enum LEVEL {
     TUTORIAL,
     STAGE_1_LEVEL_1,
     STAGE_2_LEVEL_1,
+    LEVEL_COUNT
 };
 
 enum BAR {

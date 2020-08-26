@@ -427,16 +427,9 @@ void renderFramerate()
 int once = false;
 
 void updateGameState() {
-    /*if (g_Level->getLevel() != g_Level->getNextLevel()) {
+    if (g_Level->getLevel() != g_Level->getNextLevel()) {
         startNextLevel(g_Level->getNextLevel());
         return;
-    }*/
-    /*delete g_Level;
-    g_Level = nullptr;
-    g_Level = new Level(TUTORIAL, g_Console);*/
-    if (g_dElapsedTime > 3.0 && !once) {
-        once = true;
-        startNextLevel(TUTORIAL);
     }
 }
 

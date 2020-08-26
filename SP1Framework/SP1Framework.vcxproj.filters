@@ -145,6 +145,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Droplet.cpp">
+    <ClCompile Include="MiniGame_CFT.cpp">
+      <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -240,6 +244,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Droplet.h">
+    <ClInclude Include="MiniGame_CFT.h">
+      <Filter>Header Files\MiniGames</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

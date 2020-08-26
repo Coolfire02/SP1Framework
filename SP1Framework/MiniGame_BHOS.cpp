@@ -134,6 +134,7 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 						for (auto& element : mg_hive_ptr) {
 							if (element->isInLocation(mousePos.X, mousePos.Y)) {
 								selectedHive = element;
+								grabbedHivePos = new COORD(mousePos);
 								break;
 							}
 						}
@@ -161,7 +162,7 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 		}
 		if (selectedHive != nullptr) {
 			hive_selected_text->setActive(false);
-			if (mousePos.X - lastMousePos.X > 4 || mousePos.X - lastMousePos.X < -4) {
+			if (mousePos.X - lastMousePos.X > 7 || mousePos.X - lastMousePos.X < - 7) {
 				playerLives--;
 				health_bar->setProgress(playerLives / (double)maxPlayerLives * 100);
 				lastMousePos = mousePos;
@@ -196,7 +197,6 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 						}
 					}
 					if (beeHiveRight >= 4 && beeHiveLeft >= 4) {
-						//Beep(8000, 50);
 						beeHiveRight = 0;
 						beeHiveLeft = 0;
 						mg_hive_ptr.erase(std::remove(mg_hive_ptr.begin(), mg_hive_ptr.end(), selectedHive), mg_hive_ptr.end());

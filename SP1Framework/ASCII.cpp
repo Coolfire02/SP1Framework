@@ -389,10 +389,10 @@ bool ASCII::setArt(int width, int height, WORD bg, WORD border)
 
 	CHAR_INFO background;
 	CHAR_INFO border_color;
+	background.Char.AsciiChar = ' ';
+	border_color.Char.AsciiChar = ' ';
 	border_color.Attributes = border;
 	background.Attributes = bg;
-	yLength = width;
-	xLength = height;
 
 	art = new CHAR_INFO * [xLength];
 	for (unsigned int i = 0; i < xLength; i++) 
