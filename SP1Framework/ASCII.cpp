@@ -318,14 +318,14 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 		totalBars = insideHeight;
 		usedBars = round((progress / 100) * totalBars);
 		int count = 0;
-		for (int i = height-1; i >= 1; i--) {
+		for (int i = insideHeight; i > 0; i--) {
 			count++;
 			for (int j = 1; j <= insideWidth; j++) {
 				if (count <= usedBars) {
-					art[i][j].Attributes = fill;
+					art[j][i].Attributes = fill;
 				}
 				else {
-					art[i][j].Attributes = g_background.Attributes;
+					art[j][i].Attributes = g_background.Attributes;
 				}
 			}
 		}

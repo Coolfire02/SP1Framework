@@ -138,19 +138,20 @@
     <ClCompile Include="BeeHive.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Forest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MiniGame_RW.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Droplet.cpp">
-	</ClCompile>
     <ClCompile Include="MiniGame_CFT.cpp">
       <Filter>Source Files\MiniGames</Filter>
     </ClCompile>
+    <ClCompile Include="Forest.cpp">
+      <Filter>Source Files\Icons/Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGame_RW.cpp">
+      <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Base Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Droplet.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,20 +239,20 @@
     <ClInclude Include="BeeHive.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Forest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniGame_RW.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Droplet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MiniGame_CFT.h">
       <Filter>Header Files\MiniGames</Filter>
     </ClInclude>
+    <ClInclude Include="Droplet.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGame_RW.h">
+      <Filter>Header Files\MiniGames</Filter>
+    </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Base Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Forest.h">
+      <Filter>Header Files\Icons/Buildings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

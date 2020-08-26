@@ -11,8 +11,9 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 
 	MoneyEarned = 0;
 	WaterCollected = 0;
-	int ms = 1000;
-	water_spawn_delay = 200;
+	ms = 0;
+	water_spawn_delay = 0;
+	water_amt_reduction = 0;
 	art.setArt(MINIGAME_WL_ART);
 	UPcount = 0;
 	DOWNcount = 0;
@@ -32,13 +33,11 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 	bool eventIsProcessed = false;
 	if (keyEvents[K_W].keyDown) {
 		wrenchTail_future_pos.Y--;
-		WaterCollected += 5;
 		eventIsProcessed = true;
 		
 	}
 	if (keyEvents[K_S].keyDown ) {
 		wrenchTail_future_pos.Y++;
-		WaterCollected += 5;
 		eventIsProcessed = true;
 		
 	}
@@ -49,12 +48,14 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 				if (isDown != true) {
 					isDown = true;
 					DOWNcount++;
+					water_amt_reduction += 3;
 				}
 			}
 			else if (wrenchTail_future_pos.Y < bucket_ptr->getWorldPosition().Y) {
 				if (isDown != false) {
 					isDown = false;
 					UPcount++;
+					water_amt_reduction += 3;
 				}
 			}
 			wrench_ptr2->setWorldPosition(wrenchTail_orig_pos);
@@ -65,7 +66,19 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 void MiniGame_WL::gameLoopListener()
 {
 	if (isStarted()) {
-		water_ptr->setProgress(WaterCollected);
+		ms++;
+		if (water_spawn_delay < 75)
+		{
+			water_spawn_delay++;
+		}
+		else if (water_spawn_delay == 75)
+		{
+			int water_leak = 20 - water_amt_reduction;
+			if (water_leak > 0) //To ensure water is not reduced over time
+				WaterCollected += water_leak;
+			water_spawn_delay = 0;
+			water_ptr->setProgress(WaterCollected);
+		}
 		if ((UPcount >= 4) && (DOWNcount >= 4)) 
 		{
 			Completed = true;
@@ -89,7 +102,7 @@ enum LEVELSTATE MiniGame_WL::getAssociatedLSState() {
 
 void MiniGame_WL::mgGameInit() {
 	bucket_ptr = new Bucket;
-	water_ptr = new ProgressBar(B_HORIZONTAL, 5, 10);
+	water_ptr = new ProgressBar(B_VERTICAL, 5, 10);
 	wrench_ptr = new Wrench("HEAD");
 	wrench_ptr2 = new Wrench("TAIL");
 	pipe_ptr = new Pipe;
@@ -114,7 +127,7 @@ void MiniGame_WL::mgGameInit() {
 	pipe_ptr->setWorldPosition((MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2) - 72,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
 	bucket_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 - 7,
-		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
+		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2 - 2);
 	wrench_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);// wrench head
 	wrench_ptr2->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 + 2,

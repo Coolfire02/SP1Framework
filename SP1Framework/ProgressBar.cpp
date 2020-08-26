@@ -26,8 +26,8 @@ void ProgressBar::updateBar() {
 
 void ProgressBar::setProgress(double prog) {
     if (prog < 0) prog = 0;
-    if (prog > 100) prog = 100;
-    progress = prog;
+    else if (prog > 100) prog = 100;
+    else progress = prog;
     (*this).updateBar();
 }
 
