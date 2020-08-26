@@ -1,9 +1,9 @@
 #include "MiniGame_WL.h"
 void MiniGame_WL::setMoneyText()
 {
-	std::string money = std::to_string(MoneyEarned);
-	money = "$" + money;
-	Money_ptr->setText(money);
+	std::string money = std::to_string(WaterCollected);
+	money = "Pay Reduction (for wasted water): $" + money;
+	Money_ptr->setText(money, 0xC0);
 }
 
 MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, console)
@@ -14,6 +14,8 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 	ms = 0;
 	water_spawn_delay = 0;
 	water_amt_reduction = 0;
+	water_wasted = 0;
+	payreduction = 0;
 	art.setArt(MINIGAME_WL_ART);
 	UPcount = 0;
 	DOWNcount = 0;
@@ -49,13 +51,13 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 					isDown = true;
 					DOWNcount++;
 					water_amt_reduction += 3;
+					Beep(30, 30);
 				}
 			}
 			else if (wrenchTail_future_pos.Y < bucket_ptr->getWorldPosition().Y) {
 				if (isDown != false) {
 					isDown = false;
 					UPcount++;
-					water_amt_reduction += 3;
 				}
 			}
 			wrench_ptr2->setWorldPosition(wrenchTail_orig_pos);
@@ -67,18 +69,27 @@ void MiniGame_WL::gameLoopListener()
 {
 	if (isStarted()) {
 		ms++;
-		if (water_spawn_delay < 75)
+		water_spawn_delay++;
+		if (water_spawn_delay == 75)
 		{
-			water_spawn_delay++;
-		}
-		else if (water_spawn_delay == 75)
-		{
-			int water_leak = 20 - water_amt_reduction;
-			if (water_leak > 0) //To ensure water is not reduced over time
-				WaterCollected += water_leak;
+
 			water_spawn_delay = 0;
-			water_ptr->setProgress(WaterCollected);
+			int water_leak = 10 - water_amt_reduction;
+			if (WaterCollected >= 30)
+			{
+				water_wasted += water_leak;
+				payreduction = water_wasted * 3;
+			}
+
+			else //To ensure water is not reduced over time
+				WaterCollected += water_leak;
+
 		}
+
+		water_ptr->setProgress(WaterCollected);
+		setMoneyText();
+		Money_ptr->setRelativePos(0,1);
+
 		if ((UPcount >= 4) && (DOWNcount >= 4)) 
 		{
 			Completed = true;
@@ -102,7 +113,7 @@ enum LEVELSTATE MiniGame_WL::getAssociatedLSState() {
 
 void MiniGame_WL::mgGameInit() {
 	bucket_ptr = new Bucket;
-	water_ptr = new ProgressBar(B_VERTICAL, 5, 10);
+	water_ptr = new ProgressBar(B_VERTICAL, 5, 12, 100);
 	wrench_ptr = new Wrench("HEAD");
 	wrench_ptr2 = new Wrench("TAIL");
 	pipe_ptr = new Pipe;

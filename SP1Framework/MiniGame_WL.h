@@ -19,6 +19,7 @@ private:
     int ms;
     int water_spawn_delay;
     int water_amt_reduction;
+    int water_wasted, payreduction;
     Bucket* bucket_ptr;
     ProgressBar* water_ptr;
     Text* Money_ptr;
