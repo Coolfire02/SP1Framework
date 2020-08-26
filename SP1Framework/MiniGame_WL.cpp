@@ -2,8 +2,6 @@
 
 MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, console)
 {
-	ms = 1000;
-	water_spawn_delay = 200;
 	art.setArt(MINIGAME_WL_ART);
 	UPcount = 0;
 	DOWNcount = 0;

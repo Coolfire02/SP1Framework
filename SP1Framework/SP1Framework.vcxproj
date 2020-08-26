@@ -99,12 +99,14 @@
     <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="MiniGame_BHOS.cpp" />
     <ClCompile Include="MiniGame_RM.cpp" />
+    <ClCompile Include="MiniGame_RW.cpp" />
     <ClCompile Include="MiniGame_WL.cpp" />
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="Droplet.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Wrench.cpp" />
@@ -129,6 +131,7 @@
     <ClInclude Include="MiniGame.h" />
     <ClInclude Include="MiniGame_BHOS.h" />
     <ClInclude Include="MiniGame_RM.h" />
+    <ClInclude Include="MiniGame_RW.h" />
     <ClInclude Include="MiniGame_WL.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="Pipe.h" />
@@ -136,6 +139,7 @@
     <ClInclude Include="Position.h" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Droplet.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Wrench.h" />

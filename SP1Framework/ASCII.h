@@ -50,7 +50,9 @@ enum ARTTYPE
 	BUCKET_ART,
 
 	MINIGAME_WFAR_ART, //Water from Reservoir
+
 	MINIGAME_RW_ART, //Collect Rain Water
+	DROPLET_ART,
 
 	MINIGAME_BHOS_ART, //Bee Hive Removal
 	BEEHIVE_ART,

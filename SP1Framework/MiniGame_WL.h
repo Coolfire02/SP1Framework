@@ -13,7 +13,6 @@ class MiniGame_WL :
     public MiniGame
 {
 private:
-    int ms;
     int UPcount;
     int DOWNcount;
     bool isDown;
