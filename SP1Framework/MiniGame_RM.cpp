@@ -26,6 +26,7 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 }
 
 void MiniGame_RM::mgGameInit() {
+	srand(time(NULL));
 	jar_ptr = new Jar;
 	player_ptr = new Player;
 	Money_ptr = new Text;
@@ -33,6 +34,7 @@ void MiniGame_RM::mgGameInit() {
 	mg_obj_ptr.push_back(jar_ptr);
 	mg_obj_ptr.push_back(Money_ptr);
 	MiniGameMap.setSize(213, 50);
+	coin_fall_delay = 0;
 
 	//Game initialization
 	COORD playerPos;
@@ -42,7 +44,6 @@ void MiniGame_RM::mgGameInit() {
 	player_ptr->setWorldPosition(playerPos);
 	jar_ptr->setWorldPosition(playerPos.X - 1, playerPos.Y - jar_ptr->getYLength());
 	Money_ptr->setWorldPosition(0, 1);
-	srand(time(NULL));
 }
 
 void MiniGame_RM::gameLoopListener() {
@@ -53,6 +54,7 @@ void MiniGame_RM::gameLoopListener() {
 		}
 		else {
 			int interval = 20;
+			int fallRand = (rand() % 10)*10;
 			//adding new coins to top of the map every 1000 millisecond
 			if (ms >= 1000) {
 				int spawnCount = (rand() % 10 + 4);
@@ -78,13 +80,21 @@ void MiniGame_RM::gameLoopListener() {
 			}
 
 			//Making coins fall
-			if (coin_spawn_delay >= 200)
+			if (coin_spawn_delay >= 100)
 			{
 				coin_spawn_delay = 0;
+				coin_fall_delay++;
 				if (!coin_ptrs.empty()) {
 					for (auto it = coin_ptrs.begin(); it != coin_ptrs.end(); /*NOTHING*/) {
 						COORD coord = (*it)->getWorldPosition();
-						coord.Y += 1;
+						if (coin_fall_delay >= 2 && (((*it)->getType()) == "Big_Coin"))
+						{
+							coord.Y += 1;
+						}
+						else if ((*it)->getType() != "Big_Coin")
+						{
+							coord.Y += 1;
+						}
 						(*it)->setWorldPosition(coord);
 						if (coord.Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
 
@@ -124,9 +134,11 @@ void MiniGame_RM::gameLoopListener() {
 						}
 					}
 				}
+				if (coin_fall_delay >= 2)
+					coin_fall_delay = 0;
 			}
 
-			ms += interval;
+			ms += fallRand;
 			coin_spawn_delay += interval;
 		}
 	}
@@ -134,7 +146,14 @@ void MiniGame_RM::gameLoopListener() {
 
 void MiniGame_RM::addCoin(COORD coord)
 {
-	Coin* coin = new Coin;
+	Coin* coin = NULL;
+	int randomizer = (rand() % 10);
+	if ((randomizer == 5)  || (randomizer == 2) || (randomizer == 7) || (randomizer == 9))
+		coin = new Coin(C_REDCOIN);
+	else if((randomizer == 1))
+		coin = new Coin(C_BIGCOIN);
+	else
+		coin = new Coin(C_COIN);
 	coin->setWorldPosition(coord);
 	mg_obj_ptr.push_back(coin);
 	coin_ptrs.push_back(coin);
