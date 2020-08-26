@@ -26,6 +26,11 @@ void MiniGame_CFT::mgGameInit()
 
 void MiniGame_CFT::gameLoopListener()
 {
+	if (isStarted())
+	{
+
+	}
+
 
 }
 

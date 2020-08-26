@@ -1,14 +1,30 @@
 #include "MiniGame_WL.h"
+void MiniGame_WL::setMoneyText()
+{
+	std::string money = std::to_string(WaterCollected);
+	money = "Pay Reduction (for wasted water): $" + money;
+	Money_ptr->setText(money, 0xC0);
+}
 
 MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, console)
 {
+
+	MoneyEarned = 0;
+	WaterCollected = 0;
+	ms = 0;
+	water_spawn_delay = 0;
+	water_amt_reduction = 0;
+	water_wasted = 0;
+	payreduction = 0;
 	art.setArt(MINIGAME_WL_ART);
 	UPcount = 0;
 	DOWNcount = 0;
 	isDown = false;
 }
 
-MiniGame_WL::~MiniGame_WL() {
+MiniGame_WL::~MiniGame_WL() 
+{
+	//Intentionally left blank.
 }
 
 bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
@@ -34,6 +50,8 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 				if (isDown != true) {
 					isDown = true;
 					DOWNcount++;
+					water_amt_reduction += 3;
+					Beep(30, 30);
 				}
 			}
 			else if (wrenchTail_future_pos.Y < bucket_ptr->getWorldPosition().Y) {
@@ -50,8 +68,30 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 void MiniGame_WL::gameLoopListener()
 {
 	if (isStarted()) {
-		setWaterText();
-		if ((UPcount >= 4) && (DOWNcount >= 4)) {
+		ms++;
+		water_spawn_delay++;
+		if (water_spawn_delay == 75)
+		{
+
+			water_spawn_delay = 0;
+			int water_leak = 10 - water_amt_reduction;
+			if (WaterCollected >= 30)
+			{
+				water_wasted += water_leak;
+				payreduction = water_wasted * 3;
+			}
+
+			else //To ensure water is not reduced over time
+				WaterCollected += water_leak;
+
+		}
+
+		water_ptr->setProgress(WaterCollected);
+		setMoneyText();
+		Money_ptr->setRelativePos(0,1);
+
+		if ((UPcount >= 4) && (DOWNcount >= 4)) 
+		{
 			Completed = true;
 		}
 
@@ -61,13 +101,6 @@ void MiniGame_WL::gameLoopListener()
 bool MiniGame_WL::processMouseEvents(SMouseEvent&)
 {
 	return false;
-}
-
-void MiniGame_WL::setWaterText()
-{
-	std::string water = std::to_string(WaterCollected);
-	water += water;
-	water_ptr->setText(water);
 }
 
 std::string MiniGame_WL::getType() {
@@ -80,10 +113,13 @@ enum LEVELSTATE MiniGame_WL::getAssociatedLSState() {
 
 void MiniGame_WL::mgGameInit() {
 	bucket_ptr = new Bucket;
-	water_ptr = new Text;
+	water_ptr = new ProgressBar(B_VERTICAL, 5, 12, 100);
 	wrench_ptr = new Wrench("HEAD");
 	wrench_ptr2 = new Wrench("TAIL");
 	pipe_ptr = new Pipe;
+	Money_ptr = new Text;
+
+	mg_obj_ptr.push_back(Money_ptr);
 	mg_obj_ptr.push_back(bucket_ptr);
 	mg_obj_ptr.push_back(water_ptr);
 	mg_obj_ptr.push_back(wrench_ptr);
@@ -92,11 +128,17 @@ void MiniGame_WL::mgGameInit() {
 	MiniGameMap.setSize(213, 50);
 
 	//Game initialization
+
+	setMoneyText();
+
+	Money_ptr->setRelativePos(0, 1);
+	water_ptr->setRelativePos((MiniGameMap.getXLength() - 15), 10);
+	pipe_ptr->setWorldPosition((MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2) - 72,
+		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
 	pipe_ptr->setWorldPosition((MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2) - 72,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
 	bucket_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 - 7,
-		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);
-	water_ptr->setWorldPosition(0, 1);
+		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2 - 2);
 	wrench_ptr->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2,
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);// wrench head
 	wrench_ptr2->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 + 2,

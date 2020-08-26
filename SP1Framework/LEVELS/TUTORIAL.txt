@@ -2,6 +2,7 @@ MapSize,650,150
 DisplayOrigin,200,50
 ProgressBar,0,0
 ProgressBar,0,0
+BeeHive_Icon,322,64
 FireStation,229,59
 MiniGame_RM,328,80
 MiniGame_WL,289,48
