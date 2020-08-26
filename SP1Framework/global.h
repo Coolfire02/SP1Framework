@@ -74,3 +74,9 @@ enum COINTYPE
     C_REDCOIN,
     C_BIGCOIN
 };
+
+enum HIVETYPE
+{
+    BEEHIVE,
+    BEEHIVE_ICON
+};

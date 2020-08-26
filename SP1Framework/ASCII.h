@@ -56,8 +56,7 @@ enum ARTTYPE
 
 	MINIGAME_BHOS_ART, //Bee Hive Removal
 	BEEHIVE_ART,
-
-
+	BEEHIVE_ICON_ART,
 	DEFAULT_ART
 };
 

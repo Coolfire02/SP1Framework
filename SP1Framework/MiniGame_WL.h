@@ -18,14 +18,15 @@ private:
     bool isDown;
     int water_spawn_delay;
     Bucket* bucket_ptr;
-    Text* water_ptr;
+    ProgressBar* water_ptr;
+    Text* Money_ptr;
     Wrench* wrench_ptr;
     Wrench* wrench_ptr2;
     Pipe* pipe_ptr;
 public:
-    void setWaterText();
     std::string getType();
     enum LEVELSTATE getAssociatedLSState();
+    void setMoneyText();
 
     MiniGame_WL(LEVEL level, Console& console);
     ~MiniGame_WL();

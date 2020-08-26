@@ -5,7 +5,7 @@ void tokenize(std::string const& str, const char delim,
 
 void Level::gameLoopListener() {
 	if (currently_played_MG_ptr != NULL) {
-		if (currently_played_MG_ptr->isCompleted()) 
+		if (currently_played_MG_ptr->isCompleted())
 		{
 			// if minigame is completed, delete it from mg_ptr but keep in obj_ptr
 			// this is so that the minigame still exists in the level, but can no longer be played further
@@ -56,9 +56,10 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 				player_ptr->setWorldPosition(future_pos);
 				if (player_ptr->getWorldPosition().X - map->getMapToBufferOffset().X > 183) {
 					COORD newMapOffset = { player_ptr->getWorldPosition().X - 183, 0 };
-					if(map->isInRange(newMapOffset.X + g_consoleSize.X - 1, newMapOffset.Y + g_consoleSize.Y - 1))
+					if (map->isInRange(newMapOffset.X + g_consoleSize.X - 1, newMapOffset.Y + g_consoleSize.Y - 1))
 						map->setMapToBufferOffset(newMapOffset);
-				}else if (player_ptr->getWorldPosition().X - map->getMapToBufferOffset().X < 30) {
+				}
+				else if (player_ptr->getWorldPosition().X - map->getMapToBufferOffset().X < 30) {
 					COORD newMapOffset = { player_ptr->getWorldPosition().X - 31, 0 };
 					map->setMapToBufferOffset(newMapOffset);
 				}
@@ -101,7 +102,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 								double waterInFT = truck_ptr->getCurrentWaterLevel();
 								truck_ptr->setWaterLevel(0);
 								ft_waterCollected->setProgress(0);
-								
+
 								fire -= waterInFT;
 								level_progress->setProgress(fire / originalTotalFire * 100);
 								if (fire <= 0) {
@@ -214,7 +215,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 	return eventIsProcessed;
 }
 
-bool Level::processMouseEvents(SMouseEvent &mouseEvent) {
+bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 	bool eventIsProcessed = true;
 	if (currently_played_MG_ptr != NULL || state == LS_MAINMENU || state == LS_LEVEL_BUILDER) {
 
@@ -325,21 +326,21 @@ void Level::renderObjsToMap() {
 					for (int y = 0; y < element.second->getYLength(); y++) {
 						COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
 						if (element.second->hasRelativePos()) {
-							mapLoc = { (short) (x + element.second->getRelativePos().X + map->getMapToBufferOffset().X) , (short) (y + element.second->getRelativePos().Y + map->getMapToBufferOffset().Y) };
+							mapLoc = { (short)(x + element.second->getRelativePos().X + map->getMapToBufferOffset().X) , (short)(y + element.second->getRelativePos().Y + map->getMapToBufferOffset().Y) };
 						}
-						
+
 						//if this object art at this location is of a g_background, do not overwrite
 						if (element.second->getArtAtLoc(x, y).Attributes == g_background.Attributes &&
 							element.second->getArtAtLoc(x, y).Char.AsciiChar == g_background.Char.AsciiChar) {
 							continue;
 						}
-						map->setCharAtLoc(mapLoc.X, mapLoc.Y , element.second->getArtAtLoc(x, y));
+						map->setCharAtLoc(mapLoc.X, mapLoc.Y, element.second->getArtAtLoc(x, y));
 					}
 				}
 			}
 
 
-		//and all other cases that are not minigames TODO
+			//and all other cases that are not minigames TODO
 		}
 	}
 }
@@ -357,9 +358,9 @@ void Level::renderMap() {
 				unsigned int worldX = i + mapOffset.X;
 				unsigned int worldY = j + mapOffset.Y;
 				bool inRangetemp = actualMap->isInRange(worldX, worldY);
-				if (actualMap->isInRange(worldX, worldY) == true) 
+				if (actualMap->isInRange(worldX, worldY) == true)
 					associatedConsole.writeToBuffer(i, j, map[worldX][worldY].Char.AsciiChar, map[worldX][worldY].Attributes);
-				else 
+				else
 					associatedConsole.writeToBuffer(i, j, ' ', 0x00);
 			}
 		}
@@ -374,7 +375,7 @@ bool Level::setState(LEVELSTATE state) {
 	return false; //not a state that exists in level
 }
 
-Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100*level)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * level)
 {
 	// Fire setting
 	fire = originalTotalFire;
@@ -386,7 +387,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	ft_waterCollected = NULL;
 	level_progress = NULL;
 	currently_played_MG_ptr = NULL;
-	if(level == MAINMENU)
+	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
 		state = LS_MAINGAME;
@@ -395,7 +396,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	COORD mainMapSize = { 213,50 };
 	(*this).level = level;
 	nextLevel = level;
-	
+
 	player_ptr = new Player();
 	obj_ptr.push_back(player_ptr);
 
@@ -421,7 +422,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				if (worldCordAssignment.X % 213 == 0)
 					worldCordAssignment.X += 10;
 				stages->setWorldPosition(worldCordAssignment);
-				
+
 				worldCordAssignment.X = worldCordAssignment.X + (short)67;
 			}
 		}
@@ -456,7 +457,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(Money_ptr);
 		obj_ptr.push_back(ft_waterCollected);
 		obj_ptr.push_back(level_progress);
-		std::ifstream file("LEVELS\\"+levelName+".txt");
+		std::ifstream file("LEVELS\\" + levelName + ".txt");
 		std::string line;
 		if (file.is_open()) {
 			int split;
@@ -465,7 +466,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				split = 0;
 				std::vector<std::string> out;
 				tokenize(line, ',', out);
-				
+
 				std::vector<std::string> line_array;
 
 				for (auto& line : out) {
@@ -603,7 +604,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			}
 		}
 	}
-	
+
 	//map_ptrs = new Map[levelStates.size()]();
 
 	for (unsigned int i = 0; i < levelStates.size(); i++) {
@@ -615,21 +616,21 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		case LS_BEGIN_SCENE: mapSize = { 213,50 }; break;
 
 		case LS_LEVEL_BUILDER:
-		case LS_MAINGAME: 
-			mapSize = mainMapSize; 
+		case LS_MAINGAME:
+			mapSize = mainMapSize;
 			mapDisplayOffset = mainDisplayOrigin;
 			break;
-		
 
-		//Minigame maps to be accessed when LS_STATE is Minigame, render from Minigame class.
-		//case LS_MINIGAME_WL:
-		//case LS_MINIGAME_BHOS:
-		//	for (auto& entry : mg_ptr) {
-		//		if (entry->getAssociatedLSState() == levelStates[i]) {
-		//			mapSize = entry->getMapSize();
-		//		}
-		//	}
-		//	break;
+
+			//Minigame maps to be accessed when LS_STATE is Minigame, render from Minigame class.
+			//case LS_MINIGAME_WL:
+			//case LS_MINIGAME_BHOS:
+			//	for (auto& entry : mg_ptr) {
+			//		if (entry->getAssociatedLSState() == levelStates[i]) {
+			//			mapSize = entry->getMapSize();
+			//		}
+			//	}
+			//	break;
 
 		case LS_FOREST_SCENE: mapSize = { 213, 50 }; break;
 		case LS_END_SCENE: mapSize = { 213, 50 }; break;
@@ -680,7 +681,7 @@ void Level::newStageinit() {
 		}
 		player_ptr->setActive(false);
 	}
-	
+
 	originalState = state;
 }
 
@@ -701,8 +702,8 @@ void Level::saveLevel() {
 	file << "DisplayOrigin," << DisplayOrigin.X << "," << DisplayOrigin.Y << std::endl;
 	std::multimap<short, GameObject*> sort;
 	for (auto& object_ptr : obj_ptr) {
-		if(object_ptr->getType() != "Text")
-			sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight()*(-1), object_ptr));
+		if (object_ptr->getType() != "Text")
+			sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
 	}
 	for (auto& element : sort) {
 		file << element.second->getType() << "," << element.second->getWorldPosition().X << "," << element.second->getWorldPosition().Y << std::endl;
@@ -722,4 +723,5 @@ void tokenize(std::string const& str, const char delim,
 		out.push_back(str.substr(start, end - start));
 	}
 }
+
 

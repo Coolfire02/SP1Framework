@@ -128,6 +128,10 @@ bool ASCII::setArt(ARTTYPE type) {
 	case BEEHIVE_ART:
 		arttxt = "BeeHive.txt";
 		break;
+	case BEEHIVE_ICON_ART:
+		arttxt = "BeeHiveIcon.txt";
+		break;
+	
 
 	case COIN_ART:
 		arttxt = "Coin.txt";

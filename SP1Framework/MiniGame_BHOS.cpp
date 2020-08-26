@@ -19,11 +19,11 @@ LEVELSTATE MiniGame_BHOS::getAssociatedLSState()
 
 MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, console), msPassed(0)
 {
-	maxPlayerLives = 5;
+	numHive = 3;
+	maxPlayerLives = 3;
 	playerLives = maxPlayerLives;
 	selectedHive = nullptr;
 	ms = 1000;
-	numHive = 3;
 	art.setArt(MINIGAME_BHOS_ART);
 	beeHiveLeft = 0;
 	beeHiveRight = 0;
@@ -41,12 +41,16 @@ void MiniGame_BHOS::mgGameInit()
 	srand(time(NULL)); //initial seed (does not return a value)
 	MiniGameMap.setSize(213, 50);
 
+	Money_ptr = new Text;
+	mg_obj_ptr.push_back(Money_ptr);
+	Money_ptr->setRelativePos(0, 1);
+
 	TreeMax.X = 175;
 	TreeMax.Y = 41;
 	TreeMin.X = 25;
 	TreeMin.Y = 4;
 
-	Text* health = new Text("Health: ", 0X8C);
+	Text* health = new Text("Health: ", 0X7C);
 	health->setRelativePos(g_consoleSize.X / 2 - health->getXLength() - 10 / 2, 2);
 
 	health_bar = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0xC0);
@@ -96,6 +100,7 @@ void MiniGame_BHOS::mgGameInit()
 
 void MiniGame_BHOS::gameLoopListener()
 {
+	setMoneyText();
 	ms += g_loopInterval;
 	for (auto& falling : mg_fallingHive_ptr) {
 		falling->setWorldPosition(falling->getWorldPosition().X, falling->getWorldPosition().Y + 1);
