@@ -154,6 +154,9 @@ bool ASCII::setArt(ARTTYPE type) {
 	case BUCKET_ART:
 		arttxt = "Bucket.txt";
 		break;
+	case DROPLET_ART:
+		arttxt = "WaterDrop.txt";
+		break;
 	default:
 		arttxt = "NA";
 		break;
