@@ -66,3 +66,10 @@ enum BAR {
     B_HORIZONTAL,
     B_VERTICAL
 };
+
+enum COINTYPE
+{
+    C_COIN,
+    C_REDCOIN,
+    C_BIGCOIN
+};

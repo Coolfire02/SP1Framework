@@ -38,6 +38,8 @@ enum ARTTYPE
 	MINIGAME_PCE_ART, //Promote Charity Event
 
 	MINIGAME_RM_ART, //Raining Money
+	RED_COIN_ART,
+	BIG_COIN_ART,
 	COIN_ART,
 	JAR_ART,
 
