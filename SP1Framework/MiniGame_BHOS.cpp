@@ -197,7 +197,6 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 						}
 					}
 					if (beeHiveRight >= 4 && beeHiveLeft >= 4) {
-						//Beep(8000, 50);
 						beeHiveRight = 0;
 						beeHiveLeft = 0;
 						mg_hive_ptr.erase(std::remove(mg_hive_ptr.begin(), mg_hive_ptr.end(), selectedHive), mg_hive_ptr.end());

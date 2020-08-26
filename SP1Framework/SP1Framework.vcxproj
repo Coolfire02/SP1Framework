@@ -107,6 +107,7 @@
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="Road.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Wrench.cpp" />
   </ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Road.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Wrench.h" />
   </ItemGroup>
