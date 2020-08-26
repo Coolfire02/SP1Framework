@@ -5,7 +5,7 @@ void tokenize(std::string const& str, const char delim,
 
 void Level::gameLoopListener() {
 	if (currently_played_MG_ptr != NULL) {
-		if (currently_played_MG_ptr->isCompleted()) 
+		if (currently_played_MG_ptr->isCompleted())
 		{
 			// if minigame is completed, delete it from mg_ptr but keep in obj_ptr
 			// this is so that the minigame still exists in the level, but can no longer be played further
@@ -33,6 +33,7 @@ void Level::gameLoopListener() {
 		}
 	}
 	//If mouse cursor is touching level obj, start level etc
+	
 }
 
 bool Level::processKBEvents(SKeyEvent keyEvents[]) {
@@ -46,10 +47,12 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			Map* map = levelspecific_maps.at(state);
 			COORD player_origPos = player_ptr->getWorldPosition();
 			COORD future_pos = player_origPos;
-			if (keyEvents[K_SPACE].keyReleased)
-				future_pos.Y++;
+			if (keyEvents[K_W].keyDown)
+				future_pos.Y--;
 			if (keyEvents[K_A].keyDown)
 				future_pos.X -= 2;
+			if (keyEvents[K_S].keyDown)
+				future_pos.Y++;
 			if (keyEvents[K_D].keyDown)
 				future_pos.X += 2;
 			if ((future_pos.X != player_origPos.X || future_pos.Y != player_origPos.Y) && map->isInRange(future_pos)) {
@@ -62,10 +65,21 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 					COORD newMapOffset = { player_ptr->getWorldPosition().X - 31, 0 };
 					map->setMapToBufferOffset(newMapOffset);
 				}
+				bool canMove = false;
+				for (auto& obj : stages_ptr) {
+					if (obj->isCollided(*player_ptr)) {
+						Beep(5500, 50);
+						nextLevel = obj->getStage();
+						player_ptr->setWorldPosition(4, 45);
+						COORD cord = { 0,0 };
+						map->setMapToBufferOffset(cord);
+						eventIsProcessed = true;
+					}
+				}
 			}
 		}
 
-		if (state == LS_MAINGAME) {
+		else if (state == LS_MAINGAME) {
 			Map* map = levelspecific_maps.at(state);
 			COORD truck_origPos = truck_ptr->getWorldPosition();
 			COORD future_pos = truck_origPos;
@@ -402,7 +416,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
-		player_ptr->setWorldPosition(0, 45);
+		player_ptr->setWorldPosition(4, 45);
 		Text* text = new Text("MAINMENU this is a text object - game starts in 3", 0xF0);
 		COORD cord = { g_consoleSize.X / 2 - text->getText().size() / 2,g_consoleSize.Y / 2 };
 		text->setRelativePos(cord);
@@ -414,6 +428,10 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(TUTORIAL);
 		obj_ptr.push_back(STAGE_1_LEVEL_1);
 		obj_ptr.push_back(STAGE_2_LEVEL_1);
+
+		stages_ptr.push_back(TUTORIAL);
+		stages_ptr.push_back(STAGE_1_LEVEL_1);
+		stages_ptr.push_back(STAGE_2_LEVEL_1);
 
 		COORD worldCordAssignment = { 213, 16 };
 		for (auto& stages : obj_ptr) {
@@ -690,6 +708,10 @@ LEVEL Level::getLevel() {
 
 LEVEL Level::getNextLevel() {
 	return nextLevel;
+}
+
+void Level::resetNextLevel() {
+	(*this).nextLevel = level;
 }
 
 void Level::saveLevel() {

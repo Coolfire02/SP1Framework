@@ -145,6 +145,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Droplet.cpp">
+	</ClCompile>
     <ClCompile Include="MiniGame_CFT.cpp">
       <Filter>Source Files\MiniGames</Filter>
     </ClCompile>
@@ -244,6 +245,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Droplet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="MiniGame_CFT.h">
       <Filter>Header Files\MiniGames</Filter>
     </ClInclude>

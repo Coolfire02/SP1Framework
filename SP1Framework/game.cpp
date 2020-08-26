@@ -97,6 +97,7 @@ void getInput( void )
 }
 
 void startNextLevel(LEVEL level) {
+    g_Level->resetNextLevel();
     g_Level = levels[level];
 }
 
@@ -207,9 +208,12 @@ void update(double dt)
 
 void processUserInput()
 {
-    // quits the game if player hits the escape key
+    // Manages quitting using escape
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        g_bQuitGame = true;
+        if (g_Level->getLevel() == MAINMENU)
+            g_bQuitGame = true;
+        else
+            startNextLevel(MAINMENU);
 }
 
 void updateOptions()

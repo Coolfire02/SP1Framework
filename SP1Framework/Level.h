@@ -75,6 +75,7 @@ private:
 
 	std::vector<MiniGame*> mg_ptr;
 	std::vector<GameObject*> obj_ptr;
+	std::vector<Stage*> stages_ptr;
 	std::vector<LEVELSTATE> levelStates;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
 	bool devMode = true;
@@ -93,6 +94,7 @@ public:
 	enum LEVELSTATE getState();
 	LEVEL getLevel();
 	LEVEL getNextLevel();
+	void resetNextLevel();
 	void checkStateChange();
 	void renderMap();
 	void renderObjsToMap();
