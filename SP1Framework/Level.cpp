@@ -415,7 +415,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(STAGE_1_LEVEL_1);
 		obj_ptr.push_back(STAGE_2_LEVEL_1);
 
-		COORD worldCordAssignment = { 213, 8 };
+		COORD worldCordAssignment = { 213, 16 };
 		for (auto& stages : obj_ptr) {
 			if (stages->getType() == "Stage") {
 				if (worldCordAssignment.X % 213 == 0)
