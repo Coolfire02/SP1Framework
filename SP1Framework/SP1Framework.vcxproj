@@ -98,6 +98,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MiniGame.cpp" />
     <ClCompile Include="MiniGame_BHOS.cpp" />
+    <ClCompile Include="MiniGame_CFT.cpp" />
     <ClCompile Include="MiniGame_RM.cpp" />
     <ClCompile Include="MiniGame_WL.cpp" />
     <ClCompile Include="Money.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MiniGame.h" />
     <ClInclude Include="MiniGame_BHOS.h" />
+    <ClInclude Include="MiniGame_CFT.h" />
     <ClInclude Include="MiniGame_RM.h" />
     <ClInclude Include="MiniGame_WL.h" />
     <ClInclude Include="Money.h" />

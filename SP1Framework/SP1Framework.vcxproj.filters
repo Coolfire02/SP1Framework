@@ -141,6 +141,9 @@
     <ClCompile Include="Forest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MiniGame_CFT.cpp">
+      <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Forest.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniGame_CFT.h">
+      <Filter>Header Files\MiniGames</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

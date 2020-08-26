@@ -161,7 +161,7 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 		}
 		if (selectedHive != nullptr) {
 			hive_selected_text->setActive(false);
-			if (mousePos.X - lastMousePos.X > 4 || mousePos.X - lastMousePos.X < -4) {
+			if (mousePos.X - lastMousePos.X > 7 || mousePos.X - lastMousePos.X < - 7) {
 				playerLives--;
 				health_bar->setProgress(playerLives / (double)maxPlayerLives * 100);
 				lastMousePos = mousePos;
