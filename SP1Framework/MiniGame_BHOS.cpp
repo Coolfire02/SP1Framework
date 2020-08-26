@@ -73,7 +73,6 @@ void MiniGame_BHOS::mgGameInit()
 				spotFound = true;
 				break;
 			}
-			Beep(5500, 50);
 		}
 	}
 
@@ -94,7 +93,7 @@ bool MiniGame_BHOS::processKBEvents(SKeyEvent KeyEvents[])
 bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 {
 	COORD mousePos = { mouseEvent.mousePosition };
-	if (selectedHive != nullptr) Beep(5500, 50);
+	//if (selectedHive != nullptr) Beep(5500, 50);
 	switch (mouseEvent.eventFlags) {
 	case 0:
 		if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
@@ -103,9 +102,8 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 				if (selectedHive == nullptr) {
 					if (!mg_hive_ptr.empty()) {
 						for (auto& element : mg_hive_ptr) {
-							if (element->isInLocation(MiniGameMap.getMapToBufferOffset().X + mousePos.X, MiniGameMap.getMapToBufferOffset().Y + mousePos.Y)) {
+							if (element->isInLocation(mousePos.X, mousePos.Y)) {
 								selectedHive = element;
-								return true;
 								break;
 							}
 						}
@@ -120,9 +118,18 @@ bool MiniGame_BHOS::processMouseEvents(SMouseEvent &mouseEvent)
 
 	// if left-mouse is currently being pressed
 	if (mouseEvent.buttonState & FROM_LEFT_1ST_BUTTON_PRESSED) {
+		if (selectedHive == nullptr) {
+			if (!mg_hive_ptr.empty()) {
+				for (auto& element : mg_hive_ptr) {
+					if (element->isInLocation(mousePos.X,mousePos.Y)) {
+						selectedHive = element;
+						break;
+					}
+				}
+			}
+		}
 		if (selectedHive != nullptr) {
 			if (mousePos.X - lastMousePos.X > 4 || mousePos.X - lastMousePos.X < -4) {
-				Beep(5000, 50);
 				playerLives--;
 				health_bar->setProgress(playerLives / (double)maxPlayerLives * 100);
 				lastMousePos = mousePos;
