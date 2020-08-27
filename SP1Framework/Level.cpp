@@ -718,11 +718,23 @@ void Level::checkStateChange() {
 //Whenever there is a state change, if there is any initialization to process, it'll be done here
 void Level::newStageinit() {
 	switch (state) {
+	case LS_GAMESHOP:
+		for (auto& objs : obj_ptr) {
+			objs->setActive(false);
+		}
+		for (auto& shop_objs : shop_obj_ptr) {
+			shop_objs->setActive(true);
+		}
+		break;
 	case LS_MAINGAME:
 		for (auto& objs : obj_ptr) {
 			objs->setActive(true);
 		}
+		for (auto& shop_objs : shop_obj_ptr) {
+			shop_objs->setActive(false);
+		}
 		player_ptr->setActive(false);
+		break;
 	}
 
 	originalState = state;
