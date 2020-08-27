@@ -93,6 +93,11 @@ unsigned int Map::getYLength() {
 	return yLength;
 }
 
+WORD Map::getBackground()
+{
+	return background.Attributes;
+}
+
 CHAR_INFO** Map::getMap() {
 	return map_ptr;
 }

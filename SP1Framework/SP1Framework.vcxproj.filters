@@ -144,9 +144,6 @@
     <ClCompile Include="Forest.cpp">
       <Filter>Source Files\Icons/Buildings</Filter>
     </ClCompile>
-    <ClCompile Include="MiniGame_RW.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Droplet.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -161,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="ArtObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniGame_RW.cpp">
+      <Filter>Source Files\MiniGames</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

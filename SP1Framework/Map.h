@@ -25,6 +25,7 @@ public:
 	CHAR_INFO** getMap();
 	unsigned int getXLength();
 	unsigned int getYLength();
+	WORD getBackground();
 	Map(int,int);
 	Map();
 	~Map();

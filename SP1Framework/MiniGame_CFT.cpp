@@ -3,6 +3,7 @@
 MiniGame_CFT::MiniGame_CFT(LEVEL level, Console& console) : MiniGame(level, console)
 {
 	art.setArt(MINIGAME_CFT_ART);
+
 }
 
 MiniGame_CFT::~MiniGame_CFT()

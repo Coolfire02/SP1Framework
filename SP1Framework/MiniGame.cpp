@@ -34,10 +34,15 @@ void MiniGame::setMoneyEarned(int m)
 	MoneyEarned = m;
 }
 
+void MiniGame::setStartTime(double time)
+{
+	mg_start_time = time;
+}
+
 void MiniGame::renderMap()
 {
 	if (!isStarted()) return;
-	Map theMap = MiniGameMap;
+	Map &theMap = MiniGameMap;
 
 	CHAR_INFO** map = theMap.getMap();
 	COORD mapOffset = theMap.getMapToBufferOffset();
@@ -130,25 +135,38 @@ MiniGame::~MiniGame()
 	}
 }
 
-bool MiniGame::processKBEvents(SKeyEvent KeyEvents[])
+bool MiniGame::processKBEvents(SKeyEvent KeyEvent[])
 {
-	processKBEvents_mg(KeyEvents);
+	processKBEvents_mg(KeyEvent);
 	return false;
 }
 
-bool MiniGame::processMouseEvents(SMouseEvent& mouseEvents)
+bool MiniGame::processMouseEvents(SMouseEvent& mouseEvent)
 {
-	COORD mousePos = { mouseEvents.mousePosition };
+	COORD mousePos = { mouseEvent.mousePosition };
 	if (isInInstructions)
 	{
-		if (mouseEvents.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-		{
-			if (FROM_LEFT_1ST_BUTTON_PRESSED != 0)
-				if (button_ptr->isInLocation(mousePos.X, mousePos.Y)) 
-					isInInstructions = false;
+		switch (mouseEvent.eventFlags) {
+		case 0:
+			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
+				// at the start of a left-click, this will be ran. (Only ran once)
+					if (isInInstructions)
+					{
+						if (button_ptr->isInLocation(mousePos.X, mousePos.Y))
+						{
+							setStartTime(g_dElapsedTime);
+							isInInstructions = false;
+						}
+					}
+			}
+			break;
+		case DOUBLE_CLICK: break;
+		case MOUSE_WHEELED: break;
+		default: break;
 		}
+		
 	}
 	else
-		processMouseEvents_mg(mouseEvents);
+		processMouseEvents_mg(mouseEvent);
 	return false;
 }

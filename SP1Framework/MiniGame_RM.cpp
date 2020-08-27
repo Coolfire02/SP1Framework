@@ -23,6 +23,31 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 	ms = 1000;
 	coin_spawn_delay = 200;
 	art.setArt(MINIGAME_RM_ART);
+
+	//To get the amounts of each coin (Coin Worth increases with each level)
+	Coin NCoin(C_COIN);
+	Coin BCoin(C_BIGCOIN);
+	Coin RCoin(C_REDCOIN);
+	//Instructions for Raining Money Game
+	Text* Title = new Text("Raining Money Game", MiniGameMap.getBackground());
+	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
+	instructions_obj_ptr.push_back(Title);
+	Text* Line1 = new Text("Catch coins by moving left and right using the A & D keys." , MiniGameMap.getBackground());
+	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
+	instructions_obj_ptr.push_back(Line1);
+	Text* Line2 = new Text("Normal coins give you $" + std::to_string(NCoin.getCoinWorth()), MiniGameMap.getBackground());
+	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
+	instructions_obj_ptr.push_back(Line2);
+	Text* Line3 = new Text("Big coins give you $" + std::to_string(BCoin.getCoinWorth()), MiniGameMap.getBackground());
+	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
+	instructions_obj_ptr.push_back(Line3);
+	Text* Line4 = new Text("Red coins give you $" + std::to_string(RCoin.getCoinWorth()), MiniGameMap.getBackground());
+	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
+	instructions_obj_ptr.push_back(Line4);
+
+	button_ptr = new Text("Start Game", 0x70);
+	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 16);
+	instructions_obj_ptr.push_back(button_ptr);
 }
 
 void MiniGame_RM::mgGameInit() {
@@ -47,7 +72,8 @@ void MiniGame_RM::mgGameInit() {
 }
 
 void MiniGame_RM::gameLoopListener() {
-	if (isStarted()) {
+	if (isStarted() && !isInInstructions) {
+
 		setMoneyText();
 		if (getStartTime() + 15.0 < g_dElapsedTime) {
 			Completed = true;

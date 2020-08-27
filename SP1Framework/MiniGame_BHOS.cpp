@@ -33,21 +33,21 @@ MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, co
 
 	//Instructions for BeeHive Removal
 
-	Text* Title = new Text("Bee Hive Removal Game");
+	Text* Title = new Text("Bee Hive Removal Game", MiniGameMap.getBackground());
 	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
 	instructions_obj_ptr.push_back(Title);
-	Text* Line1 = new Text("Remove bee hives by using your mouse!");
+	Text* Line1 = new Text("Remove bee hives by using your mouse!", MiniGameMap.getBackground());
 	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
 	instructions_obj_ptr.push_back(Line1);
-	Text* Line2 = new Text("Click and hold onto a bee hive and gently move left and right.");
+	Text* Line2 = new Text("Click and hold onto a bee hive and gently move left and right.", MiniGameMap.getBackground());
 	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
 	instructions_obj_ptr.push_back(Line2);
-	Text* Line3 = new Text("Be careful not to move too fast or the bees will sting!");
+	Text* Line3 = new Text("Be careful not to move too fast or the bees will sting!", MiniGameMap.getBackground());
 	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
 	instructions_obj_ptr.push_back(Line3);
 
-	button_ptr = new Text("Start Game", 0x10);
-	button_ptr->setRelativePos(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
+	button_ptr = new Text("Start Game", 0x70);
+	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
 	instructions_obj_ptr.push_back(button_ptr);
 }
 
@@ -154,14 +154,16 @@ bool MiniGame_BHOS::processMouseEvents_mg(SMouseEvent &mouseEvent)
 		if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
 			// at the start of a left-click, this will be ran. (Only ran once)
 			if (FROM_LEFT_1ST_BUTTON_PRESSED != 0) {
-				if (isInInstructions)
-				if (selectedHive == nullptr) {
-					if (!mg_hive_ptr.empty()) {
-						for (auto& element : mg_hive_ptr) {
-							if (element->isInLocation(mousePos.X, mousePos.Y)) {
-								selectedHive = element;
-								grabbedHivePos = new COORD(mousePos);
-								break;
+				if (!isInInstructions)
+				{
+					if (selectedHive == nullptr) {
+						if (!mg_hive_ptr.empty()) {
+							for (auto& element : mg_hive_ptr) {
+								if (element->isInLocation(mousePos.X, mousePos.Y)) {
+									selectedHive = element;
+									grabbedHivePos = new COORD(mousePos);
+									break;
+								}
 							}
 						}
 					}

@@ -47,6 +47,7 @@ protected:
 	LEVEL getAssociatedLevel();
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
+	void setStartTime(double);
 	double getStartTime();
 	bool isStarted();
 

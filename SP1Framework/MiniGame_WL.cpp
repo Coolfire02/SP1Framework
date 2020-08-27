@@ -21,6 +21,23 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 	UPcount = 0;
 	DOWNcount = 0;
 	isDown = false;
+
+	Text* Title = new Text("Water Leak Game", MiniGameMap.getBackground());
+	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
+	instructions_obj_ptr.push_back(Title);
+	Text* Line1 = new Text("Fix the Water leak by cranking the wrench with the W & S keys.", MiniGameMap.getBackground());
+	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
+	instructions_obj_ptr.push_back(Line1);
+	Text* Line2 = new Text("You have a bucket that can collect 30 litres of the water leaking from the pipe.", MiniGameMap.getBackground());
+	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
+	instructions_obj_ptr.push_back(Line2);
+	Text* Line3 = new Text("Be careful not to let the water overflow! You will have your pay reduced if you waste any water!", MiniGameMap.getBackground());
+	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
+	instructions_obj_ptr.push_back(Line3);
+
+	button_ptr = new Text("Start Game", 0x70);
+	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
+	instructions_obj_ptr.push_back(button_ptr);
 }
 
 MiniGame_WL::~MiniGame_WL() 

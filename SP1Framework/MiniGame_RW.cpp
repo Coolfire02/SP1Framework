@@ -20,6 +20,18 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 	ms = 1000;
 	droplet_spawn_delay = 200;
 	art.setArt(MINIGAME_RW_ART);
+
+	Text* Title = new Text("Water Leak Game", MiniGameMap.getBackground());
+	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
+	instructions_obj_ptr.push_back(Title);
+	Text* Line1 = new Text("Collect rainwater by moving left and right using the A & D keys.", MiniGameMap.getBackground());
+	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
+	instructions_obj_ptr.push_back(Line1);
+	
+
+	button_ptr = new Text("Start Game", 0x70);
+	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
+	instructions_obj_ptr.push_back(button_ptr);
 }
 
 void MiniGame_RW::mgGameInit() {
