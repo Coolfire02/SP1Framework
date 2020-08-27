@@ -143,7 +143,7 @@ MiniGame_RW::~MiniGame_RW()
 	//Intentionally left blank (deletion of obj_ptrs is handled in Level)
 }
 
-bool MiniGame_RW::processKBEvents(SKeyEvent keyEvents[])
+bool MiniGame_RW::processKBEvents_mg(SKeyEvent keyEvents[])
 {
 	COORD player_orig_pos = player_ptr->getWorldPosition();
 	COORD player_future_pos = player_orig_pos;
@@ -165,7 +165,7 @@ bool MiniGame_RW::processKBEvents(SKeyEvent keyEvents[])
 	return eventIsProcessed;
 }
 
-bool MiniGame_RW::processMouseEvents(SMouseEvent&)
+bool MiniGame_RW::processMouseEvents_mg(SMouseEvent&)
 {
 	return false;
 }

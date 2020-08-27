@@ -28,7 +28,7 @@ MiniGame_WL::~MiniGame_WL()
 	//Intentionally left blank.
 }
 
-bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
+bool MiniGame_WL::processKBEvents_mg(SKeyEvent keyEvents[])
 {
 
 	COORD wrenchTail_orig_pos = wrench_ptr2->getWorldPosition();
@@ -95,14 +95,14 @@ void MiniGame_WL::gameLoopListener()
 
 		if ((UPcount >= 4) && (DOWNcount >= 4)) 
 		{
-			MoneyEarned = (150 * getAssociatedLevel()) - payreduction;
+			MoneyEarned = (150 * getAssociatedLevel()) + payreduction;
 			Completed = true;
 		}
 
 	}
 }
 
-bool MiniGame_WL::processMouseEvents(SMouseEvent&)
+bool MiniGame_WL::processMouseEvents_mg(SMouseEvent&)
 {
 	return false;
 }

@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include <Windows.h>
 #include "MiniGame.h"
 #include "Coin.h"
@@ -28,8 +28,8 @@ public:
 
     void mgGameInit();
     void gameLoopListener();
-    bool processKBEvents(SKeyEvent KeyEvents[]);
-    bool processMouseEvents(SMouseEvent&);
+    bool processKBEvents_mg(SKeyEvent KeyEvents[]);
+    bool processMouseEvents_mg(SMouseEvent&);
     
     MiniGame_RM* clone() const { return new MiniGame_RM(*this); };
 };

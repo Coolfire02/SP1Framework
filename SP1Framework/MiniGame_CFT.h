@@ -11,8 +11,8 @@ public:
 
 	void mgGameInit();
 	void gameLoopListener();
-	bool processKBEvents(SKeyEvent[]);
-	bool processMouseEvents(SMouseEvent&);
+	bool processKBEvents_mg(SKeyEvent[]);
+	bool processMouseEvents_mg(SMouseEvent&);
 	enum LEVELSTATE getAssociatedLSState();
 	std::string getType();
 

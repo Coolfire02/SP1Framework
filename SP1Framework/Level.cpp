@@ -404,7 +404,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
-		state = LS_MAINGAME;
+		state = LS_MAINGAME; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
 	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -506,6 +506,11 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				else if (line_array.at(0) == "FireTruck") {
 					GameObject* ptr = truck_ptr;
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+				}
+				else if (line_array.at(0) == "BeeHive_Icon") {
+					GameObject* ptr = new BeeHive(BEEHIVE_ICON);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
 				}
 				else if (line_array.at(0) == "FireStation") {
 					GameObject* ptr = new FireStation();

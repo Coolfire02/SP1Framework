@@ -37,8 +37,8 @@ public:
 
     void mgGameInit();
     void gameLoopListener();
-    bool processKBEvents(SKeyEvent KeyEvents[]);
-    bool processMouseEvents(SMouseEvent&);
+    bool processKBEvents_mg(SKeyEvent KeyEvents[]);
+    bool processMouseEvents_mg(SMouseEvent&);
 
     MiniGame_WL* clone() const { return new MiniGame_WL(*this); };
 };

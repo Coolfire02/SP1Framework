@@ -26,7 +26,9 @@ protected:
 	int WaterCollected, MoneyEarned;
 
 	bool Completed;
+	bool isInInstructions;
 	Player* player_ptr;
+	Text* button_ptr;
 	enum MiniGames
 	{
 		MINIGAME_WREST, //Restaurant
@@ -41,11 +43,15 @@ protected:
 	};
 	ASCII MGascii;
 	std::vector<GameObject*> mg_obj_ptr;
+	std::vector<GameObject*> instructions_obj_ptr;
 	LEVEL getAssociatedLevel();
 	void setWaterCollected(int w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
 	double getStartTime();
 	bool isStarted();
+
+	virtual bool processKBEvents_mg(SKeyEvent[]) = 0;
+	virtual bool processMouseEvents_mg(SMouseEvent&) = 0;
 public:
 	
 	void renderObjsToMap();
@@ -61,10 +67,10 @@ public:
 	~MiniGame();
 
 	virtual void gameLoopListener() = 0;
-	virtual bool processKBEvents(SKeyEvent[]) = 0;
-	virtual bool processMouseEvents(SMouseEvent&) = 0;
+
 	virtual enum LEVELSTATE getAssociatedLSState() = 0;
 	virtual std::string getType() = 0;
-
+	bool processKBEvents(SKeyEvent[]);
+	bool processMouseEvents(SMouseEvent&);
 	virtual MiniGame* clone() const = 0;
 };

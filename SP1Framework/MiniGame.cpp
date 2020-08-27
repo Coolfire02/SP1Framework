@@ -2,6 +2,7 @@
 
 MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), associatedLevel(level)
 {
+	isInInstructions = true;
 	mg_started = false;
 	mg_start_time = g_dElapsedTime;
 	player_ptr = NULL;
@@ -36,14 +37,16 @@ void MiniGame::setMoneyEarned(int m)
 void MiniGame::renderMap()
 {
 	if (!isStarted()) return;
-	CHAR_INFO** map = MiniGameMap.getMap();
-	COORD mapOffset = MiniGameMap.getMapToBufferOffset();
+	Map theMap = MiniGameMap;
+
+	CHAR_INFO** map = theMap.getMap();
+	COORD mapOffset = theMap.getMapToBufferOffset();
 	for (int i = 0; i < g_consoleSize.X; i++) {
 		for (int j = 0; j < g_consoleSize.Y; j++) {
 			unsigned int worldX = i + mapOffset.X;
 			unsigned int worldY = j + mapOffset.Y;
-			bool inRangetemp = MiniGameMap.isInRange(worldX, worldY);
-			if (MiniGameMap.isInRange(worldX, worldY) == true)
+			bool inRangetemp = theMap.isInRange(worldX, worldY);
+			if (theMap.isInRange(worldX, worldY) == true)
 				associatedConsole.writeToBuffer(i, j, map[worldX][worldY].Char.AsciiChar, map[worldX][worldY].Attributes);
 			else
 				associatedConsole.writeToBuffer(i, j, ' ', 0x00);
@@ -55,13 +58,24 @@ void MiniGame::renderMap()
 void MiniGame::renderObjsToMap()
 {
 	if (!isStarted()) return;
-
 	MiniGameMap.clearMap();
 	std::multimap<short, GameObject*> sort;
-	for (auto& object_ptr : mg_obj_ptr) {
-		if (!object_ptr->isActive()) continue;
-		sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+
+	if (isInInstructions)
+	{
+		for (auto& object_ptr : instructions_obj_ptr) {
+			if (!object_ptr->isActive()) continue;
+			sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+		}
 	}
+	else
+	{
+		for (auto& object_ptr : mg_obj_ptr) {
+			if (!object_ptr->isActive()) continue;
+			sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
+		}
+	}
+
 	for (auto& element : sort) {
 		for (int x = 0; x < element.second->getXLength(); x++) {
 			for (int y = 0; y < element.second->getYLength(); y++) {
@@ -113,4 +127,27 @@ MiniGame::~MiniGame()
 	for (auto& element : mg_obj_ptr) { //deletes all pointers created under the minigames
 		delete element;
 	}
+}
+
+bool MiniGame::processKBEvents(SKeyEvent KeyEvents[])
+{
+	processKBEvents_mg(KeyEvents);
+	return false;
+}
+
+bool MiniGame::processMouseEvents(SMouseEvent& mouseEvents)
+{
+	COORD mousePos = { mouseEvents.mousePosition };
+	if (isInInstructions)
+	{
+		if (mouseEvents.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
+		{
+			if (FROM_LEFT_1ST_BUTTON_PRESSED != 0)
+				if (button_ptr->isInLocation(mousePos.X, mousePos.Y)) 
+					isInInstructions = false;
+		}
+	}
+	else
+		processMouseEvents_mg(mouseEvents);
+	return false;
 }

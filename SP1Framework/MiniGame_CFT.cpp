@@ -34,7 +34,7 @@ void MiniGame_CFT::gameLoopListener()
 
 }
 
-bool MiniGame_CFT::processKBEvents(SKeyEvent keyEvents[])
+bool MiniGame_CFT::processKBEvents_mg(SKeyEvent keyEvents[])
 {
 	bool eventIsProcessed = false;
 	COORD player_orig_pos = player_ptr->getWorldPosition();
@@ -85,7 +85,7 @@ bool MiniGame_CFT::processKBEvents(SKeyEvent keyEvents[])
 	return eventIsProcessed;
 }
 
-bool MiniGame_CFT::processMouseEvents(SMouseEvent&)
+bool MiniGame_CFT::processMouseEvents_mg(SMouseEvent&)
 {
 	return false;
 }
