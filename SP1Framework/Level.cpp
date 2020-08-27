@@ -442,6 +442,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		stages_ptr.push_back(STAGE_1_LEVEL_1);
 		stages_ptr.push_back(STAGE_2_LEVEL_1);
 
+		ShopItem* item = { Item(ABILITY_ZOOM, 1), 100 };
+
 		COORD worldCordAssignment = { 213, 16 };
 		for (auto& stages : obj_ptr) {
 			if (stages->getType() == "Stage") {

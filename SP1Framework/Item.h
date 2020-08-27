@@ -1,6 +1,25 @@
 #pragma once
 #include "GameObject.h"
 
+typedef struct ShopItem {
+	Item item;
+	double cost;
+};
+
+ShopItem shopitem_new(Item item, double cost) {
+	ShopItem sitem;
+	sitem.item = item;
+	sitem.cost = cost;
+	return sitem;
+}
+
+ShopItem* shopitem_newptr(Item item, double cost) {
+	ShopItem* sitem;
+	sitem->item = item;
+	sitem->cost = cost;
+	return sitem;
+}
+
 enum ITEMTYPE {
 	ABILITY_ZOOM,
 	ABILITY_ROADREPAIR,
