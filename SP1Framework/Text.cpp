@@ -7,25 +7,28 @@ Text::Text()
 }
 Text::Text(std::string text) : text(text)
 {
-	art.setArt(this->text);
+	bgColour = 0x20;
+	art.setArt(this->text, bgColour);
 	weight = 1500;
 }
 Text::Text(std::string text, WORD bg) : text(text)
 {
-	art.setArt(this->text, bg);
+	bgColour = bg;
+	art.setArt(this->text, bgColour);
 	weight = 1500;
 }
 void Text::setText(std::string text)
 {
 	this->text = text;
 	art.deleteArt();
-	art.setArt(this->text);
+	art.setArt(this->text, bgColour);
 }
 void Text::setText(std::string text, WORD bg)
 {
+	bgColour = bg;
 	this->text = text;
 	art.deleteArt();
-	art.setArt(this->text, bg);
+	art.setArt(this->text, bgColour);
 }
 std::string Text::getType()
 {

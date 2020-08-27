@@ -58,6 +58,7 @@ void MiniGame::renderMap()
 void MiniGame::renderObjsToMap()
 {
 	if (!isStarted()) return;
+
 	MiniGameMap.clearMap();
 	std::multimap<short, GameObject*> sort;
 

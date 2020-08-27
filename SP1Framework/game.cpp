@@ -25,7 +25,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-Level* levels[2] = { new Level(TUTORIAL, g_Console),
+Level* levels[2] = { new Level(MAINMENU, g_Console),
                     new Level(TUTORIAL, g_Console) };
 Level* g_Level;
 
@@ -178,20 +178,6 @@ void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     g_mouseEvent.eventFlags = mouseEvent.dwEventFlags;
 }
 
-//--------------------------------------------------------------
-// Purpose  : Update function
-//            This is the update function
-//            double dt - This is the amount of time in seconds since the previous call was made
-//
-//            Game logic should be done here.
-//            Such as collision checks, determining the position of your game characters, status updates, etc
-//            If there are any calls to write to the console here, then you are doing it wrong.
-//
-//            If your game has multiple states, you should determine the current state, and call the relevant function here.
-//
-// Input    : dt = deltatime
-// Output   : void
-//--------------------------------------------------------------
 void update(double dt)
 {
     // get the delta time
@@ -245,57 +231,7 @@ void updateLevel() {
     g_Level->processMouseEvents(g_mouseEvent);
 }
 
-//void moveCharacter()
-//{    
-//    if (g_keyCooldownTime < g_dElapsedTime) {
-//        // Updating the location of the character based on the key release
-//        // providing a beep sound whenver we shift the character
-//        bool movementUpdate = false;
-//
-//        if (g_skKeyEvent[K_W].keyDown && g_sChar.m_cLocation.Y > 0)
-//        {
-//            //Beep(1440, 30);
-//            g_sChar.m_cLocation.Y--;
-//            movementUpdate = true;
-//        }
-//        if (g_skKeyEvent[K_A].keyDown && g_sChar.m_cLocation.X > 0)
-//        {
-//            //Beep(1440, 30);
-//            g_sChar.m_cLocation.X--;
-//            movementUpdate = true;
-//        }
-//        if (g_skKeyEvent[K_S].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
-//        {
-//            //Beep(1440, 30);
-//            g_sChar.m_cLocation.Y++;
-//            movementUpdate = true;
-//        }
-//        if (g_skKeyEvent[K_D].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
-//        {
-//            //Beep(1440, 30);
-//            g_sChar.m_cLocation.X++;
-//            movementUpdate = true;
-//        }
-//        if (g_skKeyEvent[K_SPACE].keyDown)
-//        {
-//            g_sChar.m_bActive = !g_sChar.m_bActive;
-//            movementUpdate = true;
-//        }
-//        if (movementUpdate) {
-//            g_keyCooldownTime = g_dElapsedTime + 0.09;
-//        }
-//
-//    }
-//}
 
-//--------------------------------------------------------------
-// Purpose  : Render function is to update the console screen
-//            At this point, you should know exactly what to draw onto the screen.
-//            Just draw it!
-//            To get an idea of the values for colours, look at console.h and the URL listed there
-// Input    : void
-// Output   : void
-//--------------------------------------------------------------
 void render()
 {
     clearScreen();      // clears the current screen and draw from scratch 
@@ -422,11 +358,11 @@ void renderFramerate()
     g_Console.writeToBuffer(c, ss.str());
 
     // displays the elapsed time
-    ss.str("");
+    /*ss.str("");
     ss << g_dElapsedTime << "secs";
     c.X = 0;
     c.Y = 0;
-    g_Console.writeToBuffer(c, ss.str(), 0x59);
+    g_Console.writeToBuffer(c, ss.str(), 0x59);*/
 }
 int once = false;
 

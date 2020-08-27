@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArtObject.cpp" />
     <ClCompile Include="ASCII.cpp" />
     <ClCompile Include="BeeHive.cpp" />
     <ClCompile Include="Bucket.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="Wrench.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArtObject.h" />
     <ClInclude Include="ASCII.h" />
     <ClInclude Include="BeeHive.h" />
     <ClInclude Include="Bucket.h" />

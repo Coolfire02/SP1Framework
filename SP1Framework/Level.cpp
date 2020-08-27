@@ -1,7 +1,6 @@
 #include "Level.h"
 
-void tokenize(std::string const& str, const char delim,
-	std::vector<std::string>& out);
+void tokenize(std::string const& str, const char delim, std::vector<std::string>& out);
 
 void Level::gameLoopListener() {
 	if (currently_played_MG_ptr != NULL) {
@@ -19,8 +18,10 @@ void Level::gameLoopListener() {
 			// TODO adding of money and water
 			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned());
 			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected());
-			truck_ptr->FillWater(10);
-			Money_ptr->setText("$" + std::to_string(player_ptr->getMoney()));
+			
+			Money_ptr->setText(getMoneyBalancePrefix());
+			ft_waterCollected_text->setText(getTruckWaterPrefix());
+
 			ft_waterCollected->setProgress((truck_ptr->getCurrentWaterLevel() / truck_ptr->getMaxWater()) * 100);
 
 			currently_played_MG_ptr = NULL;
@@ -69,7 +70,6 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 				bool canMove = false;
 				for (auto& obj : stages_ptr) {
 					if (obj->isCollided(*player_ptr)) {
-						Beep(5500, 50);
 						nextLevel = obj->getStage();
 						player_ptr->setWorldPosition(4, 45);
 						COORD cord = { 0,0 };
@@ -114,11 +114,15 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 								canMove = false;
 								//state = LS_FOREST_SCENE;
 								double waterInFT = truck_ptr->getCurrentWaterLevel();
+
 								truck_ptr->setWaterLevel(0);
 								ft_waterCollected->setProgress(0);
+								ft_waterCollected_text->setText(getTruckWaterPrefix());
 
 								fire -= waterInFT;
 								level_progress->setProgress(fire / originalTotalFire * 100);
+								level_progress_text->setText(getFireRemainingPrefix());
+
 								if (fire <= 0) {
 									fire = 0;
 									//GAME END TODO
@@ -232,7 +236,6 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 	bool eventIsProcessed = true;
 	if (currently_played_MG_ptr != NULL || state == LS_MAINMENU || state == LS_LEVEL_BUILDER) {
-
 		if (currently_played_MG_ptr != NULL) {
 			currently_played_MG_ptr->processMouseEvents(mouseEvent);
 		}
@@ -417,15 +420,20 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
+		
+		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600);
+		Text* text = new Text("Stages can be found ->", 0xE0);
+
 		player_ptr->setWorldPosition(4, 45);
-		Text* text = new Text("MAINMENU this is a text object - game starts in 3", 0xF0);
-		COORD cord = { g_consoleSize.X / 2 - text->getText().size() / 2,g_consoleSize.Y / 2 };
-		text->setRelativePos(cord);
+		text->setWorldPosition(COORD({ (short)(g_consoleSize.X / 2 - text->getText().size() / 2),(short) g_consoleSize.Y / 2 }));
+		wildFireIcon->setWorldPosition(COORD({ (short)(g_consoleSize.X / 2 - wildFireIcon->getXLength() / 2), (short)(g_consoleSize.Y / 2 - wildFireIcon->getYLength()/2) - 7 }));
 
 		Stage* TUTORIAL = new Stage(LEVEL::TUTORIAL);
 		Stage* STAGE_1_LEVEL_1 = new Stage(LEVEL::STAGE_1_LEVEL_1);
 		Stage* STAGE_2_LEVEL_1 = new Stage(LEVEL::STAGE_2_LEVEL_1);
 
+		obj_ptr.push_back(wildFireIcon);
+		obj_ptr.push_back(text);
 		obj_ptr.push_back(TUTORIAL);
 		obj_ptr.push_back(STAGE_1_LEVEL_1);
 		obj_ptr.push_back(STAGE_2_LEVEL_1);
@@ -454,27 +462,39 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		}
 		levelStates.push_back(LS_BEGIN_SCENE);
 		levelStates.push_back(LS_MAINGAME);
+		levelStates.push_back(LS_GAMESHOP);
 		levelStates.push_back(LS_FOREST_SCENE);
 		levelStates.push_back(LS_END_SCENE);
 
 		if (devMode)
 			levelStates.push_back(LS_LEVEL_BUILDER);
 
+		COORD cord = { 0,1 };
 
 		truck_ptr = new FireTruck(100);
-		Money_ptr = new Text("$0");
-		COORD cord = { 0,1 };
+
+		Money_ptr = new Text(getMoneyBalancePrefix());
+		ft_waterCollected_text = new Text(getTruckWaterPrefix(), 0xB0);
+		level_progress_text = new Text(getFireRemainingPrefix(), 0xC0);
+		ft_waterCollected = new ProgressBar(B_HORIZONTAL, 20, 3, 0x70, 0x30);
+		level_progress = new ProgressBar(B_HORIZONTAL, 20, 3, 0x70, 0x40);
+
 		Money_ptr->setRelativePos(cord);
-		ft_waterCollected = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0x20);
 		ft_waterCollected->setRelativePos(cord.X, cord.Y + 1);
-		level_progress = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0x20);
 		level_progress->setRelativePos(cord.X, cord.Y + 4);
+		ft_waterCollected_text->setRelativePos(cord.X + 1 + ft_waterCollected->getXLength(), cord.Y + 2);
+		level_progress_text->setRelativePos(cord.X + 1 + level_progress->getXLength(), cord.Y + 5);
+
+		ft_waterCollected->setProgress(0);
 		level_progress->setProgress(100);
 
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);
 		obj_ptr.push_back(ft_waterCollected);
 		obj_ptr.push_back(level_progress);
+		obj_ptr.push_back(ft_waterCollected_text);
+		obj_ptr.push_back(level_progress_text);
+
 		std::ifstream file("LEVELS\\" + levelName + ".txt");
 		std::string line;
 		if (file.is_open()) {
@@ -751,4 +771,15 @@ void tokenize(std::string const& str, const char delim,
 	}
 }
 
+std::string Level::getTruckWaterPrefix() {
+	return "Truck's Water (" + std::to_string((int)truck_ptr->getCurrentWaterLevel()) + "L/" + std::to_string((int)truck_ptr->getMaxWater())+"L)";
+}
+
+std::string Level::getFireRemainingPrefix() {
+	return "Fire Remaining: " + std::to_string((int) fire);
+}
+
+std::string Level::getMoneyBalancePrefix() {
+	return "Funds: $" + std::to_string(player_ptr->getMoney());
+}
 

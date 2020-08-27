@@ -59,7 +59,7 @@ MiniGame_BHOS::~MiniGame_BHOS()
 void MiniGame_BHOS::mgGameInit()
 {
 	srand(time(NULL)); //initial seed (does not return a value)
-	MiniGameMap.setSize(213, 50);
+	//MiniGameMap.setSize(213, 50);
 
 	Money_ptr = new Text;
 	mg_obj_ptr.push_back(Money_ptr);

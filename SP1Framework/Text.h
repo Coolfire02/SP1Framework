@@ -5,6 +5,7 @@ class Text :
 {
 private:
     std::string text;
+    WORD bgColour;
 public:
     std::string getText();
     Text();

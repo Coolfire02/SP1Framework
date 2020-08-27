@@ -4,6 +4,7 @@
 #include "global.h"
 #include "game.h"
 #include "GameObject.h"
+#include "ArtObject.h"
 #include "FireTruck.h"
 #include "FireStation.h"
 #include "Forest.h"
@@ -67,17 +68,23 @@ private:
 
 	Player* player_ptr;
 	FireTruck* truck_ptr;
-	Text* Money_ptr;
 	MiniGame* currently_played_MG_ptr;
 
+	Text* Money_ptr;
 	ProgressBar* ft_waterCollected;
 	ProgressBar* level_progress;
+	Text* ft_waterCollected_text;
+	Text* level_progress_text;
 
 	std::vector<MiniGame*> mg_ptr;
 	std::vector<GameObject*> obj_ptr;
 	std::vector<Stage*> stages_ptr;
 	std::vector<LEVELSTATE> levelStates;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
+	
+	// shop vars
+	std::vector<GameObject*> shop_obj_ptr;
+
 	bool devMode = true;
 	GameObject* pickedUp_obj;
 	
@@ -86,6 +93,10 @@ private:
 
 	void newStageinit();
 	void saveLevel();
+
+	std::string getTruckWaterPrefix();
+	std::string getFireRemainingPrefix();
+	std::string getMoneyBalancePrefix();
 public:
 	void gameLoopListener();
 	Level(LEVEL, Console&);
