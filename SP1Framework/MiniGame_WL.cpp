@@ -1,7 +1,7 @@
 #include "MiniGame_WL.h"
-void MiniGame_WL::setMoneyText()
+void MiniGame_WL::setMoneyText() //This is to set the text on the top left to show the player how much money they are losing
 {
-	std::string money = std::to_string(WaterCollected);
+	std::string money = std::to_string(payreduction);
 	money = "Pay Reduction (for wasted water): $" + money;
 	Money_ptr->setText(money, 0xC0);
 }
@@ -12,6 +12,7 @@ MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, consol
 	MoneyEarned = 0;
 	WaterCollected = 0;
 	ms = 0;
+	water_leak = 10;
 	water_spawn_delay = 0;
 	water_amt_reduction = 0;
 	water_wasted = 0;
@@ -50,7 +51,7 @@ bool MiniGame_WL::processKBEvents(SKeyEvent keyEvents[])
 				if (isDown != true) {
 					isDown = true;
 					DOWNcount++;
-					water_amt_reduction += 3;
+					water_amt_reduction += 2;
 					Beep(30, 30);
 				}
 			}
@@ -70,15 +71,16 @@ void MiniGame_WL::gameLoopListener()
 	if (isStarted()) {
 		ms++;
 		water_spawn_delay++;
-		if (water_spawn_delay == 75)
+		if (water_spawn_delay == 200)
 		{
 
 			water_spawn_delay = 0;
-			int water_leak = 10 - water_amt_reduction;
+			if ((water_leak - water_amt_reduction) >= 0)
+				water_leak = 10 - water_amt_reduction;
 			if (WaterCollected >= 30)
 			{
 				water_wasted += water_leak;
-				payreduction = water_wasted * 3;
+				payreduction = -(water_wasted * getAssociatedLevel());
 			}
 
 			else //To ensure water is not reduced over time
@@ -86,12 +88,14 @@ void MiniGame_WL::gameLoopListener()
 
 		}
 
-		water_ptr->setProgress(WaterCollected);
+		double water_filled_percent = (WaterCollected / 30.0)* 100;
+		water_ptr->setProgress(water_filled_percent);
 		setMoneyText();
 		Money_ptr->setRelativePos(0,1);
 
 		if ((UPcount >= 4) && (DOWNcount >= 4)) 
 		{
+			MoneyEarned = (150 * getAssociatedLevel()) - payreduction;
 			Completed = true;
 		}
 
@@ -113,7 +117,7 @@ enum LEVELSTATE MiniGame_WL::getAssociatedLSState() {
 
 void MiniGame_WL::mgGameInit() {
 	bucket_ptr = new Bucket;
-	water_ptr = new ProgressBar(B_VERTICAL, 5, 12, 100);
+	water_ptr = new ProgressBar(B_VERTICAL, 5, 10);
 	wrench_ptr = new Wrench("HEAD");
 	wrench_ptr2 = new Wrench("TAIL");
 	pipe_ptr = new Pipe;

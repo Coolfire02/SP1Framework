@@ -76,7 +76,6 @@ public:
 	
 	bool setArt(ARTTYPE);
 	bool setArt(BAR barType, short width, short height, WORD border, WORD fill, double progress);
-	bool setArt(BAR barType, short width, short height, WORD border, WORD fill, double progress, int progressMax);
 	bool setArt(std::string txt);
 	bool setArt(std::string txt, WORD bg);
 

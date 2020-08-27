@@ -17,6 +17,7 @@ private:
     int DOWNcount;
     bool isDown;
     int ms;
+    int water_leak;
     int water_spawn_delay;
     int water_amt_reduction;
     int water_wasted, payreduction;
