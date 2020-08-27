@@ -85,7 +85,7 @@ bool MiniGame_WL::processKBEvents_mg(SKeyEvent keyEvents[])
 }
 void MiniGame_WL::gameLoopListener()
 {
-	if (isStarted()) {
+	if (isStarted() && !isInInstructions) {
 		ms++;
 		water_spawn_delay++;
 		if (water_spawn_delay == 200)
