@@ -48,6 +48,29 @@ bool GameObject::isInLocation(int x, int y) {
 	return false;
 }
 
+bool GameObject::isInRelativeLocation(COORD coord) {
+	if (!(*this).isActive() || !(*this).hasRelativePos()) return false;
+	if ((*this).getRelativePos().X <= coord.X &&
+		(*this).getRelativePos().X + (int)(*this).getXLength() > coord.X &&
+		(*this).getRelativePos().Y <= coord.Y &&
+		(*this).getRelativePos().Y + (int)(*this).getYLength() > coord.Y) {
+		return true;
+	}
+	return false;
+}
+
+bool GameObject::isInRelativeLocation(int x, int y) {
+	COORD coord = { x,y };
+	if (!(*this).isActive() || !(*this).hasRelativePos()) return false;
+	if ((*this).getRelativePos().X <= coord.X &&
+		(*this).getRelativePos().X + (int)(*this).getXLength() > coord.X &&
+		(*this).getRelativePos().Y <= coord.Y &&
+		(*this).getRelativePos().Y + (int)(*this).getYLength() > coord.Y) {
+		return true;
+	}
+	return false;
+}
+
 bool GameObject::hasRelativePos() {
 	if (relativePosition != nullptr) {
 		return true;

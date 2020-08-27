@@ -72,6 +72,10 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "WildFireIcon.txt";
 		break;
 
+	case SHOP_ART:
+		arttxt = "Shop.txt";
+		break;
+
 	case MINIGAME_RM_ART:
 		arttxt = "MiniGame_RM.txt";
 		break;

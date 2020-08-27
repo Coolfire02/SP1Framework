@@ -113,15 +113,10 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 							if (type == "Forest") {
 								canMove = false;
 								//state = LS_FOREST_SCENE;
-								double waterInFT = truck_ptr->getCurrentWaterLevel();
-
+								fire -= truck_ptr->getCurrentWaterLevel();
 								truck_ptr->setWaterLevel(0);
-								ft_waterCollected->setProgress(0);
-								ft_waterCollected_text->setText(getTruckWaterPrefix());
 
-								fire -= waterInFT;
-								level_progress->setProgress(fire / originalTotalFire * 100);
-								level_progress_text->setText(getFireRemainingPrefix());
+								(*this).updateProgressDisplays();	
 
 								if (fire <= 0) {
 									fire = 0;
@@ -234,90 +229,152 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 }
 
 bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
-	bool eventIsProcessed = true;
-	if (currently_played_MG_ptr != NULL || state == LS_MAINMENU || state == LS_LEVEL_BUILDER) {
-		if (currently_played_MG_ptr != NULL) {
-			currently_played_MG_ptr->processMouseEvents(mouseEvent);
-		}
-		else {
-			COORD mousePos = { mouseEvent.mousePosition };
+	bool eventIsProcessed = false;
+	if (currently_played_MG_ptr != NULL) {
+		currently_played_MG_ptr->processMouseEvents(mouseEvent);
+	}
+	else {
+		COORD mousePos = { mouseEvent.mousePosition };
 
-			// if left-mouse is currently being pressed
-			if (mouseEvent.buttonState & FROM_LEFT_1ST_BUTTON_PRESSED) {
-				switch (state) {
-				case LS_MAINMENU:
-					break;
-				case LS_LEVEL_BUILDER:
-					if (currently_played_MG_ptr == NULL) {
-						if (pickedUp_obj != NULL) {
-							Map* map = levelspecific_maps.at(state);
-							COORD bufferOffset = map->getMapToBufferOffset();
-							pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
-						}
+		// if left-mouse is currently being pressed
+		if (mouseEvent.buttonState & FROM_LEFT_1ST_BUTTON_PRESSED) {
+			switch (state) {
+			case LS_MAINMENU:
+				break;
+			case LS_LEVEL_BUILDER:
+				if (currently_played_MG_ptr == NULL) {
+					if (pickedUp_obj != NULL) {
+						Map* map = levelspecific_maps.at(state);
+						COORD bufferOffset = map->getMapToBufferOffset();
+						pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
 					}
 				}
 			}
-			else {
-				if (pickedUp_obj != NULL)
-					pickedUp_obj = NULL;
-			}
+		}
+		else {
+			if (pickedUp_obj != NULL)
+				pickedUp_obj = NULL;
+		}
 
 
-			switch (mouseEvent.eventFlags) {
-			case 0:
-				if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) { //If clicked
-					if (FROM_LEFT_1ST_BUTTON_PRESSED != 0) {
-						if (currently_played_MG_ptr != NULL) {
-							//minigamehandlemouseevent()...
-						}
-						else {
-							Map* map = levelspecific_maps.at(state);
-							COORD bufferOffset = map->getMapToBufferOffset();
-							switch (state) {
-							case LS_MAINMENU:
-							case LS_LEVEL_BUILDER:
-								//if mouse cursor is touching level obj, clip onto it so u can move it around
-								std::multimap<short, GameObject*> sort;
-								for (auto& object_ptr : obj_ptr) {
-									if (!object_ptr->isActive()) continue;
-									sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
-								}
-
-								if (pickedUp_obj == NULL) {
-									//Beep(5140, 30);
-									//sort from highest weight to lowest allowing u to pickup the "most infront" obj
-									for (auto element : sort) {
-										COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
-										if (element.second->isInLocation(cursorPos)) {
-											pickedUp_obj = element.second;
-											//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+		switch (mouseEvent.eventFlags) {
+		case 0:
+			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) { //If clicked
+				if (FROM_LEFT_1ST_BUTTON_PRESSED != 0) {
+					if (currently_played_MG_ptr != NULL) {
+						//minigamehandlemouseevent()...
+					}
+					else {
+						Map* map = levelspecific_maps.at(state);
+						COORD bufferOffset = map->getMapToBufferOffset();
+						switch (state) {
+						case LS_MAINGAME: {
+							std::multimap<short, GameObject*> sort;
+							for (auto& object_ptr : obj_ptr) {
+								if (!object_ptr->isActive()) continue;
+								sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
+							}
+							for (auto element : sort) {
+								if (element.second->hasRelativePos()) {
+									COORD cursorPos = mousePos;
+									if (element.second->isInRelativeLocation(cursorPos)) {
+										if (element.second->getType() == "Shop") {
+											state = LS_GAMESHOP;
+											(*this).checkStateChange();
 											break;
 										}
 									}
 								}
+								else {
+									COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+									if (element.second->isInLocation(cursorPos)) {
+										// nothing 
+									}
+								}
+							}
+							break;
+						}
+
+						case LS_LEVEL_BUILDER: {
+							//if mouse cursor is touching level obj, clip onto it so u can move it around
+							std::multimap<short, GameObject*> sort;
+							for (auto& object_ptr : obj_ptr) {
+								if (!object_ptr->isActive()) continue;
+								sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
+							}
+
+							if (pickedUp_obj == NULL) {
+								//Beep(5140, 30);
+								//sort from highest weight to lowest allowing u to pickup the "most infront" obj
+								for (auto element : sort) {
+									COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+									if (element.second->isInLocation(cursorPos)) {
+										pickedUp_obj = element.second;
+										//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+										break;
+									}
+								}
 							}
 						}
-					}
 
-				}
-				else if (FROM_LEFT_1ST_BUTTON_PRESSED == 0) {
-					if (state == LS_LEVEL_BUILDER) {
-						pickedUp_obj = NULL; //No longer holding obj
+						}
 					}
 				}
-			case DOUBLE_CLICK:
-				break;
-			case MOUSE_WHEELED:
-			default:
+
+			}
+			else if (FROM_LEFT_1ST_BUTTON_PRESSED == 0) {
+				if (state == LS_LEVEL_BUILDER) {
+					pickedUp_obj = NULL; //No longer holding obj
+				}
+			}
+			break;
+		case DOUBLE_CLICK: {
+			Map* map = levelspecific_maps.at(state);
+			COORD bufferOffset = map->getMapToBufferOffset();
+			switch (state) {
+			case LS_GAMESHOP:
+			{
+				std::multimap<short, GameObject*> sort;
+				for (auto& object_ptr : shop_obj_ptr) {
+					if (!object_ptr->isActive()) continue;
+					sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
+				}
+				for (auto element : sort) {
+					if (element.second->hasRelativePos()) {
+						COORD cursorPos = mousePos;
+						if (element.second->isInRelativeLocation(cursorPos)) {
+							// intentionally left blank
+						}
+					}
+					else {
+						COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+						if (element.second->isInLocation(cursorPos) && element.second->getType() == "ShopItem") {
+							// GameShop item purchasing
+							ShopItem* shopItem = dynamic_cast<ShopItem*>(element.second);
+							if (player_ptr->getMoney() >= shopItem->getCost()) {
+								player_ptr->spendMoney(shopItem->getCost());
+								(*this).updateProgressDisplays();
+							}
+
+							// eventIsProcessed to true to add a 1s cooldown
+							eventIsProcessed = true;
+							break;
+						}
+					}
+				}
+				// switch break
 				break;
 			}
+			}
+			break;
 		}
-		(*this).checkStateChange();
-		return eventIsProcessed;
+		case MOUSE_WHEELED:
+			break;
+		default:
+			break;
+		}
 	}
-	else {
-		eventIsProcessed = false;
-	}
+	(*this).checkStateChange();
 	return eventIsProcessed;
 }
 
@@ -331,6 +388,7 @@ void Level::renderObjsToMap() {
 		case LS_MAINMENU:
 		case LS_LEVEL_BUILDER:
 		case LS_MAINGAME:
+		case LS_GAMESHOP:
 			map->clearMap();
 			//Rendering all characters collected in the Object_ptr vector to map. 
 			std::multimap<short, GameObject*> sort;
@@ -421,7 +479,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
 		
-		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600);
+		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600, "WildFire");
 		Text* text = new Text("Stages can be found ->", 0xE0);
 
 		player_ptr->setWorldPosition(4, 45);
@@ -441,8 +499,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		stages_ptr.push_back(TUTORIAL);
 		stages_ptr.push_back(STAGE_1_LEVEL_1);
 		stages_ptr.push_back(STAGE_2_LEVEL_1);
-
-		ShopItem* item = { Item(ABILITY_ZOOM, 1), 100 };
 
 		COORD worldCordAssignment = { 213, 16 };
 		for (auto& stages : obj_ptr) {
@@ -472,7 +528,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			levelStates.push_back(LS_LEVEL_BUILDER);
 
 		COORD cord = { 0,1 };
-
 		truck_ptr = new FireTruck(100);
 
 		Money_ptr = new Text(getMoneyBalancePrefix());
@@ -496,6 +551,22 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(level_progress);
 		obj_ptr.push_back(ft_waterCollected_text);
 		obj_ptr.push_back(level_progress_text);
+
+		//Game shop code
+		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
+		ShopItem* item = new ShopItem(Item(ABILITY_ZOOM, 1, "1x Ability Zoom"), 25);
+		Text* text = new Text(item->getItem().getDisplayName(), 0xAF);
+
+		button->setRelativePos(190, 30);
+		item->setWorldPosition(0, 0);
+		text->setWorldPosition(0, 5);
+
+		obj_ptr.push_back(button);
+		obj_ptr.push_back(item);
+		obj_ptr.push_back(text);
+
+		shop_obj_ptr.push_back(item);
+		shop_obj_ptr.push_back(text);
 
 		std::ifstream file("LEVELS\\" + levelName + ".txt");
 		std::string line;
@@ -665,17 +736,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			mapSize = mainMapSize;
 			mapDisplayOffset = mainDisplayOrigin;
 			break;
-
-
-			//Minigame maps to be accessed when LS_STATE is Minigame, render from Minigame class.
-			//case LS_MINIGAME_WL:
-			//case LS_MINIGAME_BHOS:
-			//	for (auto& entry : mg_ptr) {
-			//		if (entry->getAssociatedLSState() == levelStates[i]) {
-			//			mapSize = entry->getMapSize();
-			//		}
-			//	}
-			//	break;
+		case LS_GAMESHOP:
+			mapSize = { 626,50 }; break;
 
 		case LS_FOREST_SCENE: mapSize = { 213, 50 }; break;
 		case LS_END_SCENE: mapSize = { 213, 50 }; break;
@@ -783,6 +845,16 @@ void tokenize(std::string const& str, const char delim,
 		end = str.find(delim, start);
 		out.push_back(str.substr(start, end - start));
 	}
+}
+
+void Level::updateProgressDisplays() {
+	Money_ptr->setText(getMoneyBalancePrefix());
+
+	ft_waterCollected->setProgress(truck_ptr->getCurrentWaterLevel()/truck_ptr->getMaxWater() * 100);
+	ft_waterCollected_text->setText(getTruckWaterPrefix());
+
+	level_progress->setProgress(fire / originalTotalFire * 100);
+	level_progress_text->setText(getFireRemainingPrefix());
 }
 
 std::string Level::getTruckWaterPrefix() {

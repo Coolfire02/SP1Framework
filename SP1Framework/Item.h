@@ -1,25 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-typedef struct ShopItem {
-	Item item;
-	double cost;
-};
-
-ShopItem shopitem_new(Item item, double cost) {
-	ShopItem sitem;
-	sitem.item = item;
-	sitem.cost = cost;
-	return sitem;
-}
-
-ShopItem* shopitem_newptr(Item item, double cost) {
-	ShopItem* sitem;
-	sitem->item = item;
-	sitem->cost = cost;
-	return sitem;
-}
-
 enum ITEMTYPE {
 	ABILITY_ZOOM,
 	ABILITY_ROADREPAIR,
@@ -32,19 +13,23 @@ enum ITEMTYPE {
 	HOSE_MONEY_DUPLICATOR,
 };
 
-class Item
+class Item : public GameObject
 {
 private:
 	const ITEMTYPE type;
+	std::string displayName;
 	int stack;
-	Item(ITEMTYPE);
-	Item(ITEMTYPE, int);
+public:
+	Item(ITEMTYPE, std::string);
+	Item(ITEMTYPE, int, std::string);
 	~Item();
 
+	ITEMTYPE getItemType() const;
+	void setDisplayName(std::string);
+	std::string getDisplayName() const;
 	void setAmount(int);
 
 	std::string getType();
-	ITEMTYPE getItemType();
 	Item* clone() const { return new Item(*this); };
 };
 

@@ -7,6 +7,7 @@
 #include "ArtObject.h"
 #include "FireTruck.h"
 #include "FireStation.h"
+#include "ShopItem.h"
 #include "Forest.h"
 #include "ASCII.h"
 #include "Player.h"
@@ -97,6 +98,7 @@ private:
 	std::string getTruckWaterPrefix();
 	std::string getFireRemainingPrefix();
 	std::string getMoneyBalancePrefix();
+	void updateProgressDisplays();
 public:
 	void gameLoopListener();
 	Level(LEVEL, Console&);

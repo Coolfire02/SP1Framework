@@ -5,10 +5,12 @@
 #include"Position.h"
 #include"Money.h"
 #include"ASCII.h"
+#include "Inventory.h"
 
 class Player : public GameObject
 {
 private:
+	Inventory inventory;
 	std::string getType();
 	Position Ppos1;
 	Money M1;
@@ -22,6 +24,8 @@ public:
 	bool spendMoney(int price);
 	void receiveMoney(int amt);
 	int getMoney();
+
+	Inventory& getInventory();
 
 	Player* clone() const { return new Player(*this); };
 };

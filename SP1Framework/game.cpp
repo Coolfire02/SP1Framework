@@ -16,6 +16,7 @@
 #include "MiniGame_RM.h"
 
 double  g_keyCooldownTime;
+double  g_mouseCooldownTime;
 SKeyEvent g_skKeyEvent[K_COUNT];
 SMouseEvent g_mouseEvent;
 
@@ -25,7 +26,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-Level* levels[2] = { new Level(MAINMENU, g_Console),
+Level* levels[2] = { new Level(TUTORIAL, g_Console),
                     new Level(TUTORIAL, g_Console) };
 Level* g_Level;
 
@@ -228,7 +229,11 @@ void updateLevel() {
             g_keyCooldownTime = g_dElapsedTime + 0.05; //add cooldown
         }
     }
-    g_Level->processMouseEvents(g_mouseEvent);
+    if (g_mouseCooldownTime < g_dElapsedTime) {
+        if (g_Level->processMouseEvents(g_mouseEvent)) { //successfully processed?
+            g_mouseCooldownTime = g_dElapsedTime + 1; //add cooldown
+        }
+    }
 }
 
 

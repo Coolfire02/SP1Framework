@@ -41,4 +41,8 @@ std::string Player::getType() {
     return "FireMan";
 }
 
+Inventory& Player::getInventory() {
+    return inventory;
+}
+
 

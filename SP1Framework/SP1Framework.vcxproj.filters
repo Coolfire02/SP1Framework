@@ -156,11 +156,20 @@
     <ClCompile Include="Droplet.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
     <ClCompile Include="ArtObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MiniGame_RW.cpp">
       <Filter>Source Files\MiniGames</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShopItem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +276,9 @@
       <Filter>Header Files\Icons/Buildings</Filter>
     </ClInclude>
     <ClInclude Include="ArtObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

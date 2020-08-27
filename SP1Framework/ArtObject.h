@@ -9,7 +9,7 @@ public:
 	void setArtType(ARTTYPE type);
 	void setType(std::string type);
 	std::string getType();
-	ArtObject(ARTTYPE type, short);
+	ArtObject(ARTTYPE type, short, std::string);
 	~ArtObject();
 
 	ArtObject* clone() const { return new ArtObject(*this); };

@@ -30,6 +30,8 @@ enum ARTTYPE
 	RVT_ROAD_ART,//Right Vertical T turns
 	X_ROAD_ART,//Crossroad
 
+	SHOP_ART,
+
 	MINIGAME_WREST_ART, //Restaurant
 
 	MINIGAME_CFT_ART, //Cat from Tree

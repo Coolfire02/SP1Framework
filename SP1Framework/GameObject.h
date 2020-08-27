@@ -33,6 +33,8 @@ public:
 	bool isActive();
 	bool isInLocation(COORD);
 	bool isInLocation(int, int);
+	bool isInRelativeLocation(COORD);
+	bool isInRelativeLocation(int, int);
 
 	virtual std::string getType() = 0;
 

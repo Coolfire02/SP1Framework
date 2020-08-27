@@ -1,9 +1,8 @@
 #include "ArtObject.h"
 
-ArtObject::ArtObject(ARTTYPE artType, short weight) {
+ArtObject::ArtObject(ARTTYPE artType, short weight, std::string type) : type(type) {
 	(*this).artType = artType;
 	art.setArt(artType);
-	(*this).type = "ArtObject";
 }
 
 ArtObject::~ArtObject() {
@@ -11,7 +10,7 @@ ArtObject::~ArtObject() {
 }
 
 std::string ArtObject::getType() {
-	return "ArtObject";
+	return type;
 }
 
 void ArtObject::setType(std::string type) {

@@ -1,14 +1,22 @@
 #include "Item.h"
 
-Item::Item(ITEMTYPE type, int amt) : type(type), stack(amt) {}
-Item::Item(ITEMTYPE type) : type(type) {}
+Item::Item(ITEMTYPE type, int amt, std::string displayName) : type(type), stack(amt), displayName(displayName) {}
+Item::Item(ITEMTYPE type, std::string displayName) : type(type), displayName(displayName) {}
 Item::~Item() {};
 
 void Item::setAmount(int amt) {
 	stack = amt;
 }
 
-ITEMTYPE Item::getItemType() {
+void Item::setDisplayName(std::string name) {
+	displayName = name;
+}
+
+std::string Item::getDisplayName() const {
+	return displayName;
+}
+
+ITEMTYPE Item::getItemType() const {
 	return type;
 }
 
