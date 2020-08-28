@@ -21,7 +21,7 @@ Droplet::Droplet() {
 	DropletWorth = 1;
 }
 
-Droplet::Droplet(WATERTYPE type)
+Droplet::Droplet(enum WATERTYPE type)
 {
 	(*this).type = type;
 	weight = 700;

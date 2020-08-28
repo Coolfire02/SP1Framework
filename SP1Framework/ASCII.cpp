@@ -183,6 +183,12 @@ bool ASCII::setArt(ARTTYPE type) {
 	case DROPLET_ART:
 		arttxt = "WaterDrop.txt";
 		break;
+	case BOTTLE_ART:
+		arttxt = "Bottle.txt";
+		break;
+	case HAIL_ART:
+		arttxt = "Hail.txt";
+		break;
 	default:
 		arttxt = "NA";
 		break;
