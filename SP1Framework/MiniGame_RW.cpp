@@ -19,6 +19,7 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 {
 	ms = 1000;
 	droplet_spawn_delay = 200;
+	droplet_fall_delay = 0;
 	art.setArt(MINIGAME_RW_ART);
 
 	//To get the amounts of each water (water Worth increases with each level)

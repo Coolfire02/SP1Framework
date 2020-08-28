@@ -370,7 +370,7 @@ bool ASCII::setArt(std::string txt)
 	}
 	CHAR_INFO txt_bg;
 	txt_bg.Attributes = 0x20;
-	yLength = 1;
+	yLength = std::count(txt.begin(), txt.end(), '\n');
 	xLength = txt.length();
 
 	art = new CHAR_INFO * [xLength];
@@ -383,10 +383,11 @@ bool ASCII::setArt(std::string txt)
 			art[i][j] = txt_bg;
 		}
 	}
-
+	int y = 0;
 	for (unsigned int t = 0; t < txt.length(); t++)
 	{
-		art[t][0].Char.AsciiChar = txt[t];
+		if (y == '\n') y++;
+		art[t][y].Char.AsciiChar = txt[t];
 	}
 	return true;
 }
