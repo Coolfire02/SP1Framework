@@ -559,19 +559,128 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		//Game shop code
 		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
 		obj_ptr.push_back(button);
-
-		ShopItem* item = new ShopItem(Item(ABILITY_ZOOM, 1, "1x Ability Zoom"), 25);
-		Text* text = new Text(item->getItem().getDisplayName(), 0xAF);
-
 		button->setRelativePos(190, 30);
-		item->setWorldPosition(15, 5);
-		text->setWorldPosition(item->getWorldPosition().X, item->getWorldPosition().Y+5);
 
-		obj_ptr.push_back(item);
-		obj_ptr.push_back(text);
 
-		shop_obj_ptr.push_back(item);
-		shop_obj_ptr.push_back(text);
+		for (int t = 0; t < TOTAL_SHOP_ITEMS; t++)
+		{
+			int X_COORD[5] = {15, 55, 95, 135, 175},x = 0, y = 5; //Coord of first row items in shop
+			WORD ShopText = 0x70;
+			enum ITEMTYPE type;
+			std::string ItemName;
+			int quantity, price;
+			int text_Y_displacement = 5;
+
+			switch (t)
+			{
+			case(ABILITY_ZOOM):
+				type = ABILITY_ZOOM;
+				ItemName = "Zoom Ability";
+				quantity = 1;
+				price = 25;
+				x = X_COORD[0];
+				y += 0;
+				break;
+
+			case(ABILITY_HOMEBASE):
+				type = ABILITY_HOMEBASE;
+				ItemName = "Homebase Teleportation Ability";
+				quantity = 1;
+				price = 25;
+				x = X_COORD[1];
+				y += 0;
+				break;
+
+			case(ABILITY_ROADREPAIR):
+				type = ABILITY_ROADREPAIR;
+				ItemName = "Road Repair Ability";
+				quantity = 1;
+				price = 25;
+				x = X_COORD[2];
+				y += 0;
+				break;
+
+			case(ABILITY_UNLOCKMG):
+				type = ABILITY_UNLOCKMG;
+				ItemName = "One-time MiniGame Unlock Ability";
+				quantity = 3;
+				price = 25;
+				x = X_COORD[3];
+				y += 0;
+				break;
+
+			case(HOSE_HOLY_WATER):
+				type = HOSE_HOLY_WATER;
+				ItemName = "Hose of Holy Variation";
+				quantity = 1;
+				price = 200;
+				x = X_COORD[4];
+				y += 0;
+				break;
+
+			case(HOSE_MONEY_SALVAGER):
+				type = HOSE_MONEY_SALVAGER;
+				ItemName = "Hose of Money Salvage Variation";
+				quantity = 1;
+				price = 300;
+				x = X_COORD[0];
+				y *= 3;
+				break;
+
+			case(HOSE_ABSORBER):
+				type = HOSE_ABSORBER;
+				ItemName = "Hose of Absorb Variation";
+				quantity = 1;
+				price = 450;
+				x = X_COORD[1];
+				y *= 3;
+				break;
+
+			case(HOSE_MAGICAL_WATER):
+				type = HOSE_MAGICAL_WATER;
+				ItemName = "Hose of Magic Variation";
+				quantity = 1;
+				price = 1200;
+				x = X_COORD[2];
+				y *= 3;
+				break;
+
+			case(HOSE_MONEY_DUPLICATOR):
+				type = HOSE_MONEY_DUPLICATOR;
+				ItemName = "Hose of Money Duplication Variation";
+				quantity = 1;
+				price = 1200;
+				x = X_COORD[3];
+				y *= 3;
+				break;
+
+			default:
+				type = ABILITY_ZOOM;
+				ItemName = "";
+				quantity = 0;
+				price = 0;
+				x = 0;
+				y = 0;
+				break;
+			}
+
+			ShopItem* item = new ShopItem(Item(type, quantity, (std::to_string(quantity) + " x " + ItemName)), price);
+			Text* text = new Text(item->getItem().getDisplayName(), ShopText);
+			int txtXPos;
+			if (text->getText().length() / 2 < 11)
+				txtXPos = x - 3;
+			else
+				txtXPos = x - text->getText().length() / 2 + 6;
+
+			item->setWorldPosition(x, y);
+			text->setWorldPosition(txtXPos, item->getWorldPosition().Y + 5);
+
+			obj_ptr.push_back(item);
+			obj_ptr.push_back(text);
+
+			shop_obj_ptr.push_back(item);
+			shop_obj_ptr.push_back(text);
+		}
 
 		std::ifstream file("LEVELS\\" + levelName + ".txt");
 		std::string line;
