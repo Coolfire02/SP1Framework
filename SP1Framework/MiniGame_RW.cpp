@@ -21,12 +21,26 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 	droplet_spawn_delay = 200;
 	art.setArt(MINIGAME_RW_ART);
 
-	Text* Title = new Text("Water Leak Game", MiniGameMap.getBackground());
+	//To get the amounts of each water (water Worth increases with each level)
+	Droplet NDroplet(DROPLET);
+	Droplet Bottle(BOTTLE);
+	Droplet Hail(HAIL);
+
+	Text* Title = new Text("Raining Water Game", MiniGameMap.getBackground());
 	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
 	instructions_obj_ptr.push_back(Title);
 	Text* Line1 = new Text("Collect rainwater by moving left and right using the A & D keys.", MiniGameMap.getBackground());
 	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
 	instructions_obj_ptr.push_back(Line1);
+	Text* Line2 = new Text("Normal droplet give you " + std::to_string(NDroplet.getDropletWorth()), MiniGameMap.getBackground());
+	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
+	instructions_obj_ptr.push_back(Line2);
+	Text* Line3 = new Text("Bottles give you " + std::to_string(Bottle.getDropletWorth()), MiniGameMap.getBackground());
+	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
+	instructions_obj_ptr.push_back(Line3);
+	Text* Line4 = new Text("Hail coins give you " + std::to_string(Hail.getDropletWorth()), MiniGameMap.getBackground());
+	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
+	instructions_obj_ptr.push_back(Line4);
 	
 
 	button_ptr = new Text("Start Game", 0x70);
@@ -62,24 +76,25 @@ void MiniGame_RW::gameLoopListener() {
 		}
 		else {
 			int interval = 20;
+			int fallrand = (rand() % 10) * 10;
 			//adding new droplet to top of the map every 1000 millisecond
 			if (ms >= 10) {
 				int spawnCount = (rand() % 10 + 4);
 				for (int i = 0; i < spawnCount; i++) {
-					COORD coinCord = { 0,0 };
+					COORD waterCord = { 0,0 };
 					ms = 0;
 					//10 attempts
 					bool colision = false;
 					for (int j = 0; j < 10; j++) {
-						coinCord.X = rand() % 93 + 60;
-						coinCord.X += j;
-						for (auto& coin : droplet_ptrs) {
-							if (coin->getWorldPosition().X == coinCord.X &&
-								coin->getWorldPosition().Y == coinCord.Y)
+						waterCord.X = rand() % 93 + 60;
+						waterCord.X += j;
+						for (auto& droplet : droplet_ptrs) {
+							if (droplet->getWorldPosition().X == waterCord.X &&
+								droplet->getWorldPosition().Y == waterCord.Y)
 								colision = true;
 						}
 						if (colision == false) {
-							addWater(coinCord);
+							addWater(waterCord);
 							j = 10;
 						}
 					}
@@ -94,7 +109,14 @@ void MiniGame_RW::gameLoopListener() {
 				if (!droplet_ptrs.empty()) {
 					for (auto it = droplet_ptrs.begin(); it != droplet_ptrs.end(); /*NOTHING*/) {
 						COORD coord = (*it)->getWorldPosition();
-						coord.Y += 1;
+						if (droplet_fall_delay >= 2 && (((*it)->getType()) == "Bottle"))
+						{
+							coord.Y += 1;
+						}
+						else if ((*it)->getType()!= "Bottle")
+						{
+							coord.Y += 1;
+						}
 						(*it)->setWorldPosition(coord);
 						if (coord.Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
 
@@ -114,7 +136,7 @@ void MiniGame_RW::gameLoopListener() {
 
 						}
 						else if (jar_ptr->isCollided(*(*it))) {
-							MoneyEarned += (*it)->getDropletWorth();
+							WaterCollected += (*it)->getDropletWorth();
 
 							for (auto mg_it = mg_obj_ptr.begin(); mg_it != mg_obj_ptr.end(); /*NOTHING*/) {
 								GameObject* objPtr = (*it);
@@ -134,6 +156,8 @@ void MiniGame_RW::gameLoopListener() {
 						}
 					}
 				}
+				if (droplet_fall_delay >= 2)
+					droplet_fall_delay = 0;
 			}
 
 			ms += interval;
@@ -144,7 +168,14 @@ void MiniGame_RW::gameLoopListener() {
 
 void MiniGame_RW::addWater(COORD coord)
 {
-	Droplet* droplet = new Droplet;
+	Droplet* droplet = NULL;
+	int randomizer = (rand() % 10);
+	if ((randomizer == 5) || (randomizer == 2) || (randomizer == 7) || (randomizer == 9))
+		droplet = new Droplet(HAIL);
+	else if ((randomizer == 1))
+		droplet = new Droplet(BOTTLE);
+	else
+		droplet = new Droplet(DROPLET);
 	droplet->setWorldPosition(coord);
 	mg_obj_ptr.push_back(droplet);
 	droplet_ptrs.push_back(droplet);

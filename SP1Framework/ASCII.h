@@ -68,6 +68,8 @@ enum ARTTYPE
 
 	MINIGAME_RW_ART, //Collect Rain Water
 	DROPLET_ART,
+	BOTTLE_ART,
+	HAIL_ART,
 
 	MINIGAME_BHOS_ART, //Bee Hive Removal
 	BEEHIVE_ART,
