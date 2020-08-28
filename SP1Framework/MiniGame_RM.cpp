@@ -80,7 +80,7 @@ void MiniGame_RM::gameLoopListener() {
 		}
 		else {
 			int interval = 20;
-			int fallRand = (rand() % 10)*10;
+			int fallRand = (rand() % 10) *10;
 			//adding new coins to top of the map every 1000 millisecond
 			if (ms >= 1000) {
 				int spawnCount = (rand() % 10 + 4);
