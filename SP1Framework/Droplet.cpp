@@ -33,12 +33,12 @@ Droplet::Droplet(enum WATERTYPE type)
 	else if (type == BOTTLE)
 	{
 		art.setArt(BOTTLE_ART);
-		DropletWorth = 6;
+		DropletWorth = 5;
 	}
 	else
 	{
 		art.setArt(HAIL_ART);
-		DropletWorth = -2;
+		DropletWorth = -3;
 	}
 }
 
