@@ -28,6 +28,7 @@ public:
 	std::string getType();
 	void setRoadType(ROADTYPE);
 	ROADTYPE getRoadType();
+	void rotateRoadType();
 
 	Road* clone() const { return new Road(*this); };
 };

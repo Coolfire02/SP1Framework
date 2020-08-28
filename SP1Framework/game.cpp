@@ -152,11 +152,12 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case VK_LEFT: key = K_LEFT; break; 
     case VK_RIGHT: key = K_RIGHT; break; 
     case VK_SPACE: key = K_SPACE; break;
+    case VK_DELETE: key = K_DELETE; break;
     case VK_ESCAPE: key = K_ESCAPE; break; 
     case VK_CONTROL: key = K_CTRL; break;
-    case VK_RCONTROL: key = K_CTRL; break;
-    case VK_LCONTROL: key = K_CTRL; break;
     case 0x43: key = K_C; break;
+    case 0x52: key = K_R; break;
+    case 0x56: key = K_V; break;
     case 0x57: key = K_W; break;
     case 0X41: key = K_A; break;
     case 0x53: key = K_S; break;
@@ -166,6 +167,10 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     {
         g_skKeyEvent[key].keyDown = keyboardEvent.bKeyDown;
         g_skKeyEvent[key].keyReleased = !keyboardEvent.bKeyDown;
+        bool ctrlPressed = keyboardEvent.dwControlKeyState & (RIGHT_CTRL_PRESSED | LEFT_CTRL_PRESSED);
+        g_skKeyEvent[K_CTRL].keyDown = ctrlPressed;
+        g_skKeyEvent[K_CTRL].keyReleased = !ctrlPressed;
+        
     }    
 }
 
@@ -199,6 +204,9 @@ void processUserInput()
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
         if (g_Level->getLevel() == MAINMENU)
             g_bQuitGame = true;
+        else if (g_Level->getState() == LS_GAMESHOP) {
+            g_Level->setState(LS_MAINGAME);
+        }
         else
             startNextLevel(MAINMENU);
 }

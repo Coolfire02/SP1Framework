@@ -35,13 +35,16 @@ enum EKEYS
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
+    K_DELETE,
     K_SPACE,
     K_CTRL,
     K_W,
+    K_V,
     K_A,
     K_S,
     K_D,
     K_C,
+    K_R,
     K_COUNT
 };
 

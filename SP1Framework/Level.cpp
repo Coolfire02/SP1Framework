@@ -201,25 +201,45 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 				mapOffset.Y -= 10;
 			if (keyEvents[K_A].keyDown)
 				mapOffset.X -= 10;
-			if (keyEvents[K_S].keyDown) {
-				if (keyEvents[K_W].keyDown) {
-					//Beep(5500, 50);
-					if (state == LS_LEVEL_BUILDER) {
-						saveLevel();
-						return true;
-					}
+			if (keyEvents[K_CTRL].keyDown) {
+				if (keyEvents[K_S].keyDown) {
+					Beep(8000, 50);
+					saveLevel();
+					return true;
 				}
-				mapOffset.Y += 5;
-			}
-			if (keyEvents[K_C].keyReleased) {
-				if (keyEvents[K_CTRL].keyDown) {
+				if (keyEvents[K_V].keyDown) {
 					if (pickedUp_obj != NULL) {
-						//pickedUp_obj = (*pickedUp_obj)
+						GameObject* obj = new Road(dynamic_cast<Road*>(pickedUp_obj)->getRoadType());
+						obj->setWorldPosition(pickedUp_obj->getWorldPosition().X + 1, pickedUp_obj->getWorldPosition().Y + 1);
+						obj_ptr.push_back(obj);
 					}
 				}
+			}
+			if (keyEvents[K_S].keyDown) {
+				mapOffset.Y += 5;
 			}
 			if (keyEvents[K_D].keyDown)
 				mapOffset.X += 10;
+			if (keyEvents[K_R].keyDown) {
+				if (pickedUp_obj != NULL) {
+					if (pickedUp_obj->getType().rfind("Road") != std::string::npos) {
+						Road* roadPtr = dynamic_cast<Road*>(pickedUp_obj);
+						roadPtr->rotateRoadType();
+					}
+				}
+			}
+			if (keyEvents[K_DELETE].keyReleased) {
+				if (pickedUp_obj != NULL) {
+					for (auto& pointer : obj_ptr) {
+						if (pointer == pickedUp_obj) {
+							delete pointer;
+							pointer = nullptr;
+						}
+					}
+					obj_ptr.erase(std::remove(obj_ptr.begin(), obj_ptr.end(), nullptr), obj_ptr.end()); //Removes all nullptrs from vector
+					pickedUp_obj = NULL;
+				}
+			}
 			map->setMapToBufferOffset(mapOffset);
 		}
 		// init new stages if state change
@@ -326,6 +346,10 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 				if (state == LS_LEVEL_BUILDER) {
 					pickedUp_obj = NULL; //No longer holding obj
 				}
+			}
+
+			if (mouseEvent.buttonState == FROM_LEFT_2ND_BUTTON_PRESSED) {
+
 			}
 			break;
 		case DOUBLE_CLICK: {
@@ -444,6 +468,10 @@ void Level::renderMap() {
 	}
 }
 
+enum LEVELSTATE Level::getState() {
+	return state;
+}
+
 bool Level::setState(LEVELSTATE state) {
 	if (std::find(levelStates.begin(), levelStates.end(), state) != levelStates.end()) {
 		(*this).state = state;
@@ -467,7 +495,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
-		state = LS_MAINGAME; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
+		state = LS_LEVEL_BUILDER; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
 	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -560,12 +588,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
 		obj_ptr.push_back(button);
 		button->setRelativePos(190, 30);
-
-<<<<<<< HEAD
-=======
-		ShopItem* item = new ShopItem(Item(ABILITY_ZOOM, 1, "1x Ability Zoom"), 25);
-		Text* text = new Text(item->getItem().getDisplayName()+"\ntttt\naaaa", 0xAF);
->>>>>>> c603a4f06719b512ba81c875d2a425b3fc550889
 
 		for (int t = 0; t < TOTAL_SHOP_ITEMS; t++)
 		{

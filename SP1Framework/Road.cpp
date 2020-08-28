@@ -57,6 +57,14 @@ void Road::setRoadType(ROADTYPE type) {
 
 }
 
+void Road::rotateRoadType() {
+	type = static_cast<ROADTYPE>(type+1);
+	if (type == R_COUNT) {
+		type = R_HORIZONTAL;
+	}
+	(*this).setRoadType(type);
+}
+
 Road::~Road() {
 
 }
