@@ -561,12 +561,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(button);
 		button->setRelativePos(190, 30);
 
-<<<<<<< HEAD
-=======
-		ShopItem* item = new ShopItem(Item(ABILITY_ZOOM, 1, "1x Ability Zoom"), 25);
-		Text* text = new Text(item->getItem().getDisplayName()+"\ntttt\naaaa", 0xAF);
->>>>>>> c603a4f06719b512ba81c875d2a425b3fc550889
-
+		
 		for (int t = 0; t < TOTAL_SHOP_ITEMS; t++)
 		{
 			int X_COORD[5] = {15, 55, 95, 135, 175},x = 0, y = 5; //Coord of first row items in shop
