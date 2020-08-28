@@ -3,7 +3,8 @@
 ShopItem::ShopItem(Item item, double cost) : item(item), cost(cost) {
 	switch (item.getItemType()) {
 	case ABILITY_ZOOM:
-		art.setArt(10, 5, 0x80, 0xA0);
+		art.setArt(ABILITY_ZOOM_ART);
+		break;
 	default:
 		art.setArt(10, 5, 0xF0, 0xF0);
 	}

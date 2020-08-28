@@ -356,7 +356,6 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 								(*this).updateProgressDisplays();
 								Beep(8000, 50);
 								player_ptr->getInventory().addItem(shopItem->getItem());
-							
 							}
 
 							// eventIsProcessed to true to add a 1s cooldown
@@ -559,14 +558,15 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 
 		//Game shop code
 		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
+		obj_ptr.push_back(button);
+
 		ShopItem* item = new ShopItem(Item(ABILITY_ZOOM, 1, "1x Ability Zoom"), 25);
 		Text* text = new Text(item->getItem().getDisplayName(), 0xAF);
 
 		button->setRelativePos(190, 30);
-		item->setWorldPosition(0, 0);
-		text->setWorldPosition(0, 5);
+		item->setWorldPosition(15, 5);
+		text->setWorldPosition(item->getWorldPosition().X, item->getWorldPosition().Y+5);
 
-		obj_ptr.push_back(button);
 		obj_ptr.push_back(item);
 		obj_ptr.push_back(text);
 
