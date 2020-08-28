@@ -1,10 +1,10 @@
 Debug/
 Release/
+.vs/
 *.opensdf
 *.sdf
 *.opendb
 *.opensdf
 *.suo
-*.vs
 *.user
 ipch/
