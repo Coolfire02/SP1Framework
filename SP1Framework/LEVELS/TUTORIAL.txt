@@ -32,9 +32,9 @@ Right_L_Road,293,103
 Left_Vertical_T_Road,293,85
 Horizontal_Road,268,103
 Right_L_Road,351,58
-Vertical_Road,367,82
+Up_T_Road,314,78
 Forest,249,95
 Forest,240,93
 Left_Up_L_Road,343,68
 L_Road,351,79
-Vertical_Road,380,83
+Vertical_Road,368,64

@@ -495,7 +495,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
-		state = LS_LEVEL_BUILDER; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
+		state = LS_MAINGAME; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
 	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -587,7 +587,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		//Game shop code
 		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
 		obj_ptr.push_back(button);
-		button->setRelativePos(190, 30);
+		button->setRelativePos(193, 38);
 
 		for (int t = 0; t < TOTAL_SHOP_ITEMS; t++)
 		{
@@ -602,7 +602,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			{
 			case(ABILITY_ZOOM):
 				type = ABILITY_ZOOM;
-				ItemName = "Zoom Ability";
+				ItemName = "Zoom Ability\nCosts $25\n<Double-Click icon to buy>";
 				quantity = 1;
 				price = 25;
 				x = X_COORD[0];
@@ -694,10 +694,10 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			ShopItem* item = new ShopItem(Item(type, quantity, (std::to_string(quantity) + " x " + ItemName)), price);
 			Text* text = new Text(item->getItem().getDisplayName(), ShopText);
 			int txtXPos;
-			if (text->getText().length() / 2 < 11)
+			if (text->getXLength() / 2 < 11)
 				txtXPos = x - 3;
 			else
-				txtXPos = x - text->getText().length() / 2 + 6;
+				txtXPos = x - text->getXLength() / 2 + 6;
 
 			item->setWorldPosition(x, y);
 			text->setWorldPosition(txtXPos, item->getWorldPosition().Y + 5);
