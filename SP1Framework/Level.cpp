@@ -354,6 +354,9 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 							if (player_ptr->getMoney() >= shopItem->getCost()) {
 								player_ptr->spendMoney(shopItem->getCost());
 								(*this).updateProgressDisplays();
+								Beep(8000, 50);
+								player_ptr->getInventory().addItem(shopItem->getItem());
+							
 							}
 
 							// eventIsProcessed to true to add a 1s cooldown
@@ -551,6 +554,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(level_progress);
 		obj_ptr.push_back(ft_waterCollected_text);
 		obj_ptr.push_back(level_progress_text);
+
+		//Power Ups
 
 		//Game shop code
 		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
@@ -789,6 +794,7 @@ void Level::newStageinit() {
 		for (auto& shop_objs : shop_obj_ptr) {
 			shop_objs->setActive(true);
 		}
+		Money_ptr->setActive(true);
 		break;
 	case LS_MAINGAME:
 		for (auto& objs : obj_ptr) {

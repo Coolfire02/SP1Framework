@@ -18,7 +18,7 @@ double ShopItem::getCost() {
 	return cost;
 }
 
-const Item& ShopItem::getItem() {
+Item ShopItem::getItem() {
 	return item;
 }
 

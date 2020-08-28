@@ -9,7 +9,8 @@ public:
 	Inventory();
 	~Inventory();
 	void addItem(Item);
+	bool removeItem(Item);
 	std::vector<Item>& getItems();
-	bool contains(Item&);
+	bool contains(Item);
 };
 

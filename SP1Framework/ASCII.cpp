@@ -76,6 +76,20 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "Shop.txt";
 		break;
 
+	case ABILITY_ZOOM_ART:
+		arttxt = "Shop\\Shop_Zoom.txt";
+		break;
+	case ABILITY_FIXROAD_ART:
+		arttxt = "Shop\\Shop_FixRoad.txt";
+		break;
+	case ABILITY_UNLOCKMG_ART:
+		arttxt = "Shop\\Shop_UnlockMG.txt";
+		break;
+	case ABILITY_HOMEBASE_ART:
+		arttxt = "Shop\\Shop_HomeBase.txt";
+		break;
+
+
 	case MINIGAME_RM_ART:
 		arttxt = "MiniGame_RM.txt";
 		break;
