@@ -72,21 +72,38 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "WildFireIcon.txt";
 		break;
 
+
 	case SHOP_ART:
-		arttxt = "Shop.txt";
+		arttxt = "Shop\\ShopIcon.txt";
 		break;
 
 	case ABILITY_ZOOM_ART:
-		arttxt = "Shop\\Shop_Zoom.txt";
+		arttxt = "Shop\\Ability_Zoom.txt";
 		break;
 	case ABILITY_FIXROAD_ART:
-		arttxt = "Shop\\Shop_FixRoad.txt";
+		arttxt = "Shop\\Ability_FixRoad.txt";
 		break;
 	case ABILITY_UNLOCKMG_ART:
-		arttxt = "Shop\\Shop_UnlockMG.txt";
+		arttxt = "Shop\\Ability_UnlockMG.txt";
 		break;
 	case ABILITY_HOMEBASE_ART:
-		arttxt = "Shop\\Shop_HomeBase.txt";
+		arttxt = "Shop\\Ability_HomeBase.txt";
+		break;
+
+	case HOSE_ABSORBER_ART:
+		arttxt = "Shop\\Hose_Absorber.txt";
+		break;
+	case HOSE_HOLYWATER_ART:
+		arttxt = "Shop\\Hose_HolyWater.txt";
+		break;
+	case HOSE_MAGICALWATER_ART:
+		arttxt = "Shop\\Hose_MagicalWater.txt";
+		break;
+	case HOSE_MONEYDUPLICATOR_ART:
+		arttxt = "Shop\\Hose_MoneyDuplicator.txt";
+		break;
+	case HOSE_MONEYSALVAGER_ART:
+		arttxt = "Shop\\Hose_MoneySalvager.txt";
 		break;
 
 
