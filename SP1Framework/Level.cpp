@@ -561,7 +561,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(button);
 
 		ShopItem* item = new ShopItem(Item(ABILITY_ZOOM, 1, "1x Ability Zoom"), 25);
-		Text* text = new Text(item->getItem().getDisplayName(), 0xAF);
+		Text* text = new Text(item->getItem().getDisplayName()+"\ntttt\naaaa", 0xAF);
 
 		button->setRelativePos(190, 30);
 		item->setWorldPosition(15, 5);
