@@ -19,6 +19,7 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 {
 	ms = 1000;
 	droplet_spawn_delay = 200;
+	droplet_fall_delay = 0;
 	art.setArt(MINIGAME_RW_ART);
 
 	//To get the amounts of each water (water Worth increases with each level)
@@ -26,7 +27,7 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 	Droplet Bottle(BOTTLE);
 	Droplet Hail(HAIL);
 
-	Text* Title = new Text("Raining Water Game", MiniGameMap.getBackground());
+	Text* Title = new Text("Raining water Game", MiniGameMap.getBackground());
 	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
 	instructions_obj_ptr.push_back(Title);
 	Text* Line1 = new Text("Collect rainwater by moving left and right using the A & D keys.", MiniGameMap.getBackground());
@@ -65,20 +66,20 @@ void MiniGame_RW::mgGameInit() {
 	player_ptr->setWorldPosition(playerPos);
 	jar_ptr->setWorldPosition(playerPos.X - 1, playerPos.Y - jar_ptr->getYLength());
 	Water_ptr->setWorldPosition(0, 1);
-	srand(time(NULL));
 }
 
 void MiniGame_RW::gameLoopListener() {
-	if (isStarted()) {
+	if (isStarted() && !isInInstructions) {
+
 		setWaterText();
 		if (getStartTime() + 15.0 < g_dElapsedTime) {
 			Completed = true;
 		}
 		else {
 			int interval = 20;
-			int fallrand = (rand() % 10) * 10;
+			int fallrand = (rand() % 10)*10;
 			//adding new droplet to top of the map every 1000 millisecond
-			if (ms >= 10) {
+			if (ms >= 1000) {
 				int spawnCount = (rand() % 10 + 4);
 				for (int i = 0; i < spawnCount; i++) {
 					COORD waterCord = { 0,0 };
@@ -102,7 +103,7 @@ void MiniGame_RW::gameLoopListener() {
 			}
 
 			//Making droplets fall
-			if (droplet_spawn_delay >= 10)
+			if (droplet_spawn_delay >= 100)
 			{
 				droplet_spawn_delay = 0;
 				droplet_fall_delay++;
@@ -160,7 +161,7 @@ void MiniGame_RW::gameLoopListener() {
 					droplet_fall_delay = 0;
 			}
 
-			ms += interval;
+			ms += fallrand;
 			droplet_spawn_delay += interval;
 		}
 	}

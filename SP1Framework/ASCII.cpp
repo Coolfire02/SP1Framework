@@ -183,6 +183,12 @@ bool ASCII::setArt(ARTTYPE type) {
 	case DROPLET_ART:
 		arttxt = "WaterDrop.txt";
 		break;
+	case BOTTLE_ART:
+		arttxt = "Bottle.txt";
+		break;
+	case HAIL_ART:
+		arttxt = "Hail.txt";
+		break;
 	default:
 		arttxt = "NA";
 		break;
@@ -364,8 +370,20 @@ bool ASCII::setArt(std::string txt)
 	}
 	CHAR_INFO txt_bg;
 	txt_bg.Attributes = 0x20;
-	yLength = 1;
-	xLength = txt.length();
+	yLength = std::count(txt.begin(), txt.end(), '\n')+1;
+	int highestX = 0;
+	int count = 0;
+	for (int i = 0; i < txt.length(); i++) {
+		count++;
+		if (txt[i] == '\n') {
+			if (highestX < count + 1) {
+				highestX = count + 1;
+			}
+			count = 0;
+		}
+	}
+	if (highestX < count + 1) highestX = count + 1;
+	xLength = highestX;
 
 	art = new CHAR_INFO * [xLength];
 	for (unsigned int i = 0; i < xLength; i++) {
@@ -377,10 +395,26 @@ bool ASCII::setArt(std::string txt)
 			art[i][j] = txt_bg;
 		}
 	}
-
+	int y = 0;
+	int x = 0;
 	for (unsigned int t = 0; t < txt.length(); t++)
 	{
-		art[t][0].Char.AsciiChar = txt[t];
+		if (txt[t] == '\n') {
+			for (; x < xLength; x++) {
+				art[x][y] = g_background;
+			}
+			y++;
+			x = -1;
+		}
+		else if (t == (txt.length() - 1)) {
+			art[x][y].Char.AsciiChar = txt[t];
+			x++;
+			for (; x < xLength; x++) {
+				art[x][y] = g_background;
+			}
+		}
+		else art[x][y].Char.AsciiChar = txt[t];
+		x++;
 	}
 	return true;
 }
@@ -392,8 +426,21 @@ bool ASCII::setArt(std::string txt, WORD bg)
 	}
 	CHAR_INFO txt_bg;
 	txt_bg.Attributes = bg;
-	yLength = 1;
-	xLength = txt.length();
+	txt_bg.Char.AsciiChar = ' ';
+	yLength = std::count(txt.begin(), txt.end(), '\n') + 1;
+	int highestX = 0;
+	int count = 0;
+	for (int i = 0; i < txt.length(); i++) {
+		count++;
+		if (txt[i] == '\n') {
+			if (highestX < count+1) {
+				highestX = count+1;
+			}
+			count = 0;
+		}
+	}
+	if (highestX < count+1) highestX = count+1;
+	xLength = highestX;
 
 	art = new CHAR_INFO * [xLength];
 	for (unsigned int i = 0; i < xLength; i++) {
@@ -406,9 +453,26 @@ bool ASCII::setArt(std::string txt, WORD bg)
 		}
 	}
 
+	int y = 0;
+	int x = 0;
 	for (unsigned int t = 0; t < txt.length(); t++)
 	{
-		art[t][0].Char.AsciiChar = txt[t];
+		if (txt[t] == '\n') {
+			for (; x < xLength; x++) {
+				art[x][y] = g_background;
+			}
+			y++;
+			x = -1;
+		}
+		else if (t == (txt.length() - 1)) {
+			art[x][y].Char.AsciiChar = txt[t];
+			x++;
+			for (; x < xLength; x++) {
+				art[x][y] = g_background;
+			}
+		}
+		else art[x][y].Char.AsciiChar = txt[t];
+		x++;
 	}
 	return true;
 }
