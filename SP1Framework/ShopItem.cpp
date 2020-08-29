@@ -8,9 +8,6 @@ ShopItem::ShopItem(Item item, double cost) : item(item), cost(cost) {
 	case ABILITY_HOMEBASE:
 		art.setArt(ABILITY_HOMEBASE_ART);
 		break;
-	case ABILITY_UNLOCKMG:
-		art.setArt(ABILITY_UNLOCKMG_ART);
-		break;
 	case ABILITY_ROADREPAIR:
 		art.setArt(ABILITY_FIXROAD_ART);
 		break;

@@ -674,25 +674,31 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			int X_COORD[5] = {15, 55, 95, 135, 175},x = 0, y = 5; //Coord of first row items in shop
 			WORD ShopText = 0x70;
 			enum ITEMTYPE type;
-			std::string ItemName;
-			int quantity, price;
+			std::string Description;
+			int quantity, price = 0;
 			int text_Y_displacement = 5;
 
 			switch (t)
 			{
 			case(ABILITY_ZOOM):
-				type = ABILITY_ZOOM;
-				ItemName = "Zoom Ability\nCosts $25\n<Double-Click icon to buy>";
-				quantity = 1;
 				price = 25;
+				type = ABILITY_ZOOM;
+				Description = "Zoom\n\
+Costs $" + std::to_string(price) + "\n\
+Makes you go NYOOOOOOM!\n\
+<Double-Click icon to buy>";
+				quantity = 1;
 				x = X_COORD[0];
 				y += 0;
 				break;
 
 			case(ABILITY_HOMEBASE):
-				type = ABILITY_HOMEBASE;
 				price = 25;
-				ItemName = "Homebase Teleportation Ability\n" + std::to_string(price) + "\n<Double-Click icon to buy>";
+				type = ABILITY_HOMEBASE;
+				Description = "Homebase Teleportation\n\
+Costs $" + std::to_string(price) + "\n\
+Teleports you to Fire Station.\n\
+<Double-Click icon to buy>";
 				quantity = 1;
 				x = X_COORD[1];
 				y += 0;
@@ -701,69 +707,83 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			case(ABILITY_ROADREPAIR):
 				price = 25;
 				type = ABILITY_ROADREPAIR;
-				ItemName = "Road Repair Ability\n" + std::to_string(price) + "\n<Double-Click icon to buy>";
+				Description = "Road Repair\n\
+Costs $" + std::to_string(price) + "\n\
+Repairs any broken road.\n\
+<Double-Click icon to buy>";
 				quantity = 1;
 				x = X_COORD[2];
 				y += 0;
 				break;
 
-			case(ABILITY_UNLOCKMG):
-				type = ABILITY_UNLOCKMG;
-				ItemName = "One-time MiniGame Unlock Ability";
-				quantity = 3;
-				price = 25;
-				x = X_COORD[3];
-				y += 0;
-				break;
-
 			case(HOSE_HOLY_WATER):
-				type = HOSE_HOLY_WATER;
-				ItemName = "Hose of Holy Variation";
-				quantity = 1;
 				price = 200;
-				x = X_COORD[4];
-				y += 0;
+				type = HOSE_HOLY_WATER;
+				Description = "Hose of Holy Water\n\
+Costs $" + std::to_string(price) + "\n\
+2.0x Water Collection\n\
+0.3x Money Collection\n\
+<Double-Click icon to buy>";
+				quantity = 1;
+				x = X_COORD[0];
+				y *= 3;
 				break;
 
 			case(HOSE_MONEY_SALVAGER):
-				type = HOSE_MONEY_SALVAGER;
-				ItemName = "Hose of Money Salvage Variation";
-				quantity = 1;
 				price = 300;
-				x = X_COORD[0];
+				type = HOSE_MONEY_SALVAGER;
+				Description = "Hose of Money Salvation\n\
+Costs $" + std::to_string(price) + "\n\
+1.0x Water Collection\n\
+1.5x Money Collection\n\
+<Double-Click icon to buy>";
+				quantity = 1;
+				x = X_COORD[1];
 				y *= 3;
 				break;
 
 			case(HOSE_ABSORBER):
 				type = HOSE_ABSORBER;
-				ItemName = "Hose of Absorb Variation";
-				quantity = 1;
 				price = 450;
-				x = X_COORD[1];
+				Description = "Hose of Absorbtion\n\
+Costs $" + std::to_string(price) + "\n\
+1.4x Water Collection\n\
+1.3x Money Collection\n\
+<Double-Click icon to buy>";
+				quantity = 1;
+				x = X_COORD[2];
 				y *= 3;
 				break;
 
 			case(HOSE_MAGICAL_WATER):
 				type = HOSE_MAGICAL_WATER;
-				ItemName = "Hose of Magic Variation";
-				quantity = 1;
 				price = 1200;
-				x = X_COORD[2];
+				Description = "Hose of Magication\n\
+Costs $" + std::to_string(price) + "\n\
+2.5x Water Collection\n\
+1.0x Money Collection\n\
+<Double-Click icon to buy>";
+				quantity = 1;
+				x = X_COORD[3];
 				y *= 3;
 				break;
 
 			case(HOSE_MONEY_DUPLICATOR):
 				type = HOSE_MONEY_DUPLICATOR;
-				ItemName = "Hose of Money Duplication Variation";
+				price = 2500;
+				Description = "Hose of Money Duplication\n\
+Costs $" + std::to_string(price) + "\n\
+1.2x Water Collection\n\
+1.9x Money Collection\n\
+<Double-Click icon to buy>";
 				quantity = 1;
-				price = 1200;
-				x = X_COORD[3];
+				x = X_COORD[4];
 				y *= 3;
 				break;
 
 			default:
-				type = ABILITY_ZOOM;
-				ItemName = "";
+				type = UNLISTED_ITEM;
+				Description = "";
 				quantity = 0;
 				price = 0;
 				x = 0;
@@ -771,7 +791,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				break;
 			}
 
-			ShopItem* item = new ShopItem(Item(type, quantity, (std::to_string(quantity) + " x " + ItemName)), price);
+			ShopItem* item = new ShopItem(Item(type, quantity, (std::to_string(quantity) + "x " + Description)), price);
 			Text* text = new Text(item->getItem().getDisplayName(), ShopText);
 			int txtXPos;
 			if (text->getXLength() / 2 < 11)
