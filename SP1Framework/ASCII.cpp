@@ -129,6 +129,12 @@ bool ASCII::setArt(ARTTYPE type) {
 	case VERTICAL_ROAD_ART:
 		arttxt = "Roads\\Vroad.txt";
 		break;
+	case HORIZONTAL_ROAD_SHORT_ART:
+		arttxt = "Roads\\Hroad_Short.txt";
+		break;
+	case VERTICAL_ROAD_SHORT_ART:
+		arttxt = "Roads\\Vroad_Short.txt";
+		break;
 	case L_ROAD_ART:
 		arttxt = "Roads\\Lroad.txt";
 		break;

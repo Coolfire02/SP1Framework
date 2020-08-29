@@ -5,6 +5,8 @@ enum ROADTYPE
 {
 	R_HORIZONTAL,
 	R_VERTICAL,
+	R_HORIZONTAL_SHORT,
+	R_VERTICAL_SHORT,
 	R_L, //L turn
 	R_RL, //Right L turn
 	R_LUL,//Left Up L turn
