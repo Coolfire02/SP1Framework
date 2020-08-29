@@ -2,10 +2,11 @@
 
 void MiniGame_RW::setWaterText()
 {
-	std::string water = std::to_string(WaterCollected);
-	water = water + "gallon";
-	Water_ptr->setText(water);
+	std::string water = round_2dp(WaterCollected);
+	water = water + " litres";
+	Water_ptr->setText(water, 0x10);
 }
+
 std::string MiniGame_RW::getType()
 {
 	return "MiniGame_RW";
@@ -15,6 +16,7 @@ LEVELSTATE MiniGame_RW::getAssociatedLSState()
 {
 	return LS_MINIGAME_RW;
 }
+
 MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, console)
 {
 	ms = 1000;
@@ -27,19 +29,23 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 	Droplet Bottle(BOTTLE);
 	Droplet Hail(HAIL);
 
+	DropletWorth = (NDroplet.getDropletWorth() + (0.2 * getAssociatedLevel()));
+	BottleWorth = (Bottle.getDropletWorth() + (0.1 * getAssociatedLevel()));
+	HailWorth = (Hail.getDropletWorth() - (0.4 * getAssociatedLevel()));
+
 	Text* Title = new Text("Raining water Game", MiniGameMap.getBackground());
 	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
 	instructions_obj_ptr.push_back(Title);
 	Text* Line1 = new Text("Collect rainwater by moving left and right using the A & D keys.", MiniGameMap.getBackground());
 	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
 	instructions_obj_ptr.push_back(Line1);
-	Text* Line2 = new Text("Normal droplets give you " + std::to_string(NDroplet.getDropletWorth()) + " litre", MiniGameMap.getBackground());
+	Text* Line2 = new Text("Normal droplets: " + round_2dp(DropletWorth) + " litres", MiniGameMap.getBackground());
 	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
 	instructions_obj_ptr.push_back(Line2);
-	Text* Line3 = new Text("Bottles give you " + std::to_string(Bottle.getDropletWorth()) + " litre", MiniGameMap.getBackground());
+	Text* Line3 = new Text("Bottles: " + round_2dp(BottleWorth) + " litres", MiniGameMap.getBackground());
 	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
 	instructions_obj_ptr.push_back(Line3);
-	Text* Line4 = new Text("Hails give you " + std::to_string(Hail.getDropletWorth()) + "litres", MiniGameMap.getBackground());
+	Text* Line4 = new Text("Hail: " + round_2dp(HailWorth) + " litres", MiniGameMap.getBackground());
 	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
 	instructions_obj_ptr.push_back(Line4);
 	
@@ -136,8 +142,19 @@ void MiniGame_RW::gameLoopListener() {
 							it = droplet_ptrs.erase(it);
 
 						}
-						else if (jar_ptr->isCollided(*(*it))) {
-							WaterCollected += (*it)->getDropletWorth();
+						else if (jar_ptr->isCollided(*(*it))) 
+						{
+							double water_diff;
+							if ((*it)->getType() == "Droplet")
+								water_diff = DropletWorth;
+							else if ((*it)->getType() == "Bottle")
+								water_diff = BottleWorth;
+							else if ((*it)->getType() == "Hail")
+								water_diff = HailWorth;
+							else
+								water_diff = DropletWorth;
+
+							WaterCollected += water_diff;
 
 							for (auto mg_it = mg_obj_ptr.begin(); mg_it != mg_obj_ptr.end(); /*NOTHING*/) {
 								GameObject* objPtr = (*it);
@@ -170,8 +187,8 @@ void MiniGame_RW::gameLoopListener() {
 void MiniGame_RW::addWater(COORD coord)
 {
 	Droplet* droplet = NULL;
-	int randomizer = (rand() % 100);
-	if (randomizer < 10)
+	int randomizer = (rand() % 300);
+	if ((randomizer < 30) || (randomizer > 270))
 		droplet = new Droplet(HAIL);
 	else if (randomizer == 40)
 		droplet = new Droplet(BOTTLE);

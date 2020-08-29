@@ -5,10 +5,10 @@ class Droplet:
 {
 private:
 	WATERTYPE type;
-	int DropletWorth;
+	double DropletWorth;
 public:
 	std::string getType();
-	int getDropletWorth();
+	double getDropletWorth();
 	Droplet();
 	Droplet(enum WATERTYPE type);
 	~Droplet();

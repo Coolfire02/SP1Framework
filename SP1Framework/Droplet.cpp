@@ -10,7 +10,7 @@ std::string Droplet::getType()
 		return "Hail";
 }
 
-int Droplet::getDropletWorth() {
+double Droplet::getDropletWorth() {
 	return DropletWorth;
 }
 
@@ -18,7 +18,7 @@ Droplet::Droplet() {
 	type = DROPLET;
 	art.setArt(DROPLET_ART);
 	weight = 700;
-	DropletWorth = 1;
+	DropletWorth = 0.3;
 }
 
 Droplet::Droplet(enum WATERTYPE type)
@@ -28,17 +28,17 @@ Droplet::Droplet(enum WATERTYPE type)
 	if (type == DROPLET)
 	{
 		art.setArt(DROPLET_ART);
-		DropletWorth = 1;
+		DropletWorth = 0.1;
 	}
 	else if (type == BOTTLE)
 	{
 		art.setArt(BOTTLE_ART);
-		DropletWorth = 5;
+		DropletWorth = 1.0;
 	}
 	else
 	{
 		art.setArt(HAIL_ART);
-		DropletWorth = -3;
+		DropletWorth = -0.5;
 	}
 }
 

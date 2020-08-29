@@ -18,6 +18,7 @@ private:
     Jar* jar_ptr;
     Text* Water_ptr;
     void addWater(COORD);
+    double DropletWorth, BottleWorth, HailWorth;
 public:
     void setWaterText();
     std::string getType();

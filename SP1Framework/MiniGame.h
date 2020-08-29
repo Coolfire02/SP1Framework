@@ -12,6 +12,7 @@
 #include <vector>
 #include <time.h>
 #include <list>
+#include <iomanip>
 
 class MiniGame : public GameObject
 {
@@ -23,7 +24,8 @@ private:
 protected:
 	Console associatedConsole;
 	Map MiniGameMap;
-	int WaterCollected, MoneyEarned;
+	double WaterCollected;
+	int MoneyEarned;
 
 	bool Completed;
 	bool isInInstructions;
