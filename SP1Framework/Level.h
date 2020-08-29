@@ -83,8 +83,18 @@ private:
 	std::vector<LEVELSTATE> levelStates;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
 	
-	// shop vars
+	// shop variables
 	std::vector<GameObject*> shop_obj_ptr;
+
+	// power up variables
+	double PU_zoom_timer;
+	double PU_homebase_timer;
+	ArtObject* PU_zoom;
+	ArtObject* PU_road_repair;
+	ArtObject* PU_homebase;
+	Text* PU_zoom_inven_display;
+	Text* PU_road_repair_inven_display;
+	Text* PU_homebase_inven_display;
 
 	bool devMode = true;
 	GameObject* pickedUp_obj;
@@ -99,6 +109,9 @@ private:
 	std::string getFireRemainingPrefix();
 	std::string getMoneyBalancePrefix();
 	void updateProgressDisplays();
+	void updateInventoryDisplays();
+
+	void centralizeMapToTruck(Map* map);
 public:
 	void gameLoopListener();
 	Level(LEVEL, Console&);

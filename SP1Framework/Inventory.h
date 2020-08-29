@@ -12,5 +12,6 @@ public:
 	bool removeItem(Item);
 	std::vector<Item>& getItems();
 	bool contains(Item);
+	int getAmountOfType(ITEMTYPE);
 };
 

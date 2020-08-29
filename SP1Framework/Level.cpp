@@ -33,8 +33,9 @@ void Level::gameLoopListener() {
 			currently_played_MG_ptr->gameLoopListener();
 		}
 	}
-	//If mouse cursor is touching level obj, start level etc
-	
+	else {
+		updateInventoryDisplays();
+	}
 }
 
 bool Level::processKBEvents(SKeyEvent keyEvents[]) {
@@ -84,18 +85,20 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			Map* map = levelspecific_maps.at(state);
 			COORD truck_origPos = truck_ptr->getWorldPosition();
 			COORD future_pos = truck_origPos;
+			int multi = 1;
+			if (PU_zoom_timer > g_dElapsedTime) multi = 2;
 			if (keyEvents[K_W].keyDown)
-				future_pos.Y--;
+				future_pos.Y -= 1 * multi;
 			if (keyEvents[K_A].keyDown)
 			{
-				future_pos.X -= 2;
+				future_pos.X -= 2 * multi;
 				truck_ptr->setDirection(T_LEFT);
 			}
 			if (keyEvents[K_S].keyDown)
-				future_pos.Y++;
+				future_pos.Y += 1 * multi;
 			if (keyEvents[K_D].keyDown)
 			{
-				future_pos.X += 2;
+				future_pos.X += 2 * multi;
 				truck_ptr->setDirection(T_RIGHT);
 			}
 			if (future_pos.X != truck_origPos.X || future_pos.Y != truck_origPos.Y) {
@@ -178,7 +181,21 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 							}
 
 							else if (type.rfind("Road") != std::string::npos) {
-								canMove = true;
+								if (type == "Road_Block") {
+									canMove = false;
+									stopLoop = true;
+
+									if (player_ptr->getInventory().getAmountOfType(ABILITY_ROADREPAIR) > 0) {
+										Item roadrepair = Item(ABILITY_ROADREPAIR, 1, "Road_Repair");
+										player_ptr->getInventory().removeItem(roadrepair);
+										delete obj;
+										obj = nullptr;
+										obj_ptr.erase(std::remove(obj_ptr.begin(), obj_ptr.end(), nullptr), obj_ptr.end()); //Removes all nullptrs from vector
+									}
+								}
+								else {
+									canMove = true;
+								}
 							}
 
 							if (stopLoop)
@@ -190,8 +207,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 					if (!canMove)
 						truck_ptr->setWorldPosition(truck_origPos);
 				}
-				COORD mapOffset = { truck_ptr->getWorldPosition().X - g_consoleSize.X / 2 + 10 , truck_ptr->getWorldPosition().Y - g_consoleSize.Y / 2 - 2 };
-				map->setMapToBufferOffset(mapOffset);
+				centralizeMapToTruck(map);
 			}
 		}
 		else if (state == LS_LEVEL_BUILDER) {
@@ -356,41 +372,85 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 			Map* map = levelspecific_maps.at(state);
 			COORD bufferOffset = map->getMapToBufferOffset();
 			switch (state) {
-			case LS_GAMESHOP:
-			{
-				std::multimap<short, GameObject*> sort;
-				for (auto& object_ptr : shop_obj_ptr) {
-					if (!object_ptr->isActive()) continue;
-					sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
-				}
-				for (auto element : sort) {
-					if (element.second->hasRelativePos()) {
-						COORD cursorPos = mousePos;
-						if (element.second->isInRelativeLocation(cursorPos)) {
-							// intentionally left blank
-						}
+			case LS_GAMESHOP: 
+				{
+					std::multimap<short, GameObject*> sort;
+					for (auto& object_ptr : shop_obj_ptr) {
+						if (!object_ptr->isActive()) continue;
+						sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
 					}
-					else {
-						COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
-						if (element.second->isInLocation(cursorPos) && element.second->getType() == "ShopItem") {
-							// GameShop item purchasing
-							ShopItem* shopItem = dynamic_cast<ShopItem*>(element.second);
-							if (player_ptr->getMoney() >= shopItem->getCost()) {
-								player_ptr->spendMoney(shopItem->getCost());
-								(*this).updateProgressDisplays();
-								Beep(8000, 50);
-								player_ptr->getInventory().addItem(shopItem->getItem());
+					for (auto element : sort) {
+						if (element.second->hasRelativePos()) {
+							COORD cursorPos = mousePos;
+							if (element.second->isInRelativeLocation(cursorPos)) {
+								// intentionally left blank
 							}
+						}
+						else {
+							COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+							if (element.second->isInLocation(cursorPos) && element.second->getType() == "ShopItem") {
+								// GameShop item purchasing
+								ShopItem* shopItem = dynamic_cast<ShopItem*>(element.second);
+								if (player_ptr->getMoney() >= shopItem->getCost()) {
+									player_ptr->spendMoney(shopItem->getCost());
+									(*this).updateProgressDisplays();
+									//Beep(8000, 50);
+									player_ptr->getInventory().addItem(shopItem->getItem());
+									updateInventoryDisplays();
+								}
 
-							// eventIsProcessed to true to add a 1s cooldown
-							eventIsProcessed = true;
-							break;
+								// eventIsProcessed to true to add a 1s cooldown
+								eventIsProcessed = true;
+								break;
+							}
 						}
 					}
+					// switch break
+					break;
 				}
-				// switch break
-				break;
-			}
+			
+			case LS_MAINGAME:
+				{
+					std::multimap<short, GameObject*> sort;
+					for (auto& object_ptr : obj_ptr) {
+						if (!object_ptr->isActive()) continue;
+						sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
+					}
+					for (auto element : sort) {
+						if (element.second->hasRelativePos()) {
+							COORD cursorPos = mousePos;
+							if (element.second->isInRelativeLocation(cursorPos)) {
+								if (element.second->getType() == "Ability_Zoom") {
+									if (PU_zoom_timer + 10 < g_dElapsedTime) {
+										if (player_ptr->getInventory().getAmountOfType(ABILITY_ZOOM) > 0) {
+											Item zoom = Item(ABILITY_ZOOM, 1, "Zoom");
+											player_ptr->getInventory().removeItem(zoom);
+											PU_zoom_timer = g_dElapsedTime + 15;
+										}
+									}
+								}
+								else if (element.second->getType() == "Ability_Homebase") {
+									if (PU_homebase_timer + 20 < g_dElapsedTime) {
+										if (player_ptr->getInventory().getAmountOfType(ABILITY_HOMEBASE) > 0) {
+											for (auto& element : obj_ptr) {
+												if (element->getType() == "FireStation") {
+													truck_ptr->setWorldPosition(element->getWorldPosition().X+2, element->getWorldPosition().Y+5);
+													centralizeMapToTruck(map);
+													Item homebase = Item(ABILITY_HOMEBASE, 1, "Homebase");
+													player_ptr->getInventory().removeItem(homebase);
+													PU_homebase_timer = g_dElapsedTime;
+													break;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+
+				}
+
 			}
 			break;
 		}
@@ -583,6 +643,26 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		obj_ptr.push_back(level_progress_text);
 
 		//Power Ups
+		PU_zoom = new ArtObject(ABILITY_ZOOM_ART, 2000, "Ability_Zoom");
+		PU_road_repair = new ArtObject(ABILITY_FIXROAD_ART, 2000, "Ability_Road_Repair");
+		PU_homebase = new ArtObject(ABILITY_HOMEBASE_ART, 2000, "Ability_Homebase");
+		PU_zoom_inven_display = new Text("Zoom\n<Double Click to use>\n0x Available");
+		PU_road_repair_inven_display = new Text("Road Repair\n<Walk to Road to use>\n0x Available");
+		PU_homebase_inven_display = new Text("Home Base\n<Double Click to use>\n0x Available");
+
+		PU_zoom->setRelativePos(190, 5);
+		PU_zoom_inven_display->setRelativePos(190, 10);
+		PU_road_repair->setRelativePos(190, 16);
+		PU_road_repair_inven_display->setRelativePos(190, 21);
+		PU_homebase->setRelativePos(190, 27);
+		PU_homebase_inven_display->setRelativePos(190, 32);
+
+		obj_ptr.push_back(PU_zoom);
+		obj_ptr.push_back(PU_road_repair);
+		obj_ptr.push_back(PU_homebase);
+		obj_ptr.push_back(PU_zoom_inven_display);
+		obj_ptr.push_back(PU_road_repair_inven_display);
+		obj_ptr.push_back(PU_homebase_inven_display);
 
 		//Game shop code
 		ArtObject* button = new ArtObject(SHOP_ART, 1500, "Shop");
@@ -889,10 +969,8 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			Map* map = new Map(mapSize.X, mapSize.Y);
 			map->setMapToBufferOffset(mapDisplayOffset);
 			levelspecific_maps.insert({ levelStates[i], map });
-
 		}
 	}
-
 }
 
 Level::~Level()
@@ -999,6 +1077,28 @@ void Level::updateProgressDisplays() {
 	level_progress_text->setText(getFireRemainingPrefix());
 }
 
+void Level::updateInventoryDisplays() {
+	std::string cooldown;
+	std::string text;
+
+	if (PU_zoom_timer + 10 < g_dElapsedTime) cooldown = "<Double Click to use>";
+	else cooldown = "<" + std::to_string((int) (PU_zoom_timer + 10 - g_dElapsedTime)) + "s Cooldown>";
+	
+	text = "Zoom\n" + cooldown + "\n" + std::to_string(player_ptr->getInventory().getAmountOfType(ABILITY_ZOOM)) + "x Available";
+	if(PU_zoom_inven_display->getText() != text)
+		PU_zoom_inven_display->setText(text);
+	
+	if (PU_homebase_timer + 20 < g_dElapsedTime) cooldown = "<Double Click to use>";
+	else cooldown = "<" + std::to_string((int)(PU_homebase_timer + 20 - g_dElapsedTime)) + "s Cooldown>";
+	text = "Home Base\n" + cooldown + "\n" + std::to_string(player_ptr->getInventory().getAmountOfType(ABILITY_HOMEBASE)) + "x Available";
+	if(PU_homebase_inven_display->getText() != text)
+		PU_homebase_inven_display->setText(text);
+
+	text = "Road Repair\n<Walk to Road to use>\n" + std::to_string(player_ptr->getInventory().getAmountOfType(ABILITY_ROADREPAIR)) + "x Available";
+	if(PU_road_repair_inven_display->getText() != text)
+		PU_road_repair_inven_display->setText(text);
+}
+
 std::string Level::getTruckWaterPrefix() {
 	return "Truck's Water (" + std::to_string((int)truck_ptr->getCurrentWaterLevel()) + "L/" + std::to_string((int)truck_ptr->getMaxWater())+"L)";
 }
@@ -1009,5 +1109,10 @@ std::string Level::getFireRemainingPrefix() {
 
 std::string Level::getMoneyBalancePrefix() {
 	return "Funds: $" + std::to_string(player_ptr->getMoney());
+}
+
+void Level::centralizeMapToTruck(Map* map) {
+	COORD mapOffset = { truck_ptr->getWorldPosition().X - g_consoleSize.X / 2 + 10 , truck_ptr->getWorldPosition().Y - g_consoleSize.Y / 2 - 2 };
+	map->setMapToBufferOffset(mapOffset);
 }
 

@@ -32,6 +32,15 @@ bool Inventory::contains(Item item) {
 	return false;
 }
 
+int Inventory::getAmountOfType(ITEMTYPE type) {
+	for (auto& loopItem : items) {
+		if (loopItem.getItemType() == type) {
+			return loopItem.getAmount();
+		}
+	}
+	return 0;
+}
+
 bool Inventory::removeItem(Item item) {
 	bool removed = false;
 	for (auto it = items.begin(); it != items.end(); /*NOTHING*/) {
