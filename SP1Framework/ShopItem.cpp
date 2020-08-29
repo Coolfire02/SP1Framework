@@ -26,6 +26,9 @@ ShopItem::ShopItem(Item item, double cost) : item(item), cost(cost) {
 	case HOSE_MONEY_DUPLICATOR:
 		art.setArt(HOSE_MONEYDUPLICATOR_ART);
 		break;
+	case HOSE_MONEY_SALVAGER:
+		art.setArt(HOSE_MONEYSALVAGER_ART);
+		break;
 	default:
 		art.setArt(10, 5, 0xF0, 0xF0);
 
