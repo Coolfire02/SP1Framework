@@ -18,7 +18,7 @@ BeeHive::BeeHive()
     type = BEEHIVE;
     art.setArt(BEEHIVE_ART);
     weight = 700;
-    HiveWorth = 35;
+    HiveWorth = 7;
     xMinHit = 25;
     xMaxHit = art.getXLength() + 35;
 }
@@ -37,7 +37,7 @@ BeeHive::BeeHive(HIVETYPE Hivetype)
         art.setArt(BEEHIVE_ART);
     }
     weight = 1100;
-    HiveWorth = 35;
+    HiveWorth = 7;
     xMinHit = 25;
     xMaxHit = art.getXLength() + 35;
 }
