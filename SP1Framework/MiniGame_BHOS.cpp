@@ -132,7 +132,7 @@ void MiniGame_BHOS::gameLoopListener()
 	for (auto& falling : mg_fallingHive_ptr) {
 		falling->setWorldPosition(falling->getWorldPosition().X, falling->getWorldPosition().Y + 1);
 		if (falling->getWorldPosition().Y > MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y) {
-			MoneyEarned += getAssociatedLevel() * 5;
+			MoneyEarned += HivePrice;
 			mg_obj_ptr.erase(std::remove(mg_obj_ptr.begin(), mg_obj_ptr.end(), falling), mg_obj_ptr.end());
 			delete falling;
 			falling = nullptr;
