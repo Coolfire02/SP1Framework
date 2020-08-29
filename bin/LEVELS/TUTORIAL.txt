@@ -11,7 +11,7 @@ FireStation,228,59
 MiniGame_RM,328,80
 MiniGame_WL,290,44
 MiniGame_BHOS,317,60
-MiniGame_CFT,264,79
+MiniGame_RW,264,79
 FireTruck,252,64
 FireMan,223,68
 ShopItem,15,5

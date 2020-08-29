@@ -82,6 +82,7 @@
     <ClCompile Include="ASCII.cpp" />
     <ClCompile Include="BeeHive.cpp" />
     <ClCompile Include="Bucket.cpp" />
+    <ClCompile Include="Cat.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="CutScene.cpp" />
     <ClCompile Include="FireStation.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="ASCII.h" />
     <ClInclude Include="BeeHive.h" />
     <ClInclude Include="Bucket.h" />
+    <ClInclude Include="Cat.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CutScene.h" />
     <ClInclude Include="FireStation.h" />

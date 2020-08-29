@@ -18,6 +18,7 @@
 #include "MiniGame_WL.h"
 #include "MiniGame_BHOS.h"
 #include "MiniGame_RW.h"
+#include "MiniGame_CFT.h"
 #include "Road.h"
 #include "LevelState.h"
 #include "CutScene.h"

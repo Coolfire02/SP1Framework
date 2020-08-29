@@ -197,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="StartScene.cpp">
       <Filter>Source Files\Cut Scenes</Filter>
+	</ClCompile>
+    <ClCompile Include="Cat.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="StartScene.h">
       <Filter>Header Files\Cut Scenes</Filter>
+	</ClInclude>
+    <ClInclude Include="Cat.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

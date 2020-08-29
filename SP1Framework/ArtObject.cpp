@@ -6,6 +6,12 @@ ArtObject::ArtObject(ARTTYPE artType, short weight, std::string type) : type(typ
 	art.setArt(artType);
 }
 
+ArtObject::ArtObject(short width, short height, WORD bg, WORD border, short weight, std::string type) : type(type) {
+	(*this).weight = weight;
+	artType = DEFAULT_ART;
+	art.setArt(width, height, bg, border);
+}
+
 ArtObject::~ArtObject() {
 
 }

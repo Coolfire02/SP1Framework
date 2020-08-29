@@ -1,0 +1,10 @@
+MapSize,650,150
+DisplayOrigin,200,50
+FireMan,200,50
+FireStation,221,60
+FireTruck,241,80
+Minigame_CE,0,0
+Minigame_WREF,0,0
+Horizontal_Road,250,90
+Vertical_Road,240,80
+Horizontal_Road,260,90

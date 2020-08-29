@@ -150,14 +150,14 @@ bool MiniGame::processMouseEvents(SMouseEvent& mouseEvent)
 		case 0:
 			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
 				// at the start of a left-click, this will be ran. (Only ran once)
-					if (isInInstructions)
+				if (isInInstructions)
+				{
+					if (button_ptr->isInLocation(mousePos.X, mousePos.Y) || button_ptr->isInRelativeLocation(mousePos))
 					{
-						if (button_ptr->isInLocation(mousePos.X, mousePos.Y))
-						{
-							setStartTime(g_dElapsedTime);
-							isInInstructions = false;
-						}
+						setStartTime(g_dElapsedTime);
+						isInInstructions = false;
 					}
+				}
 			}
 			break;
 		case DOUBLE_CLICK: break;

@@ -192,6 +192,19 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 								stopLoop = true;
 							}
 
+							else if (type == "MiniGame_CFT") {
+								for (auto& minigame_ptr : mg_ptr) {
+									if (minigame_ptr->getType() == "MiniGame_CFT") {
+										currently_played_MG_ptr = minigame_ptr;
+										currently_played_MG_ptr->start();
+										state = LS_MINIGAME_CFT;
+										break;
+									}
+								}
+								canMove = false;
+								stopLoop = true;
+							}
+
 							else if (type.rfind("Road") != std::string::npos) {
 								if (type == "Road_Block") {
 									canMove = false;
@@ -931,6 +944,14 @@ Costs $" + std::to_string(price) + "\n\
 				}
 				else if (line_array.at(0) == "MiniGame_RW") {
 					MiniGame* ptr = new MiniGame_RW(level, console);
+					levelStates.push_back(ptr->getAssociatedLSState());
+
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+					mg_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "MiniGame_CFT") {
+					MiniGame* ptr = new MiniGame_CFT(level, console);
 					levelStates.push_back(ptr->getAssociatedLSState());
 
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
