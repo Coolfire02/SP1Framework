@@ -33,7 +33,14 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 	DropletWorth = (NDroplet.getDropletWorth() + (0.2 * getAssociatedLevel()));
 	BottleWorth = (Bottle.getDropletWorth() + (0.1 * getAssociatedLevel()));
 	HailWorth = (Hail.getDropletWorth() - (0.4 * getAssociatedLevel()));
+	
 
+	button_ptr = new Text("Start Game", 0x70);
+	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
+	instructions_obj_ptr.push_back(button_ptr);
+}
+
+void MiniGame_RW::mgGameInit() {
 	Text* Title = new Text("Raining water Game", MiniGameMap.getBackground());
 	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
 	instructions_obj_ptr.push_back(Title);
@@ -49,14 +56,7 @@ MiniGame_RW::MiniGame_RW(LEVEL level, Console& console) : MiniGame(level, consol
 	Text* Line4 = new Text("Hail: " + round_2dp(HailWorth) + " litres", MiniGameMap.getBackground());
 	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
 	instructions_obj_ptr.push_back(Line4);
-	
 
-	button_ptr = new Text("Start Game", 0x70);
-	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
-	instructions_obj_ptr.push_back(button_ptr);
-}
-
-void MiniGame_RW::mgGameInit() {
 	jar_ptr = new Jar;
 	player_ptr = new Player;
 	Water_ptr = new Text;
@@ -232,7 +232,7 @@ bool MiniGame_RW::processMouseEvents_mg(SMouseEvent&)
 	return false;
 }
 
-std::string round_2dp(double num)
+std::string MiniGame_RW::round_2dp(double num)
 {
 	std::stringstream stream;
 	stream << std::fixed << std::setprecision(2) << num;

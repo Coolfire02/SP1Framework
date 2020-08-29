@@ -23,6 +23,7 @@ private:
 	int catAlertnessThreshold;
 	
 	std::string pathToString(EKEYS key);
+	void updateSteps();
 public:
 	MiniGame_CFT(LEVEL level, Console& console);
 	~MiniGame_CFT();

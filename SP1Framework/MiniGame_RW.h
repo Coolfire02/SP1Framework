@@ -19,6 +19,7 @@ private:
     Text* Water_ptr;
     void addWater(COORD);
     double DropletWorth, BottleWorth, HailWorth;
+    std::string MiniGame_RW::round_2dp(double num);
 public:
     void setWaterText();
     std::string getType();

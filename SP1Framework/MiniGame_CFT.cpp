@@ -22,7 +22,7 @@ void MiniGame_CFT::mgGameInit()
 	player_ptr = new Player;
 	tree = new ArtObject(20, 200, 0x0F, 0x0F, 1, "Tree");
 	cat = new Cat();
-	upcomingSteps = new Text("Up Coming Steps\n/////\n/////\n/////\n/////", 0x30);
+	upcomingSteps = new Text("Up Coming Steps\n\n/////\n/////\n/////\n/////", 0x30);
 
 	currentStep = -1;
 
@@ -69,19 +69,7 @@ void MiniGame_CFT::mgGameInit()
 		}
 	}
 
-	std::string upcomingStepStr = "Up Coming Steps\n";
-	for (int i = 1; i <= 4; i++) {
-		if (currentStep + i < path.size()) {
-			for(int j = 0; j < 8; j++)
-				upcomingStepStr.append(pathToString(path.at(currentStep + i)));
-		}
-		else {
-			for (int j = 0; j < 8; j++)
-				upcomingStepStr.append("/");
-		}
-		if (i < 4) upcomingStepStr.append("\n");
-	}
-	upcomingSteps->setText(upcomingStepStr);
+	updateSteps();
 
 	//Branches generation
 	//left side
@@ -173,6 +161,8 @@ bool MiniGame_CFT::processKBEvents_mg(SKeyEvent keyEvents[])
 		}
 		eventIsProcessed = true;
 	}
+	if (eventIsProcessed)
+		updateSteps();
 	return eventIsProcessed;
 }
 
@@ -193,6 +183,26 @@ std::string MiniGame_CFT::pathToString(EKEYS key) {
 		return "/";
 	}
 	return "/";
+}
+
+void MiniGame_CFT::updateSteps() {
+	std::string upcomingStepStr = "Up Coming Steps\n\n";
+	for (int i = 1; i <= 4; i++) {
+		if (i == 1) upcomingStepStr.append(">> ");
+		if (currentStep + i < path.size()) {
+			for (int j = 0; j < 8; j++) {
+				upcomingStepStr.append(pathToString(path.at(currentStep + i)));
+			}
+		}
+		else {
+			for (int j = 0; j < 8; j++)
+				upcomingStepStr.append("/");
+		}
+		if (i == 1) upcomingStepStr.append(" <<");
+		if (i < 4) upcomingStepStr.append("\n");
+		
+	}
+	upcomingSteps->setText(upcomingStepStr);
 }
 
 LEVELSTATE MiniGame_CFT::getAssociatedLSState()

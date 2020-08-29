@@ -46,7 +46,11 @@ void Level::gameLoopListener() {
 		}
 	}
 	else {
-		updateInventoryDisplays();
+		switch (state) {
+		case LS_MAINGAME:
+			updateInventoryDisplays();
+			break;
+		}
 	}
 }
 
