@@ -691,18 +691,18 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 
 			case(ABILITY_HOMEBASE):
 				type = ABILITY_HOMEBASE;
-				ItemName = "Homebase Teleportation Ability";
-				quantity = 1;
 				price = 25;
+				ItemName = "Homebase Teleportation Ability\n" + std::to_string(price) + "\n<Double-Click icon to buy>";
+				quantity = 1;
 				x = X_COORD[1];
 				y += 0;
 				break;
 
 			case(ABILITY_ROADREPAIR):
-				type = ABILITY_ROADREPAIR;
-				ItemName = "Road Repair Ability";
-				quantity = 1;
 				price = 25;
+				type = ABILITY_ROADREPAIR;
+				ItemName = "Road Repair Ability\n" + std::to_string(price) + "\n<Double-Click icon to buy>";
+				quantity = 1;
 				x = X_COORD[2];
 				y += 0;
 				break;
