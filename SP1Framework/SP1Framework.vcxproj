@@ -83,6 +83,7 @@
     <ClCompile Include="BeeHive.cpp" />
     <ClCompile Include="Bucket.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="CutScene.cpp" />
     <ClCompile Include="FireStation.cpp" />
     <ClCompile Include="FireTruck.cpp" />
     <ClCompile Include="Forest.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="ShopItem.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Wrench.cpp" />
     <ClCompile Include="Inventory.cpp" />
@@ -123,6 +125,7 @@
     <ClInclude Include="BeeHive.h" />
     <ClInclude Include="Bucket.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="CutScene.h" />
     <ClInclude Include="FireStation.h" />
     <ClInclude Include="FireTruck.h" />
     <ClInclude Include="Forest.h" />
@@ -152,6 +155,7 @@
     <ClInclude Include="Road.h" />
     <ClInclude Include="ShopItem.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StartScene.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Wrench.h" />
     <ClInclude Include="Inventory.h" />

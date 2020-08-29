@@ -70,6 +70,13 @@ enum LEVEL {
     LEVEL_COUNT
 };
 
+enum SCENETYPE
+{
+    START_GAME_SCENE,
+    END_GAME_SCENE,
+    TOTAL_SCENES
+};
+
 enum BAR {
     B_HORIZONTAL,
     B_VERTICAL

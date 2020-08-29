@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Player Items">
       <UniqueIdentifier>{63948be5-0bf1-4060-8ff3-bcc790afca1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cut Scenes">
+      <UniqueIdentifier>{ebfbc426-3859-463e-af6b-bd9061a36236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cut Scenes">
+      <UniqueIdentifier>{ca895481-2310-46b4-874f-a60dc57c32ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\console.cpp">
@@ -186,6 +192,12 @@
     <ClCompile Include="Item.cpp">
       <Filter>Source Files\Shop</Filter>
     </ClCompile>
+    <ClCompile Include="CutScene.cpp">
+      <Filter>Source Files\Cut Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScene.cpp">
+      <Filter>Source Files\Cut Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -298,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="ShopItem.h">
       <Filter>Header Files\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="CutScene.h">
+      <Filter>Header Files\Cut Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScene.h">
+      <Filter>Header Files\Cut Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

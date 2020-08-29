@@ -209,6 +209,11 @@ bool ASCII::setArt(ARTTYPE type) {
 	case HAIL_ART:
 		arttxt = "Hail.txt";
 		break;
+
+	case POLE_ART:
+		arttxt = "CutScene_Props\\FireStation_Pole.txt";
+		break;
+
 	default:
 		arttxt = "NA";
 		break;

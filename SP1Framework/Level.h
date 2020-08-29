@@ -20,6 +20,9 @@
 #include "MiniGame_RW.h"
 #include "Road.h"
 #include "LevelState.h"
+#include "CutScene.h"
+#include "StartScene.h"
+
 #include <vector>
 #include <unordered_map>
 #include <map>
@@ -70,6 +73,8 @@ private:
 	Player* player_ptr;
 	FireTruck* truck_ptr;
 	MiniGame* currently_played_MG_ptr;
+	CutScene* currently_played_CS_ptr;
+
 
 	Text* Money_ptr;
 	ProgressBar* ft_waterCollected;
@@ -79,6 +84,7 @@ private:
 
 	std::vector<MiniGame*> mg_ptr;
 	std::vector<GameObject*> obj_ptr;
+	std::vector<CutScene*> cs_ptr;
 	std::vector<Stage*> stages_ptr;
 	std::vector<LEVELSTATE> levelStates;
 	std::unordered_map<LEVELSTATE, Map* > levelspecific_maps;
@@ -126,6 +132,8 @@ public:
 	void renderObjsToMap();
 	bool processKBEvents(SKeyEvent[]);
 	bool processMouseEvents(SMouseEvent&);
+
+	void StartLevel();
 };
 
 

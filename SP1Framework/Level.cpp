@@ -33,6 +33,18 @@ void Level::gameLoopListener() {
 			currently_played_MG_ptr->gameLoopListener();
 		}
 	}
+	else if (currently_played_CS_ptr != NULL) //Checks whether the cutscene is played
+	{
+		if (currently_played_CS_ptr->isCompleted())
+		{
+			state = LS_MAINGAME;
+			(*this).checkStateChange();
+		}
+		else
+		{
+			currently_played_CS_ptr->CutSceneLoopListener();
+		}
+	}
 	else {
 		updateInventoryDisplays();
 	}
@@ -464,9 +476,25 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 	return eventIsProcessed;
 }
 
+void Level::StartLevel()
+{
+	for (auto& cutscene_ptr : cs_ptr) {
+		if (cutscene_ptr->getType() == "Start_Game_Scene") {
+			currently_played_CS_ptr = cutscene_ptr;
+			currently_played_CS_ptr->start();
+			state = LS_BEGIN_SCENE;
+			break;
+		}
+	}
+}
+
 void Level::renderObjsToMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderObjsToMap();
+	}
+	else if (currently_played_CS_ptr != NULL) 
+	{
+		currently_played_CS_ptr->renderObjsToMap();
 	}
 	else {
 		Map* map = levelspecific_maps.at(state);
@@ -510,6 +538,10 @@ void Level::renderMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderMap();
 	}
+	if (currently_played_CS_ptr != NULL) 
+	{
+		currently_played_CS_ptr->renderMap();
+	}
 	else {
 		Map* actualMap = levelspecific_maps.at(state);
 		CHAR_INFO** map = actualMap->getMap();
@@ -552,6 +584,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	ft_waterCollected = NULL;
 	level_progress = NULL;
 	currently_played_MG_ptr = NULL;
+	currently_played_CS_ptr = NULL;
 	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
@@ -809,6 +842,22 @@ Costs $" + std::to_string(price) + "\n\
 			shop_obj_ptr.push_back(text);
 		}
 
+		for (int cutscene = 0; cutscene < TOTAL_SCENES; cutscene++)
+		{
+			CutScene* ptr;
+			switch (cutscene)
+			{
+			case(START_GAME_SCENE):
+				ptr = new StartScene(console);
+				break;
+			case(END_GAME_SCENE):
+			default:
+				ptr = new StartScene(console);
+
+			}
+			cs_ptr.push_back(ptr);
+		}
+
 		std::ifstream file("LEVELS\\" + levelName + ".txt");
 		std::string line;
 		if (file.is_open()) {
@@ -1015,7 +1064,12 @@ Level::~Level()
 		delete entry.second;
 		entry.second = nullptr;
 	}
+	for (auto& element : cs_ptr) {
+		delete element;
+		element = nullptr;
+	}
 	delete pickedUp_obj;
+	currently_played_CS_ptr = NULL;
 	currently_played_MG_ptr = NULL;
 	pickedUp_obj = NULL;
 	player_ptr = NULL;
