@@ -32,7 +32,7 @@ bool Inventory::contains(Item item) {
 	return false;
 }
 
-int Inventory::getAmountOfType(ITEMTYPE type) {
+int Inventory::getAmountOfType(enum ITEMTYPE type) {
 	for (auto& loopItem : items) {
 		if (loopItem.getItemType() == type) {
 			return loopItem.getAmount();

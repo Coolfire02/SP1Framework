@@ -1,4 +1,5 @@
 #include "MiniGame_RW.h"
+std::string round_2dp(double num);
 
 void MiniGame_RW::setWaterText()
 {
@@ -229,4 +230,12 @@ bool MiniGame_RW::processKBEvents_mg(SKeyEvent keyEvents[])
 bool MiniGame_RW::processMouseEvents_mg(SMouseEvent&)
 {
 	return false;
+}
+
+std::string round_2dp(double num)
+{
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(2) << num;
+	std::string s = stream.str();
+	return s;
 }

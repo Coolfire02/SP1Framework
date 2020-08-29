@@ -551,7 +551,7 @@ void Level::renderMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderMap();
 	}
-	if (currently_played_CS_ptr != NULL) 
+	else if (currently_played_CS_ptr != NULL) 
 	{
 		currently_played_CS_ptr->renderMap();
 	}

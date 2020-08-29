@@ -1,10 +1,10 @@
 #pragma once
 
 #include "GameObject.h"
-#include"ProgressBar.h"
-#include"Position.h"
-#include"Money.h"
-#include"ASCII.h"
+#include "ProgressBar.h"
+#include "Position.h"
+#include "Money.h"
+#include "ASCII.h"
 #include "Inventory.h"
 
 class Player : public GameObject

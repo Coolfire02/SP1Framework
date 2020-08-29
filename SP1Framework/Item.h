@@ -1,24 +1,29 @@
 #pragma once
-#include "GameObject.h"
+#ifndef ITEM_H
+#define ITEM_H
 
-class Item : public GameObject
+#include "global.h"
+#include <string>
+
+class Item
 {
 private:
-	ITEMTYPE type;
-	std::string displayName;
-	int stack;
+    ITEMTYPE type;
+    std::string displayName;
+    int stack;
 public:
-	Item(ITEMTYPE, std::string);
-	Item(ITEMTYPE, int, std::string);
-	~Item();
 
-	ITEMTYPE getItemType();
-	void setDisplayName(std::string);
-	std::string getDisplayName();
-	void setAmount(int);
-	int getAmount();
+    Item(enum ITEMTYPE, int, std::string);
+    Item(enum ITEMTYPE, std::string);
 
-	std::string getType();
-	Item* clone() const { return new Item(*this); };
+    enum ITEMTYPE getItemType();
+    void setDisplayName(std::string);
+    std::string getDisplayName();
+    void setAmount(int);
+    int getAmount();
+
+    Item* clone() const { return new Item(*this); };
 };
 
+
+#endif

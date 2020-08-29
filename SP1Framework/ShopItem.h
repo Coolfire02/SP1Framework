@@ -1,6 +1,6 @@
 #pragma once
-#include "Item.h"
 #include "GameObject.h"
+#include "Item.h"
 
 class ShopItem : public GameObject 
 {

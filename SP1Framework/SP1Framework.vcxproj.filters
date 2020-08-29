@@ -186,19 +186,16 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>Source Files\Player Items</Filter>
     </ClCompile>
-    <ClCompile Include="Item.h">
-      <Filter>Header Files\Shop</Filter>
-    </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Shop</Filter>
-    </ClCompile>
     <ClCompile Include="CutScene.cpp">
       <Filter>Source Files\Cut Scenes</Filter>
     </ClCompile>
     <ClCompile Include="StartScene.cpp">
       <Filter>Source Files\Cut Scenes</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Cat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -319,8 +316,11 @@
     </ClInclude>
     <ClInclude Include="StartScene.h">
       <Filter>Header Files\Cut Scenes</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Cat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,9 +22,9 @@ void MiniGame_CFT::mgGameInit()
 	player_ptr = new Player;
 	tree = new ArtObject(20, 200, 0x0F, 0x0F, 1, "Tree");
 	cat = new Cat();
-	upcomingSteps = new Text("Up Coming Steps:\n/////\n/////\n/////\n/////", 0x30);
+	upcomingSteps = new Text("Up Coming Steps\n/////\n/////\n/////\n/////", 0x30);
 
-	currentStep = 0;
+	currentStep = -1;
 
 	tree->setWorldPosition(309, 0);
 	COORD playerPos;
@@ -69,7 +69,7 @@ void MiniGame_CFT::mgGameInit()
 		}
 	}
 
-	std::string upcomingStepStr = "Up Coming Steps:\n";
+	std::string upcomingStepStr = "Up Coming Steps\n";
 	for (int i = 1; i <= 4; i++) {
 		if (currentStep + i < path.size()) {
 			for(int j = 0; j < 8; j++)
@@ -137,50 +137,42 @@ bool MiniGame_CFT::processKBEvents_mg(SKeyEvent keyEvents[])
 {
 	bool eventIsProcessed = false;
 	COORD player_orig_pos = player_ptr->getWorldPosition();
-	COORD player_future_pos = player_orig_pos;
 
-	if (keyEvents[K_W].keyDown) 
-	{
+	if (currentStep + 1 >= path.size()) return false;
 
+	EKEYS nextStepKey = path.at(currentStep+1);
+	if (keyEvents[K_W].keyDown) {
+		if (nextStepKey == K_W) {
+			player_ptr->setWorldPosition(player_orig_pos.X, player_orig_pos.Y - 1);
+			currentStep += 1;
+		}
+		else {
+			//add to cat meter and saying you missed the step by pressing the wrong key, you have alerted the cat
+		}
 		eventIsProcessed = true;
 	}
-	if (keyEvents[K_S].keyDown) 
+	if (keyEvents[K_A].keyDown)
 	{
-
+		if (nextStepKey == K_A) {
+			player_ptr->setWorldPosition(player_orig_pos.X-1, player_orig_pos.Y);
+			currentStep += 1;
+		}
+		else {
+			//add to cat meter and saying you missed the step by pressing the wrong key, you have alerted the cat
+		}
 		eventIsProcessed = true;
 	}
-	if (keyEvents[K_A].keyDown) 
+	if (keyEvents[K_D].keyDown)
 	{
-		
+		if (nextStepKey == K_D) {
+			player_ptr->setWorldPosition(player_orig_pos.X+1, player_orig_pos.Y);
+			currentStep += 1;
+		}
+		else {
+			//add to cat meter and saying you missed the step by pressing the wrong key, you have alerted the cat
+		}
 		eventIsProcessed = true;
 	}
-	if (keyEvents[K_D].keyDown) 
-	{
-		
-		eventIsProcessed = true;
-	}
-	if (keyEvents[K_UP].keyDown) 
-	{
-
-		eventIsProcessed = true;
-	}
-	if (keyEvents[K_DOWN].keyDown) 
-	{
-
-		eventIsProcessed = true;
-	}
-	if (keyEvents[K_LEFT].keyDown) 
-	{
-
-		eventIsProcessed = true;
-	}
-	if (keyEvents[K_RIGHT].keyDown) 
-	{
-
-		eventIsProcessed = true;
-	}
-	player_ptr->setWorldPosition(player_future_pos);
-
 	return eventIsProcessed;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include <vector>
 
 class Inventory
 {
@@ -12,6 +13,6 @@ public:
 	bool removeItem(Item);
 	std::vector<Item>& getItems();
 	bool contains(Item);
-	int getAmountOfType(ITEMTYPE);
+	int getAmountOfType(enum ITEMTYPE);
 };
 

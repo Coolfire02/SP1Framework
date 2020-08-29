@@ -52,6 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,6 +95,7 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="Hose.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jar.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelState.cpp" />
@@ -111,7 +113,6 @@
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="Droplet.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="ShopItem.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Hose.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Jar.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelState.h" />
@@ -153,7 +155,6 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Droplet.h" />
-    <ClCompile Include="Item.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="ShopItem.h" />
     <ClInclude Include="Stage.h" />

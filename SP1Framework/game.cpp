@@ -26,7 +26,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
-Level* levels[2] = { new Level(MAINMENU, g_Console),
+Level* levels[2] = { new Level(TUTORIAL, g_Console),
                     new Level(TUTORIAL, g_Console) };
 Level* g_Level;
 
@@ -100,7 +100,7 @@ void getInput( void )
 void startNextLevel(LEVEL level) {
     g_Level->resetNextLevel();
     g_Level = levels[level];
-    g_Level->StartLevel();
+//    g_Level->StartLevel();
 }
 
 //--------------------------------------------------------------
