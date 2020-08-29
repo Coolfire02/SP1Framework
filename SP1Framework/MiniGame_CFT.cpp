@@ -3,7 +3,9 @@
 MiniGame_CFT::MiniGame_CFT(LEVEL level, Console& console) : MiniGame(level, console)
 {
 	art.setArt(MINIGAME_CFT_ART);
-
+	earnValue = 75 + 25 * level;
+	catAlertnessThreshold = 100 - 7 * pow(level,0.5);
+	catAlertness = 0;
 }
 
 MiniGame_CFT::~MiniGame_CFT()
@@ -69,11 +71,9 @@ void MiniGame_CFT::mgGameInit()
 		}
 	}
 
-	updateSteps();
-
 	//Branches generation
 	//left side
-	for (short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 6; y--) {
+	for (short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 7; y--) {
 		if (rand() % 12 == 0) {
 			int branchSize = rand() % 45 + 18;
 			ArtObject* branch = new ArtObject(branchSize - 1, 1, 0x0F, 0x0F, 1, "Branch");
@@ -81,8 +81,17 @@ void MiniGame_CFT::mgGameInit()
 			mg_obj_ptr.push_back(branch);
 		}
 	}
+
+	ArtObject* catBranch = new ArtObject(30, 1, 0x0F, 0x0F, 1, "Cat_Branch");
+	catBranch->setWorldPosition(pathXMax + 1, MiniGameMap.getYLength() - pathHeight + 3 - player_ptr->getYLength());
+	mg_obj_ptr.push_back(catBranch);
+	cat->setWorldPosition(pathXMax + 4, catBranch->getWorldPosition().Y-4);
+
+	for(int i = 0; i < (pathXMax)-player_ptr->getWorldPosition().X+4; i++)
+		path.push_back(K_D);
+
 	//right side
-	for (short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 6; y--) {
+	for (short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 7; y--) {
 		if (rand() % 13 == 0) {
 			int branchSize = rand() % 45 + 18;
 			ArtObject* branch = new ArtObject(branchSize - 1, 1, 0x0F, 0x0F, 1, "Branch");
@@ -90,6 +99,8 @@ void MiniGame_CFT::mgGameInit()
 			mg_obj_ptr.push_back(branch);
 		}
 	}
+
+	updateSteps();
 
 	//Instructions for Raining Money Game
 	Text* Title = new Text("Save the Cat!", MiniGameMap.getBackground());
@@ -101,10 +112,13 @@ void MiniGame_CFT::mgGameInit()
 	Text* Line2 = new Text("Use W A S D to climb up the Tree. Good luck!", MiniGameMap.getBackground());
 	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
 	instructions_obj_ptr.push_back(Line2);
+	std::string tier = "Low";
+	if (catAlertnessThreshold > 33.33 && catAlertnessThreshold <= 66.66) tier = "Normal";
+	else if (catAlertnessThreshold <= 33.33) tier = "High";
 	Text* Line3 = new Text("Cat Alertness: Low", MiniGameMap.getBackground());
 	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
 	instructions_obj_ptr.push_back(Line3);
-	Text* Line4 = new Text("Reward: $300", MiniGameMap.getBackground());
+	Text* Line4 = new Text("Reward: $"+earnValue, MiniGameMap.getBackground());
 	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
 	instructions_obj_ptr.push_back(Line4);
 
@@ -117,7 +131,10 @@ void MiniGame_CFT::gameLoopListener()
 {
 	if (isStarted() && !isInInstructions)
 	{
-		
+		if (catAlertness >= catAlertnessThreshold) {
+			
+			Completed = true;
+		}
 	}
 }
 
@@ -162,6 +179,10 @@ bool MiniGame_CFT::processKBEvents_mg(SKeyEvent keyEvents[])
 		eventIsProcessed = true;
 	}
 	if (eventIsProcessed)
+		if (player_ptr->isCollided(*cat)) {
+			MoneyEarned += earnValue;
+			Completed = true;
+		}
 		updateSteps();
 	return eventIsProcessed;
 }

@@ -12,8 +12,10 @@ private:
 	ArtObject* tree;
 	Cat* cat;
 	Text* upcomingSteps;
+	ProgressBar* catAlertnessBar;
 
 	int currentStep;
+	int earnValue;
 
 	std::vector<EKEYS> path;
 	short pathHeight;
@@ -21,6 +23,7 @@ private:
 	short pathXMax;
 
 	int catAlertnessThreshold;
+	int catAlertness;
 	
 	std::string pathToString(EKEYS key);
 	void updateSteps();
