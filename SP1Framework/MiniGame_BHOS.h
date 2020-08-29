@@ -19,6 +19,7 @@ private:
     COORD* grabbedHivePos;
     int beeHiveLeft;
     int beeHiveRight;
+    int HivePrice;
 
     //stats
     int msPassed;

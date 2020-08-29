@@ -19,7 +19,8 @@ LEVELSTATE MiniGame_BHOS::getAssociatedLSState()
 
 MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, console), msPassed(0)
 {
-	numHive = 3;
+	srand(time(NULL));
+	numHive = (rand() % 2 + 3);
 	maxPlayerLives = 3;
 	playerLives = maxPlayerLives;
 	selectedHive = nullptr;
@@ -29,6 +30,9 @@ MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, co
 	beeHiveRight = 0;
 	grabbedHivePos = nullptr;
 	MiniGameMap.setBackground(0x20);
+
+	BeeHive BH(BEEHIVE);
+	HivePrice = BH.getHiveWorth() + 5 * getAssociatedLevel();
 
 
 	//Instructions for BeeHive Removal
@@ -45,9 +49,12 @@ MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, co
 	Text* Line3 = new Text("Be careful not to move too fast or the bees will sting!", MiniGameMap.getBackground());
 	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
 	instructions_obj_ptr.push_back(Line3);
+	Text* Line4 = new Text("Bee Hives give you: $" + std::to_string(HivePrice), MiniGameMap.getBackground());
+	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 12);
+	instructions_obj_ptr.push_back(Line4);
 
 	button_ptr = new Text("Start Game", 0x70);
-	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 15);
+	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 17);
 	instructions_obj_ptr.push_back(button_ptr);
 }
 
