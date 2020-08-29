@@ -555,7 +555,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {
-		state = LS_LEVEL_BUILDER; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
+		state = LS_MAINGAME; //By changing this to LS_LEVEL_BUILDER (This allows us to set up the map)
 	}
 	COORD mainDisplayOrigin = { 0,0 };
 	COORD mainMapSize = { 213,50 };
@@ -880,13 +880,13 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
-				else if (line_array.at(0) == "Vertical_Road_Short") {
+				else if (line_array.at(0) == "Vertical_Short_Road") {
 					ROADTYPE type = R_VERTICAL_SHORT;
 					GameObject* ptr = new Road(type);
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}
-				else if (line_array.at(0) == "Horizontal_Road_Short") {
+				else if (line_array.at(0) == "Horizontal_Short_Road") {
 					ROADTYPE type = R_HORIZONTAL_SHORT;
 					GameObject* ptr = new Road(type);
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
