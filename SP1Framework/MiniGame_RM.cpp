@@ -28,6 +28,11 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 	Coin NCoin(C_COIN);
 	Coin BCoin(C_BIGCOIN);
 	Coin RCoin(C_REDCOIN);
+
+	coin = NCoin.getCoinWorth() + 2 * getAssociatedLevel();
+	bigcoin = BCoin.getCoinWorth() + 1 * getAssociatedLevel();
+	redcoin = RCoin.getCoinWorth() - 3 * getAssociatedLevel();
+
 	//Instructions for Raining Money Game
 	Text* Title = new Text("Raining Money Game", MiniGameMap.getBackground());
 	Title->setRelativePos(g_consoleSize.X / 2 - Title->getText().length() / 2, 5);
@@ -35,13 +40,13 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 	Text* Line1 = new Text("Catch coins by moving left and right using the A & D keys." , MiniGameMap.getBackground());
 	Line1->setRelativePos(g_consoleSize.X / 2 - Line1->getText().length() / 2, 8);
 	instructions_obj_ptr.push_back(Line1);
-	Text* Line2 = new Text("Normal coins give you $" + std::to_string(NCoin.getCoinWorth()), MiniGameMap.getBackground());
+	Text* Line2 = new Text("Normal coins: $" + std::to_string(coin), MiniGameMap.getBackground());
 	Line2->setRelativePos(g_consoleSize.X / 2 - Line2->getText().length() / 2, 9);
 	instructions_obj_ptr.push_back(Line2);
-	Text* Line3 = new Text("Big coins give you $" + std::to_string(BCoin.getCoinWorth()), MiniGameMap.getBackground());
+	Text* Line3 = new Text("Big coins: $" + std::to_string(bigcoin), MiniGameMap.getBackground());
 	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
 	instructions_obj_ptr.push_back(Line3);
-	Text* Line4 = new Text("Red coins give you $" + std::to_string(RCoin.getCoinWorth()), MiniGameMap.getBackground());
+	Text* Line4 = new Text("Red coins: $" + std::to_string(redcoin), MiniGameMap.getBackground());
 	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
 	instructions_obj_ptr.push_back(Line4);
 
@@ -140,7 +145,16 @@ void MiniGame_RM::gameLoopListener() {
 
 						}
 						else if (jar_ptr->isCollided(*(*it))) {
-							MoneyEarned += (*it)->getCoinWorth();
+							int CoinWorth;
+							if ((*it)->getType() == "Coin")
+								CoinWorth = coin;
+							else if ((*it)->getType() == "Big_Coin")
+								CoinWorth = bigcoin;
+							else if ((*it)->getType() == "Red_Coin")
+								CoinWorth = redcoin;
+							else
+								CoinWorth = coin;
+							MoneyEarned += CoinWorth;
 
 							for (auto mg_it = mg_obj_ptr.begin(); mg_it != mg_obj_ptr.end(); /*NOTHING*/) {
 								GameObject* objPtr = (*it);

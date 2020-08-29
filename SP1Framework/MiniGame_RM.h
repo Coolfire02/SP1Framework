@@ -14,6 +14,7 @@ private:
     int ms;
     int coin_spawn_delay;
     int coin_fall_delay;
+    int coin, bigcoin, redcoin;
     std::vector<Coin*> coin_ptrs;
     Jar* jar_ptr;
     Text* Money_ptr;

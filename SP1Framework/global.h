@@ -1,5 +1,9 @@
 #pragma once
 #include <Windows.h>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
 extern CHAR_INFO g_background;
 extern CHAR_INFO g_errorchar;
@@ -104,3 +108,5 @@ enum WATERTYPE
     BOTTLE,
     HAIL
 };
+
+std::string round_2dp(double num);
