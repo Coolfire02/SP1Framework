@@ -434,9 +434,7 @@ bool ASCII::setArt(std::string txt)
 	{
 		if (txt[t] == '\n') {
 			for (; x < xLength; x++) {
-				if (y < yLength) {
-					art[x][y] = g_background;
-				}
+				art[x][y] = g_background;
 			}
 			y++;
 			x = -1;
@@ -445,15 +443,10 @@ bool ASCII::setArt(std::string txt)
 			art[x][y].Char.AsciiChar = txt[t];
 			x++;
 			for (; x < xLength; x++) {
-				if (y < yLength) {
-					art[x][y] = g_background;
-				}
+				art[x][y] = g_background;
 			}
 		}
-		else {
-			if (y < yLength && x < xLength)
-				art[x][y].Char.AsciiChar = txt[t];
-		}
+		else art[x][y].Char.AsciiChar = txt[t];
 		x++;
 	}
 	return true;
@@ -499,9 +492,7 @@ bool ASCII::setArt(std::string txt, WORD bg)
 	{
 		if (txt[t] == '\n') {
 			for (; x < xLength; x++) {
-				if (y < yLength) {
-					art[x][y] = g_background;
-				}
+				art[x][y] = g_background;
 			}
 			y++;
 			x = -1;
@@ -510,16 +501,10 @@ bool ASCII::setArt(std::string txt, WORD bg)
 			art[x][y].Char.AsciiChar = txt[t];
 			x++;
 			for (; x < xLength; x++) {
-				if (y < yLength) {
-					art[x][y] = g_background;
-				}
+				art[x][y] = g_background;
 			}
 		}
-		else {
-			if (y < yLength) {
-				art[x][y].Char.AsciiChar = txt[t];
-			}
-		}
+		else art[x][y].Char.AsciiChar = txt[t];
 		x++;
 	}
 	return true;

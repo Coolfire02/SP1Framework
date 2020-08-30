@@ -30,11 +30,6 @@ MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, co
 	beeHiveRight = 0;
 	grabbedHivePos = nullptr;
 	MiniGameMap.setBackground(0x20);
-	Money_ptr = nullptr;
-	Instructions = nullptr;
-	hive_selected_text = nullptr;
-	selectedHive = nullptr;
-	health_bar = nullptr;
 
 	BeeHive BH(BEEHIVE);
 	HivePrice = BH.getHiveWorth() + 5 * getAssociatedLevel();

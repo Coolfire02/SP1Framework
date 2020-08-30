@@ -651,7 +651,7 @@ bool Level::setState(LEVELSTATE state) {
 	return false; //not a state that exists in level
 }
 
-Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * (int) level), fire(originalTotalFire), completed(false)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * level), fire(originalTotalFire), completed(false)
 {
 
 	originalState = LS_COUNT;
@@ -663,17 +663,6 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	level_progress = NULL;
 	currently_played_MG_ptr = NULL;
 	currently_played_CS_ptr = NULL;
-	PU_zoom = NULL;
-	PU_road_repair = NULL;
-	PU_homebase = NULL;
-	PU_zoom_inven_display = NULL;
-	PU_road_repair_inven_display = NULL;
-	PU_homebase_inven_display = NULL;
-	win = NULL;
-	ft_waterCollected_text = NULL;
-	level_progress_text = NULL;
-	pickedUp_obj = NULL;
-
 	if (level == MAINMENU)
 		state = LS_MAINMENU;
 	else {

@@ -5,8 +5,6 @@ CutScene::CutScene(Console& console) : associatedConsole(console)
 {
 	Completed = false;
 	CS_started = false;
-	CS_start_time = 0;
-	ms = 0;
 }
 
 CutScene::~CutScene()
