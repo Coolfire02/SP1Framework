@@ -6,6 +6,7 @@ MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), 
 	mg_started = false;
 	mg_start_time = g_dElapsedTime;
 	player_ptr = NULL;
+	button_ptr = NULL;
 	Completed = false;
 	WaterCollected = 0;
 	MoneyEarned = 0;
