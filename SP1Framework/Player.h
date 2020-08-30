@@ -12,9 +12,7 @@ class Player : public GameObject
 private:
 	Inventory inventory;
 	std::string getType();
-	Position Ppos1;
 	Money M1;
-	//ASCII Pasc1;
 public:
 	Player();
 	~Player();

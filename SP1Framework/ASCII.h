@@ -102,7 +102,7 @@ public:
 	unsigned int getYLength();
 	CHAR_INFO getArtAtLoc(COORD);
 	
-	bool setArt(ARTTYPE);
+	void setArt(ARTTYPE);
 	bool setArt(BAR barType, short width, short height, WORD border, WORD fill, double progress);
 	bool setArt(std::string txt);
 	bool setArt(std::string txt, WORD bg);

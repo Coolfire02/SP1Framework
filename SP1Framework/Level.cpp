@@ -999,192 +999,191 @@ Costs $" + std::to_string(price) + "\n\
 
 		std::ifstream file("LEVELS\\" + levelName + ".txt");
 		std::string line;
-		if (file.is_open()) {
-			int split;
-			std::string varType;
-			while (std::getline(file, line)) {
-				split = 0;
-				std::vector<std::string> out;
-				tokenize(line, ',', out);
+		try {
+			if (file.is_open()) {
+				int split;
+				std::string varType;
+				while (std::getline(file, line)) {
+					split = 0;
+					std::vector<std::string> out;
+					tokenize(line, ',', out);
 
-				std::vector<std::string> line_array;
+					std::vector<std::string> line_array;
 
-				for (auto& line : out) {
-					line_array.push_back(line);
-				}
+					for (auto& line : out) {
+						line_array.push_back(line);
+					}
 
-				if (line_array.at(0) == "MapSize") {
-					mainMapSize.X = std::stoi(line_array.at(1));
-					mainMapSize.Y = std::stoi(line_array.at(2));
-				}
-				else if (line_array.at(0) == "DisplayOrigin") {
-					mainDisplayOrigin.X = std::stoi(line_array.at(1));
-					mainDisplayOrigin.Y = std::stoi(line_array.at(2));
-				}
-				else if (line_array.at(0) == "FireMan") {
-					GameObject* ptr = player_ptr;
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-				}
-				else if (line_array.at(0) == "FireTruck") {
-					GameObject* ptr = truck_ptr;
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-				}
-				else if (line_array.at(0) == "BeeHive_Icon") {
-					GameObject* ptr = new BeeHive(BEEHIVE_ICON);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Cat") {
-					ArtObject* ptr = new ArtObject(CAT_ART, 1100, "Cat");
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "FireStation") {
-					GameObject* ptr = new FireStation();
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Forest") {
-					GameObject* ptr = new Forest();
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "MiniGame_RM") {
-					MiniGame* ptr = new MiniGame_RM(level, console);
-					levelStates.push_back(ptr->getAssociatedLSState());
+					if (line_array.at(0) == "MapSize") {
+						mainMapSize.X = std::stoi(line_array.at(1));
+						mainMapSize.Y = std::stoi(line_array.at(2));
+					}
+					else if (line_array.at(0) == "DisplayOrigin") {
+						mainDisplayOrigin.X = std::stoi(line_array.at(1));
+						mainDisplayOrigin.Y = std::stoi(line_array.at(2));
+					}
+					else if (line_array.at(0) == "FireMan") {
+						GameObject* ptr = player_ptr;
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					}
+					else if (line_array.at(0) == "FireTruck") {
+						GameObject* ptr = truck_ptr;
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					}
+					else if (line_array.at(0) == "BeeHive_Icon") {
+						GameObject* ptr = new BeeHive(BEEHIVE_ICON);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Cat") {
+						ArtObject* ptr = new ArtObject(CAT_ART, 1100, "Cat");
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "FireStation") {
+						GameObject* ptr = new FireStation();
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Forest") {
+						GameObject* ptr = new Forest();
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "MiniGame_RM") {
+						MiniGame* ptr = new MiniGame_RM(level, console);
+						levelStates.push_back(ptr->getAssociatedLSState());
 
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-					mg_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "MiniGame_WL") {
-					MiniGame* ptr = new MiniGame_WL(level, console);
-					levelStates.push_back(ptr->getAssociatedLSState());
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+						mg_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "MiniGame_WL") {
+						MiniGame* ptr = new MiniGame_WL(level, console);
+						levelStates.push_back(ptr->getAssociatedLSState());
 
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-					mg_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "MiniGame_BHOS") {
-					MiniGame* ptr = new MiniGame_BHOS(level, console);
-					levelStates.push_back(ptr->getAssociatedLSState());
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+						mg_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "MiniGame_BHOS") {
+						MiniGame* ptr = new MiniGame_BHOS(level, console);
+						levelStates.push_back(ptr->getAssociatedLSState());
+						ptr->setWorldPosition(0, 0); // test
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+						mg_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "MiniGame_RW") {
+						MiniGame* ptr = new MiniGame_RW(level, console);
+						levelStates.push_back(ptr->getAssociatedLSState());
 
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-					mg_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "MiniGame_RW") {
-					MiniGame* ptr = new MiniGame_RW(level, console);
-					levelStates.push_back(ptr->getAssociatedLSState());
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+						mg_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "MiniGame_CFT") {
+						MiniGame* ptr = new MiniGame_CFT(level, console);
+						levelStates.push_back(ptr->getAssociatedLSState());
 
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-					mg_ptr.push_back(ptr);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+						mg_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Vertical_Road") {
+						ROADTYPE type = R_VERTICAL;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Horizontal_Road") {
+						ROADTYPE type = R_HORIZONTAL;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Vertical_Short_Road") {
+						ROADTYPE type = R_VERTICAL_SHORT;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Horizontal_Short_Road") {
+						ROADTYPE type = R_HORIZONTAL_SHORT;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Vertical_Break_Road") {
+						ROADTYPE type = R_VERTICAL_BREAK;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Horizontal_Break_Road") {
+						ROADTYPE type = R_HORIZONTAL_BREAK;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "L_Road") {
+						ROADTYPE type = R_L;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Right_L_Road") {
+						ROADTYPE type = R_RL;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Left_Up_L_Road") {
+						ROADTYPE type = R_LUL;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Right_Up_L_Road") {
+						ROADTYPE type = R_RUL;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Down_T_Road") {
+						ROADTYPE type = R_DT;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Up_T_Road") {
+						ROADTYPE type = R_UT;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Left_Vertical_T_Road") {
+						ROADTYPE type = R_LVT;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Right_Vertical_T_Road") {
+						ROADTYPE type = R_RVT;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
+					else if (line_array.at(0) == "Cross_Road") {
+						ROADTYPE type = R_X;
+						GameObject* ptr = new Road(type);
+						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+						obj_ptr.push_back(ptr);
+					}
 				}
-				else if (line_array.at(0) == "MiniGame_CFT") {
-					MiniGame* ptr = new MiniGame_CFT(level, console);
-					levelStates.push_back(ptr->getAssociatedLSState());
-
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-					mg_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Vertical_Road") {
-					ROADTYPE type = R_VERTICAL;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Horizontal_Road") {
-					ROADTYPE type = R_HORIZONTAL;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Vertical_Short_Road") {
-					ROADTYPE type = R_VERTICAL_SHORT;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Horizontal_Short_Road") {
-					ROADTYPE type = R_HORIZONTAL_SHORT;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Vertical_Break_Road") {
-					ROADTYPE type = R_VERTICAL_BREAK;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Horizontal_Break_Road") {
-					ROADTYPE type = R_HORIZONTAL_BREAK;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "L_Road") {
-					ROADTYPE type = R_L;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Right_L_Road") {
-					ROADTYPE type = R_RL;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Left_Up_L_Road") {
-					ROADTYPE type = R_LUL;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Right_Up_L_Road") {
-					ROADTYPE type = R_RUL;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Down_T_Road") {
-					ROADTYPE type = R_DT;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Up_T_Road") {
-					ROADTYPE type = R_UT;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Left_Vertical_T_Road") {
-					ROADTYPE type = R_LVT;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Right_Vertical_T_Road") {
-					ROADTYPE type = R_RVT;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-				else if (line_array.at(0) == "Cross_Road") {
-					ROADTYPE type = R_X;
-					GameObject* ptr = new Road(type);
-					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
-					obj_ptr.push_back(ptr);
-				}
-
-
-
-
 			}
 		}
+		catch (...) {}
 	}
 
 	//map_ptrs = new Map[levelStates.size()]();
