@@ -939,9 +939,8 @@ Costs $" + std::to_string(price) + "\n\
 
 		for (int cutscene = 0; cutscene < TOTAL_SCENES; cutscene++)
 		{
-			CutScene* ptr;
-			switch (cutscene)
-			{
+			CutScene* ptr = nullptr;
+			switch (cutscene) {
 			case(START_GAME_SCENE):
 				ptr = new StartScene(console);
 				break;
@@ -949,7 +948,8 @@ Costs $" + std::to_string(price) + "\n\
 			default:
 				ptr = nullptr;
 			}
-			cs_ptr.push_back(ptr);
+			if(ptr != nullptr)
+				cs_ptr.push_back(ptr);
 		}
 
 		std::ifstream file("LEVELS\\" + levelName + ".txt");
@@ -1193,6 +1193,7 @@ Level::~Level()
 	pickedUp_obj = NULL;
 	player_ptr = NULL;
 	truck_ptr = NULL;
+	win = NULL;
 }
 
 //always called at the start of each game loop. Making sure a level state is initialised as per

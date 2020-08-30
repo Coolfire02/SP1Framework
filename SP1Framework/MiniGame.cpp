@@ -133,6 +133,9 @@ MiniGame::~MiniGame()
 	for (auto& element : mg_obj_ptr) { //deletes all pointers created under the minigames
 		delete element;
 	}
+	for (auto& element : instructions_obj_ptr) { //deletes all pointers created under the minigames
+		delete element;
+	}
 }
 
 bool MiniGame::processKBEvents(SKeyEvent KeyEvent[])
