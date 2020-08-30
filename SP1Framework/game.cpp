@@ -17,6 +17,7 @@
 
 double  g_keyCooldownTime;
 double  g_mouseCooldownTime;
+bool loaded = false;
 SKeyEvent g_skKeyEvent[K_COUNT];
 SMouseEvent g_mouseEvent;
 
@@ -26,18 +27,21 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
+Level* levels[4];
+int load_levels() {
+    g_Console.writeToBuffer(g_consoleSize.X / 2 - 10, g_consoleSize.Y / 2, "Loading... 0%", 0xF0);
+    levels[0] = new Level(MAINMENU, g_Console);
+    g_Console.writeToBuffer(g_consoleSize.X / 2 - 10, g_consoleSize.Y / 2, "Loading... 25%", 0xF0);
+    levels[1] = new Level(TUTORIAL, g_Console);
+    g_Console.writeToBuffer(g_consoleSize.X / 2 - 10, g_consoleSize.Y / 2, "Loading... 50%", 0xF0);
+    levels[2] = new Level(STAGE_1_LEVEL_1, g_Console);
+    g_Console.writeToBuffer(g_consoleSize.X / 2 - 10, g_consoleSize.Y / 2, "Loading... 75%", 0xF0);
+    levels[3] = new Level(STAGE_2_LEVEL_1, g_Console); 
+    g_Console.writeToBuffer(g_consoleSize.X / 2 - 10, g_consoleSize.Y / 2, "Loading... 100%", 0xF0);
+    return 0;
+}
 
-Level* levels[4] = { new Level(MAINMENU, g_Console),
-                    new Level(TUTORIAL, g_Console),
-                    new Level(STAGE_1_LEVEL_1, g_Console),
-                    new Level(STAGE_2_LEVEL_1, g_Console)};
 Level* g_Level;
-
-void updateOptions();
-void updateLevel();
-void optionMenuClick();
-void renderLevel();
-void renderOptions();
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function

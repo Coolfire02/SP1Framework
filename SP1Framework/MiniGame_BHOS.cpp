@@ -16,29 +16,25 @@ LEVELSTATE MiniGame_BHOS::getAssociatedLSState()
 {
 	return LS_MINIGAME_BHOS;
 }
-
 MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, console), msPassed(0)
+, maxPlayerLives(3), playerLives(maxPlayerLives), ms(1000), beeHiveLeft(0), beeHiveRight(0),
+selectedHive(nullptr), grabbedHivePos(nullptr), Money_ptr(nullptr), Instructions(nullptr),
+hive_selected_text(nullptr), health_bar(nullptr), HivePrice(0), TreeMax(COORD{ 175,41 }), TreeMin(COORD{ 25, 4 }),
+lastMousePos(COORD{ 0,0 })
 {
-	TreeMin = { (short)0, (short)0 };
-	TreeMax = { (short)0, (short)0 };
-	lastMousePos = { (short)0, (short)0 };
-	srand(static_cast<int>(time(NULL)));
-	numHive = (rand() % 2 + 3);
-	maxPlayerLives = 3;
-	playerLives = maxPlayerLives;
-	selectedHive = nullptr;
-	ms = 1000;
 	art.setArt(MINIGAME_BHOS_ART);
-	beeHiveLeft = 0;
-	beeHiveRight = 0;
-	grabbedHivePos = nullptr;
-	MiniGameMap.setBackground(0x20);
-	Money_ptr = nullptr;
-	Instructions = nullptr;
-	hive_selected_text = nullptr;
-	selectedHive = nullptr;
-	health_bar = nullptr;
+	srand(static_cast<unsigned int>(time(NULL)));
+	numHive = (rand() % 2 + 3);
+}
 
+MiniGame_BHOS::~MiniGame_BHOS()
+{
+	//Intentionally left blank (deletion of obj_ptrs is handled in Level)
+}
+
+void MiniGame_BHOS::mgGameInit()
+{
+	MiniGameMap.setBackground(0x20);
 	BeeHive BH(BEEHIVE);
 	HivePrice = BH.getHiveWorth() + 5 * getAssociatedLevel();
 
@@ -64,16 +60,6 @@ MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, co
 	button_ptr = new Text("Start Game", 0x70);
 	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 17);
 	instructions_obj_ptr.push_back(button_ptr);
-}
-
-MiniGame_BHOS::~MiniGame_BHOS()
-{
-	//Intentionally left blank (deletion of obj_ptrs is handled in Level)
-}
-
-void MiniGame_BHOS::mgGameInit()
-{
-	srand(static_cast<int>(time(NULL))); //initial seed (does not return a value)
 	//MiniGameMap.setSize(213, 50);
 
 	Money_ptr = new Text;
@@ -90,10 +76,10 @@ void MiniGame_BHOS::mgGameInit()
 
 	health_bar = new ProgressBar(B_HORIZONTAL, 20, 3, 0xF0, 0xC0);
 	health_bar->setProgress(100);
-	health_bar->setRelativePos(g_consoleSize.X/2 - health_bar->getXLength()/2 + 6, 1);
+	health_bar->setRelativePos(g_consoleSize.X / 2 - health_bar->getXLength() / 2 + 6, 1);
 
 	hive_selected_text = new Text("You are not holding any BeeHive currently!", 0xC0);
-	hive_selected_text->setRelativePos(g_consoleSize.X / 2 - hive_selected_text->getText().length()/2, 0);
+	hive_selected_text->setRelativePos(g_consoleSize.X / 2 - hive_selected_text->getText().length() / 2, 0);
 
 	mg_obj_ptr.push_back(health);
 	mg_obj_ptr.push_back(health_bar);
@@ -127,9 +113,6 @@ void MiniGame_BHOS::mgGameInit()
 			}
 		}
 	}
-
-
-
 }
 
 void MiniGame_BHOS::gameLoopListener()

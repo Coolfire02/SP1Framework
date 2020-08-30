@@ -35,7 +35,7 @@ void ASCII::tokenize(std::string const& str, const char delim,
 	}
 }
 
-bool ASCII::setArt(ARTTYPE type) {
+void ASCII::setArt(ARTTYPE type) {
 	if (art != nullptr) {
 		deleteArt();
 	}
@@ -236,6 +236,9 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "Letter_Icons\\D_Icon.txt";
 		break;
 
+	case DEFAULT_ART:
+		arttxt = "default.txt";
+		break;
 
 	default:
 		arttxt = "NA";
@@ -292,52 +295,57 @@ bool ASCII::setArt(ARTTYPE type) {
 
 			std::ifstream ReadFile2(arttxt);
 			std::string line2;
-			if (ReadFile2.is_open())
-			{
-				const char delim = ',';
-				int numPixel = 0;
-				int index = 0;
-				while (std::getline(ReadFile2, line2))
-				{	
-					int x = 0, y = 0;
-					//Initialization of pixel
-					CHAR_INFO pixel = g_background;
-
-					int pos = 0; //To check what position it is checking in the txt file
-					std::vector<std::string> out;
-					tokenize(line2, delim, out);
-
-
-					for (auto& line2 : out)
+			try {
+				if (ReadFile2.is_open())
+				{
+					const char delim = ',';
+					int numPixel = 0;
+					int index = 0;
+					while (std::getline(ReadFile2, line2))
 					{
-						if (index >= 1)
+						int x = 0, y = 0;
+						//Initialization of pixel
+						CHAR_INFO pixel = g_background;
+
+						int pos = 0; //To check what position it is checking in the txt file
+						std::vector<std::string> out;
+						tokenize(line2, delim, out);
+
+
+						for (auto& line2 : out)
 						{
-							if (pos == 0)
+							if (index >= 1)
 							{
-								unsigned int thecolor = std::stoul(line2, nullptr, 16);
-								WORD theAttri = thecolor;
-								pixel.Attributes = theAttri;
+								if (pos == 0)
+								{
+									unsigned int thecolor = std::stoul(line2, nullptr, 16);
+									WORD theAttri = thecolor;
+									pixel.Attributes = theAttri;
+								}
+								else if (pos == 1) {
+									int charNum = std::stoi(line2);
+									if (charNum < 0) charNum = 32;
+									pixel.Char.AsciiChar = (char)charNum;
+								}
+								else if (pos == 2)
+									x = std::stoi(line2);
+								else
+									y = std::stoi(line2);
+
 							}
-							else if (pos == 1)
-								pixel.Char.AsciiChar = std::stoi(line2);
-							else if (pos == 2)
-								x = std::stoi(line2);
-							else
-								y = std::stoi(line2);
+							pos++;
 
 						}
-						pos++;
-
+						if (index > 0 && static_cast<unsigned int>(x) < xLength && static_cast<unsigned int>(y) < yLength) {
+							art[x][y] = pixel;
+						}
+						index++;
 					}
-					if(index > 0)
-						art[x][y] = pixel;
-					index++;
+
+					ReadFile2.close();
 				}
-
-				ReadFile2.close();
 			}
-
-			return true;
+			catch (...) {}
 		}
 	}
 
@@ -345,7 +353,6 @@ bool ASCII::setArt(ARTTYPE type) {
 	{
 		art = nullptr;
 	}
-	return false;
 }
 
 bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fill, double progress) {

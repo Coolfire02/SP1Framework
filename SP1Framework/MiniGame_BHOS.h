@@ -1,6 +1,7 @@
 #pragma once
 #include "MiniGame.h"
 #include "BeeHive.h"
+
 class MiniGame_BHOS :
     public MiniGame
 {
@@ -25,8 +26,8 @@ private:
     int msPassed;
 
     //player game stat
-    int playerLives;
     int maxPlayerLives;
+    int playerLives;
 
     //health bar
     ProgressBar* health_bar;
