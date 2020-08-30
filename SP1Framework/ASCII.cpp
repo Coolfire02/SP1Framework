@@ -222,6 +222,21 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "CutScene_Props\\FireStation_Pole.txt";
 		break;
 
+
+	case W_ART:
+		arttxt = "Letter_Icons\\W_Icon.txt";
+		break;
+	case A_ART:
+		arttxt = "Letter_Icons\\A_Icon.txt";
+		break;
+	case S_ART:
+		arttxt = "Letter_Icons\\S_Icon.txt";
+		break;
+	case D_ART:
+		arttxt = "Letter_Icons\\D_Icon.txt";
+		break;
+
+
 	default:
 		arttxt = "NA";
 		break;
@@ -322,8 +337,6 @@ bool ASCII::setArt(ARTTYPE type) {
 				ReadFile2.close();
 			}
 
-			//for every line in text
-			//art[x][y] = ada;
 			return true;
 		}
 	}

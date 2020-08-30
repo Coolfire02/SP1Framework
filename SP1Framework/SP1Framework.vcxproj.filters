@@ -49,9 +49,6 @@
     <Filter Include="Source Files\Icons/Buildings">
       <UniqueIdentifier>{2f456cc6-e63e-4b4c-bbd2-21f661f21c47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shop">
-      <UniqueIdentifier>{3842ac06-aeb3-4009-ba1d-6d54d331f0e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Player Items">
       <UniqueIdentifier>{ca62b5f2-8431-4263-8689-490b5a2272d3}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="Source Files\Cut Scenes">
       <UniqueIdentifier>{ca895481-2310-46b4-874f-a60dc57c32ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shop">
+      <UniqueIdentifier>{3842ac06-aeb3-4009-ba1d-6d54d331f0e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,11 +192,11 @@
     <ClCompile Include="StartScene.cpp">
       <Filter>Source Files\Cut Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Cat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="Cat.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -318,10 +318,10 @@
       <Filter>Header Files\Cut Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Cat.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Shop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -695,11 +695,35 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		levelStates.push_back(LS_MAINMENU);
 		
 		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600, "WildFire");
-		Text* text = new Text("Stages can be found ->", 0xE0);
+		Text* text = new Text("Stage Selection ->", 0xE0);
+
+		ArtObject* W_inst = new ArtObject(W_ART, 500, "W_Icon");
+		Text* W_txt = new Text("Use the W-Key to move up", 0xE0);
+		ArtObject* A_inst = new ArtObject(A_ART, 500, "A_Icon");
+		Text* A_txt = new Text("Use the A-Key to move left", 0xE0);
+		ArtObject* S_inst = new ArtObject(S_ART, 500, "S_Icon");
+		Text* S_txt = new Text("Use the S-Key to move down", 0xE0);
+		ArtObject* D_inst = new ArtObject(D_ART, 500, "D_Icon");
+		Text* D_txt = new Text("Use the D-Key to move right", 0xE0);
+
+		int Icon_xLen = W_inst->getXLength();
+		int Icon_yLen = W_inst->getYLength() + 25;
 
 		player_ptr->setWorldPosition(g_consoleSize.X/2, 45);
-		text->setWorldPosition(COORD({9, 46}));
+		text->setWorldPosition(COORD({(short)(g_consoleSize.X - 5 - text->getXLength()), 46}));
 		wildFireIcon->setWorldPosition(COORD({ (short)(g_consoleSize.X / 2 - wildFireIcon->getXLength() / 2), (short)(g_consoleSize.Y / 2 - wildFireIcon->getYLength()/2) - 7 }));
+		
+		W_inst->setWorldPosition(COORD({ (short)(10 + Icon_xLen), (short) (2 + 25) }));
+		A_inst->setWorldPosition(COORD({ (short)(10), (short) (2 + Icon_yLen) }));
+		S_inst->setWorldPosition(COORD({ (short)(10 + Icon_xLen), (short)(2 + Icon_yLen) }));
+		D_inst->setWorldPosition(COORD({ (short)(10 + 2*Icon_xLen), (short)(2 + Icon_yLen) }));
+
+		W_txt->setWorldPosition(COORD({ (short)(7), (short)(2 + 1 * (Icon_yLen)) }));
+		A_txt->setWorldPosition(COORD({ (short)(7), (short)(4 + 2 * Icon_yLen) }));
+		S_txt->setWorldPosition(COORD({ (short)(7), (short)(6 + 3 * Icon_yLen) }));
+		D_txt->setWorldPosition(COORD({ (short)(7), (short)(8 + 4 * Icon_yLen) }));
+
+
 
 		Stage* TUTORIAL = new Stage(LEVEL::TUTORIAL);
 		Text* TutTxt_ptr = new Text("Tutorial Stage", 0xE0);
@@ -709,6 +733,16 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		Text* S2Txt_ptr = new Text("Stage 2\n<Unavailable>", 0xE0);
 
 		obj_ptr.push_back(wildFireIcon);
+
+		obj_ptr.push_back(W_inst);
+		obj_ptr.push_back(A_inst);
+		obj_ptr.push_back(S_inst);
+		obj_ptr.push_back(D_inst);
+		obj_ptr.push_back(W_txt);
+		obj_ptr.push_back(A_txt);
+		obj_ptr.push_back(S_txt);
+		obj_ptr.push_back(D_txt);
+
 		obj_ptr.push_back(text);
 		obj_ptr.push_back(TutTxt_ptr);
 		obj_ptr.push_back(S1Txt_ptr);
