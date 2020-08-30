@@ -1,5 +1,5 @@
 MapSize,650,150
-DisplayOrigin,150,39
+DisplayOrigin,437,37
 ProgressBar,0,0
 ProgressBar,0,0
 Ability_Zoom,0,0
@@ -19,7 +19,7 @@ MiniGame_CFT,420,95
 MiniGame_RW,407,80
 MiniGame_RM,561,62
 MiniGame_WL,316,84
-FireTruck,251,64
+FireTruck,228,66
 FireMan,223,68
 Horizontal_Break_Road,397,83
 Horizontal_Break_Road,379,47
