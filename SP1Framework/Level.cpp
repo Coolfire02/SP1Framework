@@ -1364,7 +1364,7 @@ std::string Level::getFireRemainingPrefix() {
 }
 
 std::string Level::getMoneyBalancePrefix() {
-	return "Funds: $" + std::to_string(player_ptr->getMoney());
+	return "Funds: $" + std::to_string(static_cast<int>(player_ptr->getMoney()));
 }
 
 void Level::centralizeMapToTruck(Map* map) {
