@@ -53,7 +53,7 @@ void Road::setRoadType(ROADTYPE type) {
 		art.setArt(DT_ROAD_ART);
 		break;
 	case R_UT:
-		art.setArt(RL_ROAD_ART);
+		art.setArt(UT_ROAD_ART);
 		break;
 	case R_LVT:
 		art.setArt(LVT_ROAD_ART);

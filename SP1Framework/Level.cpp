@@ -695,16 +695,16 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		levelStates.push_back(LS_MAINMENU);
 		
 		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600, "WildFire");
-		Text* text = new Text("Stage Selection ->", 0xE0);
+		Text* text = new Text("Stage Selection ->", 0xE0, 1);
 
 		ArtObject* W_inst = new ArtObject(W_ART, 500, "W_Icon");
-		Text* W_txt = new Text("Use the W-Key to move up", 0xE0);
+		Text* W_txt = new Text("Use the W-Key to move up   ", g_background.Attributes);
 		ArtObject* A_inst = new ArtObject(A_ART, 500, "A_Icon");
-		Text* A_txt = new Text("Use the A-Key to move left", 0xE0);
+		Text* A_txt = new Text("Use the A-Key to move left ", g_background.Attributes);
 		ArtObject* S_inst = new ArtObject(S_ART, 500, "S_Icon");
-		Text* S_txt = new Text("Use the S-Key to move down", 0xE0);
+		Text* S_txt = new Text("Use the S-Key to move down ", g_background.Attributes);
 		ArtObject* D_inst = new ArtObject(D_ART, 500, "D_Icon");
-		Text* D_txt = new Text("Use the D-Key to move right", 0xE0);
+		Text* D_txt = new Text("Use the D-Key to move right", g_background.Attributes);
 
 		int Icon_xLen = W_inst->getXLength();
 		int Icon_yLen = W_inst->getYLength() + 25;
@@ -718,10 +718,10 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		S_inst->setWorldPosition(COORD({ (short)(10 + Icon_xLen), (short)(2 + Icon_yLen) }));
 		D_inst->setWorldPosition(COORD({ (short)(10 + 2*Icon_xLen), (short)(2 + Icon_yLen) }));
 
-		W_txt->setWorldPosition(COORD({ (short)(7), (short)(2 + 1 * (Icon_yLen)) }));
-		A_txt->setWorldPosition(COORD({ (short)(7), (short)(4 + 2 * Icon_yLen) }));
-		S_txt->setWorldPosition(COORD({ (short)(7), (short)(6 + 3 * Icon_yLen) }));
-		D_txt->setWorldPosition(COORD({ (short)(7), (short)(8 + 4 * Icon_yLen) }));
+		W_txt->setWorldPosition(COORD({ (short)(S_inst->getWorldPosition().X - 5), (short)(S_inst->getWorldPosition().Y + S_inst->getYLength()) }));
+		A_txt->setWorldPosition(COORD({ (short)(S_inst->getWorldPosition().X - 5), (short)(S_inst->getWorldPosition().Y + 1 + S_inst->getYLength()) }));
+		S_txt->setWorldPosition(COORD({ (short)(S_inst->getWorldPosition().X - 5), (short)(S_inst->getWorldPosition().Y + 2 + S_inst->getYLength()) }));
+		D_txt->setWorldPosition(COORD({ (short)(S_inst->getWorldPosition().X - 5), (short)(S_inst->getWorldPosition().Y + 3 + S_inst->getYLength()) }));
 
 
 
@@ -730,7 +730,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		Stage* STAGE_1_LEVEL_1 = new Stage(LEVEL::STAGE_1_LEVEL_1);
 		Text* S1Txt_ptr = new Text("Stage 1", 0xE0);
 		Stage* STAGE_2_LEVEL_1 = new Stage(LEVEL::STAGE_2_LEVEL_1);
-		Text* S2Txt_ptr = new Text("Stage 2\n<Unavailable>", 0xE0);
+		Text* S2Txt_ptr = new Text("Stage 2", 0xE0);
 
 		obj_ptr.push_back(wildFireIcon);
 
