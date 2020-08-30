@@ -18,24 +18,24 @@ LEVELSTATE MiniGame_BHOS::getAssociatedLSState()
 }
 
 MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, console), msPassed(0)
+, maxPlayerLives(3), playerLives(maxPlayerLives), ms(1000), beeHiveLeft(0), beeHiveRight(0),
+selectedHive(nullptr), grabbedHivePos(nullptr), Money_ptr(nullptr), Instructions(nullptr),
+hive_selected_text(nullptr), health_bar(nullptr), HivePrice(0), TreeMax(COORD{ 175,41 }), TreeMin(COORD{ 25, 4 }),
+lastMousePos(COORD{ 0,0 })
 {
+	art.setArt(MINIGAME_BHOS_ART);
 	srand(time(NULL));
 	numHive = (rand() % 2 + 3);
-	maxPlayerLives = 3;
-	playerLives = maxPlayerLives;
-	selectedHive = nullptr;
-	ms = 1000;
-	art.setArt(MINIGAME_BHOS_ART);
-	beeHiveLeft = 0;
-	beeHiveRight = 0;
-	grabbedHivePos = nullptr;
-	MiniGameMap.setBackground(0x20);
-	Money_ptr = nullptr;
-	Instructions = nullptr;
-	hive_selected_text = nullptr;
-	selectedHive = nullptr;
-	health_bar = nullptr;
+}
 
+MiniGame_BHOS::~MiniGame_BHOS()
+{
+	//Intentionally left blank (deletion of obj_ptrs is handled in Level)
+}
+
+void MiniGame_BHOS::mgGameInit()
+{
+	MiniGameMap.setBackground(0x20);
 	BeeHive BH(BEEHIVE);
 	HivePrice = BH.getHiveWorth() + 5 * getAssociatedLevel();
 
@@ -61,16 +61,6 @@ MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, co
 	button_ptr = new Text("Start Game", 0x70);
 	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 17);
 	instructions_obj_ptr.push_back(button_ptr);
-}
-
-MiniGame_BHOS::~MiniGame_BHOS()
-{
-	//Intentionally left blank (deletion of obj_ptrs is handled in Level)
-}
-
-void MiniGame_BHOS::mgGameInit()
-{
-	srand(time(NULL)); //initial seed (does not return a value)
 	//MiniGameMap.setSize(213, 50);
 
 	Money_ptr = new Text;
