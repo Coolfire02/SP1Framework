@@ -37,6 +37,8 @@ public:
 	bool isCompleted();
 	bool isStarted();
 
+	double getStartTime();
+
 	virtual std::string getType() = 0;
 
 	virtual void CutSceneLoopListener() = 0;

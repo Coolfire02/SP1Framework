@@ -86,3 +86,8 @@ bool CutScene::isStarted()
 {
 	return CS_started;
 }
+
+double CutScene::getStartTime()
+{
+	return CS_start_time;
+}

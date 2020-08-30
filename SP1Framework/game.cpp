@@ -101,7 +101,7 @@ void getInput( void )
 void startNextLevel(LEVEL level) {
     g_Level->resetNextLevel();
     g_Level = levels[level];
-//    g_Level->StartLevel();
+    g_Level->StartLevel();
 }
 
 //--------------------------------------------------------------

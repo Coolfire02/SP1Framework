@@ -37,6 +37,13 @@ void Level::gameLoopListener() {
 	{
 		if (currently_played_CS_ptr->isCompleted())
 		{
+			for (auto& pointer : cs_ptr) {
+				if (pointer == currently_played_CS_ptr) {
+					pointer = nullptr;
+				}
+			}
+			cs_ptr.erase(std::remove(cs_ptr.begin(), cs_ptr.end(), nullptr), cs_ptr.end()); //Removes all nullptrs from vector
+			currently_played_CS_ptr = NULL;
 			state = LS_MAINGAME;
 			(*this).checkStateChange();
 		}
