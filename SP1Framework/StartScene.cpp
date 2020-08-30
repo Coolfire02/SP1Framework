@@ -2,6 +2,10 @@
 
 void StartScene::cutsceneInit()
 {
+	fall_delay = 0;
+	move_delay = 0;
+	FM_moves = 0;
+	FT_moves = 0;
 	fireman_ptr->setWorldPosition(Scene.getXLength() / 2, 0);
 	pole_ptr->setRelativePos(Scene.getXLength() / 2, 0);
 	truck_ptr->setWorldPosition(Scene.getXLength() / 2 + 10, 39);
@@ -9,10 +13,6 @@ void StartScene::cutsceneInit()
 
 StartScene::StartScene(Console& console) : CutScene(console)
 {
-	fall_delay = 0;
-	move_delay = 0;
-	FM_moves = 0;
-	FT_moves = 0;
 	fireman_ptr = new ArtObject(FIREFIGHTER_ART, 700, "FireMan");
 	pole_ptr = new ArtObject(POLE_ART, 300, "Pole");
 	truck_ptr = new ArtObject(FIRE_TRUCK_ART, 800, "FireTruck");

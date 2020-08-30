@@ -13,6 +13,7 @@ Road::Road(ROADTYPE type)
 }
 
 void Road::setRoadType(ROADTYPE type) {
+	weight = 0;
 	(*this).type = type;
 	switch (type)
 	{
@@ -29,9 +30,11 @@ void Road::setRoadType(ROADTYPE type) {
 		art.setArt(VERTICAL_ROAD_SHORT_ART);
 		break;
 	case R_HORIZONTAL_BREAK :
+		weight = 1;
 		art.setArt(HORIZONTAL_ROAD_BREAK_ART);
 		break;
 	case R_VERTICAL_BREAK:
+		weight = 1;
 		art.setArt(VERTICAL_ROAD_BREAK_ART);
 		break;
 	case R_L:

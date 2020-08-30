@@ -1,5 +1,5 @@
 MapSize,650,150
-DisplayOrigin,158,37
+DisplayOrigin,192,55
 ProgressBar,0,0
 ProgressBar,0,0
 Ability_Zoom,0,0
@@ -7,6 +7,7 @@ Ability_Road_Repair,0,0
 Ability_Homebase,0,0
 Shop,0,0
 BeeHive_Icon,322,64
+Cat,267,82
 FireStation,228,59
 MiniGame_RM,328,80
 MiniGame_RW,417,79
@@ -14,8 +15,10 @@ MiniGame_WL,290,44
 MiniGame_BHOS,317,60
 MiniGame_CFT,264,79
 MiniGame_WL,361,90
-FireTruck,252,64
+FireTruck,251,64
 FireMan,223,68
+Horizontal_Break_Road,272,103
+Horizontal_Break_Road,322,99
 ShopItem,15,5
 ShopItem,95,5
 ShopItem,55,5
@@ -43,7 +46,6 @@ Vertical_Short_Road,293,72
 Vertical_Short_Road,293,76
 Vertical_Short_Road,293,78
 Horizontal_Short_Road,287,81
-Horizontal_Break_Road,272,103
 Vertical_Short_Road,293,96
 Vertical_Short_Road,293,92
 Vertical_Short_Road,293,94
@@ -56,7 +58,6 @@ Vertical_Short_Road,364,100
 Down_T_Road,364,103
 Horizontal_Road,374,103
 Right_L_Road,400,103
-Horizontal_Break_Road,322,99
 Right_Up_L_Road,400,83
 Vertical_Road,400,90
 Vertical_Short_Road,400,88

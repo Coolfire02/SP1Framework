@@ -674,18 +674,24 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		levelStates.push_back(LS_MAINMENU);
 		
 		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600, "WildFire");
-		Text* text = new Text("Stages can be found ->", 0xE0);
+		Text* text = new Text("Stages can be found ->", 0xE0, 100);
 
 		player_ptr->setWorldPosition(4, 45);
-		text->setWorldPosition(COORD({ (short)(g_consoleSize.X / 2 - text->getText().size() / 2),(short) g_consoleSize.Y / 2 }));
+		text->setWorldPosition(COORD({9, 46}));
 		wildFireIcon->setWorldPosition(COORD({ (short)(g_consoleSize.X / 2 - wildFireIcon->getXLength() / 2), (short)(g_consoleSize.Y / 2 - wildFireIcon->getYLength()/2) - 7 }));
 
 		Stage* TUTORIAL = new Stage(LEVEL::TUTORIAL);
+		Text* TutTxt_ptr = new Text("Tutorial Stage", 0xE0, 1100);
 		Stage* STAGE_1_LEVEL_1 = new Stage(LEVEL::STAGE_1_LEVEL_1);
+		Text* S1Txt_ptr = new Text("Stage 1", 0xE0, 1100);
 		Stage* STAGE_2_LEVEL_1 = new Stage(LEVEL::STAGE_2_LEVEL_1);
+		Text* S2Txt_ptr = new Text("Stage 2\n<Unavailable>", 0xE0, 1100);
 
 		obj_ptr.push_back(wildFireIcon);
 		obj_ptr.push_back(text);
+		obj_ptr.push_back(TutTxt_ptr);
+		obj_ptr.push_back(S1Txt_ptr);
+		obj_ptr.push_back(S2Txt_ptr);
 		obj_ptr.push_back(TUTORIAL);
 		obj_ptr.push_back(STAGE_1_LEVEL_1);
 		obj_ptr.push_back(STAGE_2_LEVEL_1);
@@ -704,6 +710,11 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 				worldCordAssignment.X = worldCordAssignment.X + (short)67;
 			}
 		}
+
+		TutTxt_ptr->setWorldPosition(TUTORIAL->getWorldPosition().X + (TUTORIAL->getXLength() / 2) - (TutTxt_ptr->getXLength() / 2), TUTORIAL->getWorldPosition().Y + (TUTORIAL->getYLength() / 2));
+		S1Txt_ptr->setWorldPosition(STAGE_1_LEVEL_1->getWorldPosition().X + (STAGE_1_LEVEL_1->getXLength() / 2) - (S1Txt_ptr->getXLength()/2), STAGE_1_LEVEL_1->getWorldPosition().Y + (STAGE_1_LEVEL_1->getYLength() / 2));
+		S2Txt_ptr->setWorldPosition(STAGE_2_LEVEL_1->getWorldPosition().X + (STAGE_2_LEVEL_1->getXLength() / 2) - (S2Txt_ptr->getXLength() / 2), STAGE_2_LEVEL_1->getWorldPosition().Y + (STAGE_2_LEVEL_1->getYLength() / 2));
+	
 	}
 	else {
 		switch (level) {
@@ -923,8 +934,7 @@ Costs $" + std::to_string(price) + "\n\
 				break;
 			case(END_GAME_SCENE):
 			default:
-				ptr = new StartScene(console);
-
+				ptr = nullptr;
 			}
 			cs_ptr.push_back(ptr);
 		}
@@ -963,6 +973,11 @@ Costs $" + std::to_string(price) + "\n\
 				}
 				else if (line_array.at(0) == "BeeHive_Icon") {
 					GameObject* ptr = new BeeHive(BEEHIVE_ICON);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Cat") {
+					ArtObject* ptr = new ArtObject(CAT_ART, 1100, "Cat");
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);
 				}

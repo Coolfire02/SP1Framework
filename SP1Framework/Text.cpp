@@ -17,6 +17,12 @@ Text::Text(std::string text, WORD bg) : text(text)
 	art.setArt(this->text, bgColour);
 	weight = 1500;
 }
+Text::Text(std::string text, WORD bg, int w) :text(text)
+{
+	bgColour = bg;
+	art.setArt(this->text, bgColour);
+	weight = w;
+}
 void Text::setText(std::string text)
 {
 	this->text = text;
