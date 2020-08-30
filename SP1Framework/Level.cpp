@@ -856,9 +856,9 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 			case(ABILITY_ZOOM):
 				price = 25;
 				type = ABILITY_ZOOM;
-				Description = "Zoom\n\
-Costs $" + std::to_string(price) + "\n\
-Makes you go NYOOOOOOM!\n\
+				Description = "Zoom                   \n\
+Costs $" + std::to_string(price) + "                 \n\
+Makes you go NYOOOOOOM!   \n\
 <Double-Click icon to buy>";
 				quantity = 1;
 				x = X_COORD[0];
@@ -868,10 +868,10 @@ Makes you go NYOOOOOOM!\n\
 			case(ABILITY_HOMEBASE):
 				price = 25;
 				type = ABILITY_HOMEBASE;
-				Description = "Homebase Teleportation\n\
-Costs $" + std::to_string(price) + "\n\
+				Description = "Homebase Teleportation      \n\
+Costs $" + std::to_string(price) + "                \n\
 Teleports you to Fire Station.\n\
-<Double-Click icon to buy>";
+<Double-Click icon to buy>    ";
 				quantity = 1;
 				x = X_COORD[1];
 				y += 0;
@@ -880,9 +880,9 @@ Teleports you to Fire Station.\n\
 			case(ABILITY_ROADREPAIR):
 				price = 25;
 				type = ABILITY_ROADREPAIR;
-				Description = "Road Repair\n\
-Costs $" + std::to_string(price) + "\n\
-Repairs any broken road.\n\
+				Description = "Road Repair            \n\
+Costs $" + std::to_string(price) + "       \n\
+Repairs any broken road.  \n\
 <Double-Click icon to buy>";
 				quantity = 1;
 				x = X_COORD[2];
@@ -892,10 +892,10 @@ Repairs any broken road.\n\
 			case(HOSE_HOLY_WATER):
 				price = 200;
 				type = HOSE_HOLY_WATER;
-				Description = "Hose of Holy Water\n\
-Costs $" + std::to_string(price) + "\n\
-2.0x Water Collection\n\
-0.3x Money Collection\n\
+				Description = "Hose of Holy Water     \n\
+Costs $" + std::to_string(price) + "                \n\
+2.0x Water Collection     \n\
+0.3x Money Collection     \n\
 <Double-Click icon to buy>";
 				quantity = 1;
 				x = X_COORD[0];
