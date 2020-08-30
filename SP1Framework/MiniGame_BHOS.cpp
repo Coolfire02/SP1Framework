@@ -60,7 +60,6 @@ void MiniGame_BHOS::mgGameInit()
 	button_ptr = new Text("Start Game", 0x70);
 	button_ptr->setWorldPosition(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 17);
 	instructions_obj_ptr.push_back(button_ptr);
-	//MiniGameMap.setSize(213, 50);
 
 	Money_ptr = new Text;
 	mg_obj_ptr.push_back(Money_ptr);

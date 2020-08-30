@@ -13,6 +13,7 @@ GameObject::~GameObject() {
 	}
 }
 
+// Collision between two objects?
 bool GameObject::isCollided(GameObject& otherObj) {
 	if (!(*this).isActive()) return false;
 	if (!(*this).isInteractable() || !otherObj.isInteractable()) return false;

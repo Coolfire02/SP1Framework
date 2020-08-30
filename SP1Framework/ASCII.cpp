@@ -1,7 +1,5 @@
 #include "ASCII.h"
 
-
-
 ASCII::ASCII() {
 	xLength = 0;
 	yLength = 0;
@@ -22,6 +20,7 @@ ASCII::~ASCII() {
 	delete[] art;
 }
 
+// Used for loading of file
 void ASCII::tokenize(std::string const& str, const char delim,
 	std::vector<std::string>& out)
 {
@@ -355,6 +354,7 @@ void ASCII::setArt(ARTTYPE type) {
 	}
 }
 
+// Art for Progress Bar
 bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fill, double progress) {
 	if (art != nullptr) {
 		deleteArt();
@@ -415,7 +415,7 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 	return true;
 }
 
-
+// Art for Strings
 bool ASCII::setArt(std::string txt)
 {
 	if (art != nullptr) {
@@ -479,6 +479,7 @@ bool ASCII::setArt(std::string txt)
 	return true;
 }
 
+// Art for Strings with colour specified
 bool ASCII::setArt(std::string txt, WORD bg)
 {
 	if (art != nullptr) {
@@ -545,6 +546,7 @@ bool ASCII::setArt(std::string txt, WORD bg)
 	return true;
 }
 
+// Art for Block Object
 bool ASCII::setArt(int width, int height, WORD bg, WORD border)
 {
 	if (art != nullptr) {

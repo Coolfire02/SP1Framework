@@ -28,6 +28,8 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
 Level* levels[4];
+
+//Loading of levels before main()
 int load_levels() {
     g_Console.writeToBuffer(g_consoleSize.X / 2 - 10, g_consoleSize.Y / 2, "Loading... 0%", 0xF0);
     levels[0] = new Level(MAINMENU, g_Console);
@@ -298,83 +300,6 @@ void renderOptions() {
 
 }
 
-//Unused code but can use for ref. for positioning
-//void renderSplashScreen()  // renders the splash screen
-//{
-//    COORD c = g_Console.getConsoleSize();
-//    c.Y /= 3;
-//    c.X = c.X / 2 - 9;
-//    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
-//    c.Y += 1;
-//    c.X = g_Console.getConsoleSize().X / 2 - 20;
-//    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
-//    c.Y += 1;
-//    c.X = g_Console.getConsoleSize().X / 2 - 9;
-//    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
-//}
-
-//Unused code but can be used for ref. later on
-//void renderGame()
-//{
-//    renderMap();        // renders the map to the buffer first
-//    renderCharacter();  // renders the character into the buffer
-//}
-
-//void renderMap()
-//{
-//    WORD mycolour = (short) 0xFFFFFF; 
-//    // Set up sample colours, and output shadings
-//    const WORD colors[] = {
-//        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-//        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-//    };
-//
-//    COORD c;
-//    for (int i = 0; i < 12; ++i)
-//    {
-//        c.X = 5 * i;
-//        c.Y = i + 1;
-//        
-//        //g_Console.writeToBuffer(c, " °±²Û", colors[i]);
-//        std::string s = "0x1F";
-//        unsigned int thecolor = std::stoul(s, nullptr, 16);
-//        WORD theAttri = thecolor;
-//        //colour(0xF0);
-//        WORD test = 0x1A;
-//        g_Console.writeToBuffer(c, 'T', thecolor);
-//        
-//    }
-//}
-
-//void renderCharacter()
-//{
-//    // Draw the location of the character
-//    WORD charColor = 0x0C;
-//    if (g_sChar.m_bActive)
-//    {
-//        charColor = 0x0A;
-//    }
-//    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
-//    player->setWorldPosition(4, 4);
-//    for (int i = 0; i < player->getXLength(); i++) {
-//        for (int j = 0; j < player->getYLength(); j++) {
-//            g_Console.writeToBuffer(10, 10, ("getting" + i + ' ' + j));
-//            COORD c = {i,j};
-//            CHAR_INFO art = player->getArtAtLoc(c);
-//            c.X += player->getWorldPosition().X;
-//            c.Y += player->getWorldPosition().Y;
-//            g_Console.writeToBuffer(c, art.Char.AsciiChar, art.Attributes);
-//        }
-//    }
-//
-//    if (ft->isCollided((*player))) {
-//        g_Console.writeToBuffer(10, 10, "ISCOLLIDED YAY");
-//    }
-//    else {
-//        g_Console.writeToBuffer(10, 10, "IS NOT COLLIDED BOO");
-//    }
-//}
-
 void renderFramerate()
 {
     COORD c;
@@ -385,13 +310,6 @@ void renderFramerate()
     c.X = g_Console.getConsoleSize().X - 9;
     c.Y = 0;
     g_Console.writeToBuffer(c, ss.str());
-
-    // displays the elapsed time
-    /*ss.str("");
-    ss << g_dElapsedTime << "secs";
-    c.X = 0;
-    c.Y = 0;
-    g_Console.writeToBuffer(c, ss.str(), 0x59);*/
 }
 int once = false;
 
@@ -401,78 +319,3 @@ void updateGameState() {
         return;
     }
 }
-
-// this is an example of how you would use the input events
-//void renderInputEvents()
-//{
-//    // keyboard events
-//    //COORD startPos = {50, 2};
-//    //std::ostringstream ss;
-//    std::string key;
-//    for (int i = 0; i < K_COUNT; ++i)
-//    {
-//        switch (i)
-//        {
-//        case K_W: key = "UP";
-//            break;
-//        case K_S: key = "DOWN";
-//            break;
-//        case K_A: key = "LEFT";
-//            break;
-//        case K_D: key = "RIGHT";
-//            break;
-//        case K_SPACE: key = "SPACE";
-//            break;
-//        default: continue;
-//        }
-//        //if (g_skKeyEvent[i].keyDown)
-//        //    ss << key << " pressed";
-//        //else if (g_skKeyEvent[i].keyReleased)
-//        //    ss << key << " released";
-//        //else
-//        //    ss << key << " not pressed";
-//
-//        //COORD c = { startPos.X, (short) (startPos.Y + i) };
-//        //g_Console.writeToBuffer(c, ss.str(), 0x17);
-//    }
-//
-//    // mouse events    
-//    //ss.str("");
-//    //ss << "Mouse position (" << g_mouseEvent.mousePosition.X << ", " << g_mouseEvent.mousePosition.Y << ")";
-//    //g_Console.writeToBuffer(g_mouseEvent.mousePosition, ss.str(), 0x59);
-//    //ss.str("");
-//    switch (g_mouseEvent.eventFlags)
-//    {
-//    case 0:
-//        if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-//        {
-//            ss.str("Left Button Pressed");
-//            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 1, ss.str(), 0x59);
-//        }
-//        else if (g_mouseEvent.buttonState == RIGHTMOST_BUTTON_PRESSED)
-//        {
-//            ss.str("Right Button Pressed");
-//            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 2, ss.str(), 0x59);
-//        }
-//        else
-//        {
-//            ss.str("Some Button Pressed");
-//            g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 3, ss.str(), 0x59);
-//        }
-//        break;
-//    case DOUBLE_CLICK:
-//        ss.str("Double Clicked");
-//        g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 4, ss.str(), 0x59);
-//        break;        
-//    case MOUSE_WHEELED:
-//        if (g_mouseEvent.buttonState & 0xFF000000)
-//            ss.str("Mouse wheeled down");
-//        else
-//            ss.str("Mouse wheeled up");
-//        g_Console.writeToBuffer(g_mouseEvent.mousePosition.X, g_mouseEvent.mousePosition.Y + 5, ss.str(), 0x59);
-//        break;
-//    default:        
-//        break;
-//    }
-//    
-//}

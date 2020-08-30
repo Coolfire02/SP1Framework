@@ -13,9 +13,9 @@ void Level::gameLoopListener() {
 					pointer = nullptr;
 				}
 			}
-			mg_ptr.erase(std::remove(mg_ptr.begin(), mg_ptr.end(), nullptr), mg_ptr.end()); //Removes all nullptrs from vector
+			//Removes all nullptrs from vector
+			mg_ptr.erase(std::remove(mg_ptr.begin(), mg_ptr.end(), nullptr), mg_ptr.end()); 
 
-			// TODO adding of money and water
 			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned()*truck_ptr->getHoseMoneyMulti());
 			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected()*truck_ptr->getHoseWaterMulti());
 			
@@ -42,7 +42,8 @@ void Level::gameLoopListener() {
 					pointer = nullptr;
 				}
 			}
-			cs_ptr.erase(std::remove(cs_ptr.begin(), cs_ptr.end(), nullptr), cs_ptr.end()); //Removes all nullptrs from vector
+			//Removes all nullptrs from vector
+			cs_ptr.erase(std::remove(cs_ptr.begin(), cs_ptr.end(), nullptr), cs_ptr.end()); 
 			currently_played_CS_ptr = NULL;
 			state = LS_MAINGAME;
 			(*this).checkStateChange();
@@ -64,6 +65,7 @@ void Level::gameLoopListener() {
 bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 	bool eventIsProcessed = false;
 
+	// If minigame active, call keyboard handler function in minigame
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->processKBEvents(keyEvents);
 	}
@@ -253,8 +255,6 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 								break;
 						}
 					}
-					//debug to remove
-					//canMove = true;
 					if (!canMove)
 						truck_ptr->setWorldPosition(truck_origPos);
 				}
@@ -325,14 +325,16 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			}
 			map->setMapToBufferOffset(mapOffset);
 		}
-		// init new stages if state change
 	}
+	// Checks for any state changes, update activeness of objects accordingly
 	(*this).checkStateChange();
 	return eventIsProcessed;
 }
 
 bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 	bool eventIsProcessed = false;
+
+	// If MiniGame is on, call mouse event handler function in Minigame
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->processMouseEvents(mouseEvent);
 	}
@@ -362,66 +364,63 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 
 		switch (mouseEvent.eventFlags) {
 		case 0:
-			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) { //If clicked
+			// Handles if left mouse button is clicked
+			if (mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED) {
 				if (FROM_LEFT_1ST_BUTTON_PRESSED != 0) {
-					if (currently_played_MG_ptr != NULL) {
-						//minigamehandlemouseevent()...
-					}
-					else {
-						Map* map = levelspecific_maps.at(state);
-						COORD bufferOffset = map->getMapToBufferOffset();
-						switch (state) {
-						case LS_MAINGAME: {
-							std::multimap<short, GameObject*> sort;
-							for (auto& object_ptr : obj_ptr) {
-								if (!object_ptr->isActive()) continue;
-								sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
-							}
-							for (auto element : sort) {
-								if (element.second->hasRelativePos()) {
-									COORD cursorPos = mousePos;
-									if (element.second->isInRelativeLocation(cursorPos)) {
-										if (element.second->getType() == "Shop") {
-											state = LS_GAMESHOP;
-											(*this).checkStateChange();
-											break;
-										}
-									}
-								}
-								else {
-									COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
-									if (element.second->isInLocation(cursorPos)) {
-										// nothing 
-									}
-								}
-							}
-							break;
+					Map* map = levelspecific_maps.at(state);
+					COORD bufferOffset = map->getMapToBufferOffset();
+					switch (state) {
+					case LS_MAINGAME: {
+						std::multimap<short, GameObject*> sort;
+						for (auto& object_ptr : obj_ptr) {
+							if (!object_ptr->isActive()) continue;
+							sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
 						}
-
-						case LS_LEVEL_BUILDER: {
-							//if mouse cursor is touching level obj, clip onto it so u can move it around
-							std::multimap<short, GameObject*> sort;
-							for (auto& object_ptr : obj_ptr) {
-								if (!object_ptr->isActive()) continue;
-								sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
-							}
-
-							if (pickedUp_obj == NULL) {
-								//Beep(5140, 30);
-								//sort from highest weight to lowest allowing u to pickup the "most infront" obj
-								for (auto element : sort) {
-									COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
-									if (element.second->isInLocation(cursorPos)) {
-										pickedUp_obj = element.second;
-										//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+						for (auto element : sort) {
+							if (element.second->hasRelativePos()) {
+								COORD cursorPos = mousePos;
+								if (element.second->isInRelativeLocation(cursorPos)) {
+									if (element.second->getType() == "Shop") {
+										state = LS_GAMESHOP;
+										(*this).checkStateChange();
 										break;
 									}
 								}
 							}
+							else {
+								COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+								if (element.second->isInLocation(cursorPos)) {
+									// nothing 
+								}
+							}
+						}
+						break;
+					}
+
+					case LS_LEVEL_BUILDER: {
+						//if mouse cursor is touching level obj, clip onto it so u can move it around
+						std::multimap<short, GameObject*> sort;
+						for (auto& object_ptr : obj_ptr) {
+							if (!object_ptr->isActive()) continue;
+							sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight() * (-1), object_ptr));
 						}
 
+						if (pickedUp_obj == NULL) {
+							//Beep(5140, 30);
+							//sort from highest weight to lowest allowing u to pickup the "most infront" obj
+							for (auto element : sort) {
+								COORD cursorPos = { mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y };
+								if (element.second->isInLocation(cursorPos)) {
+									pickedUp_obj = element.second;
+									//pickedUp_obj->setWorldPosition(mousePos.X + bufferOffset.X, mousePos.Y + bufferOffset.Y);
+									break;
+								}
+							}
 						}
 					}
+
+					}
+					
 				}
 
 			}
@@ -429,10 +428,6 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 				if (state == LS_LEVEL_BUILDER) {
 					pickedUp_obj = NULL; //No longer holding obj
 				}
-			}
-
-			if (mouseEvent.buttonState == FROM_LEFT_2ND_BUTTON_PRESSED) {
-
 			}
 			break;
 		case DOUBLE_CLICK: {
@@ -462,7 +457,7 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 
 									player_ptr->spendMoney((int)(shopItem->getCost()));
 									(*this).updateProgressDisplays();
-									//Beep(8000, 50);
+
 									player_ptr->getInventory().addItem(shopItem->getItem());
 									switch (shopItem->getItem().getItemType()) {
 									case HOSE_HOLY_WATER:
@@ -550,10 +545,12 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 			break;
 		}
 	}
+	// Checks for any state changes, update activeness of objects accordingly
 	(*this).checkStateChange();
 	return eventIsProcessed;
 }
 
+// called when in game.cpp startNextLevel() is processed, used for starting cut scene
 void Level::StartLevel()
 {
 	for (auto& cutscene_ptr : cs_ptr) {
@@ -566,6 +563,7 @@ void Level::StartLevel()
 	}
 }
 
+// renders list of objects to map
 bool Level::renderObjsToMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderObjsToMap();
@@ -613,6 +611,7 @@ bool Level::renderObjsToMap() {
 	return true;
 }
 
+// renders object list to console buffer
 bool Level::renderMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderMap();
