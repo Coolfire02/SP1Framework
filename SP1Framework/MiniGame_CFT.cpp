@@ -93,7 +93,7 @@ void MiniGame_CFT::mgGameInit()
 	mg_obj_ptr.push_back(catBranch);
 	cat->setWorldPosition(pathXMax + 4, catBranch->getWorldPosition().Y-4);
 
-	for(int i = 0; i < (pathXMax)-generated_path.X+4+5; i++)
+	for(int i = 0; i < (pathXMax)-generated_path.X+12; i++)
 		path.push_back(K_D);
 
 	//right side

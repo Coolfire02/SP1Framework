@@ -71,18 +71,20 @@ private:
 	LEVELSTATE originalState;
 	LEVELSTATE state;
 	std::string levelName;
+	bool completed;
 
+	Text* win;
 	Player* player_ptr;
 	FireTruck* truck_ptr;
 	MiniGame* currently_played_MG_ptr;
 	CutScene* currently_played_CS_ptr;
-
 
 	Text* Money_ptr;
 	ProgressBar* ft_waterCollected;
 	ProgressBar* level_progress;
 	Text* ft_waterCollected_text;
 	Text* level_progress_text;
+	Text* topOfScreenTXT;
 
 	std::vector<MiniGame*> mg_ptr;
 	std::vector<GameObject*> obj_ptr;
@@ -107,8 +109,8 @@ private:
 	bool devMode = true;
 	GameObject* pickedUp_obj;
 	
-	double fire;
 	const double originalTotalFire;
+	double fire;
 
 	void newStageinit();
 	void saveLevel();
@@ -121,6 +123,7 @@ private:
 
 	void centralizeMapToTruck(Map* map);
 public:
+	bool isComplete();
 	void gameLoopListener();
 	Level(LEVEL, Console&);
 	~Level();
@@ -130,11 +133,11 @@ public:
 	LEVEL getNextLevel();
 	void resetNextLevel();
 	void checkStateChange();
-	void renderMap();
-	void renderObjsToMap();
+	bool renderMap();
+	bool renderObjsToMap();
 	bool processKBEvents(SKeyEvent[]);
 	bool processMouseEvents(SMouseEvent&);
-
+	void setTopOfScreenTXT(std::string txt);
 	void StartLevel();
 };
 

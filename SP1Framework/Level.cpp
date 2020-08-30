@@ -95,7 +95,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 				for (auto& obj : stages_ptr) {
 					if (obj->isCollided(*player_ptr)) {
 						nextLevel = obj->getStage();
-						player_ptr->setWorldPosition(4, 45);
+						player_ptr->setWorldPosition(g_consoleSize.X/2, 45);
 						COORD cord = { 0,0 };
 						map->setMapToBufferOffset(cord);
 						eventIsProcessed = true;
@@ -155,7 +155,13 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 
 								if (fire <= 0) {
 									fire = 0;
-									//GAME END TODO
+									win->setActive(true);
+									if ((*this).renderObjsToMap()) {
+										if ((*this).renderMap()) {
+											completed = true;
+											nextLevel = MAINMENU;
+										}
+									}
 								}
 								stopLoop = true;
 							}
@@ -559,7 +565,7 @@ void Level::StartLevel()
 	}
 }
 
-void Level::renderObjsToMap() {
+bool Level::renderObjsToMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderObjsToMap();
 	}
@@ -603,9 +609,10 @@ void Level::renderObjsToMap() {
 			//and all other cases that are not minigames TODO
 		}
 	}
+	return true;
 }
 
-void Level::renderMap() {
+bool Level::renderMap() {
 	if (currently_played_MG_ptr != NULL) {
 		currently_played_MG_ptr->renderMap();
 	}
@@ -629,6 +636,7 @@ void Level::renderMap() {
 			}
 		}
 	}
+	return true;
 }
 
 enum LEVELSTATE Level::getState() {
@@ -643,12 +651,11 @@ bool Level::setState(LEVELSTATE state) {
 	return false; //not a state that exists in level
 }
 
-Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * level)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * level), fire(originalTotalFire), completed(false)
 {
-	// Fire setting
-	fire = originalTotalFire;
 
 	originalState = LS_COUNT;
+	win = NULL;
 	player_ptr = NULL;
 	truck_ptr = NULL;
 	Money_ptr = NULL;
@@ -669,23 +676,26 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 	player_ptr = new Player();
 	obj_ptr.push_back(player_ptr);
 
+	topOfScreenTXT = new Text("", 0x76);
+	obj_ptr.push_back(topOfScreenTXT);
+
 	if (level == MAINMENU) {
 		state = LS_MAINMENU;
 		levelStates.push_back(LS_MAINMENU);
 		
 		ArtObject* wildFireIcon = new ArtObject(WILDFIRE_TITLE_ART, 1600, "WildFire");
-		Text* text = new Text("Stages can be found ->", 0xE0, 100);
+		Text* text = new Text("Stages can be found ->", 0xE0);
 
-		player_ptr->setWorldPosition(4, 45);
+		player_ptr->setWorldPosition(g_consoleSize.X/2, 45);
 		text->setWorldPosition(COORD({9, 46}));
 		wildFireIcon->setWorldPosition(COORD({ (short)(g_consoleSize.X / 2 - wildFireIcon->getXLength() / 2), (short)(g_consoleSize.Y / 2 - wildFireIcon->getYLength()/2) - 7 }));
 
 		Stage* TUTORIAL = new Stage(LEVEL::TUTORIAL);
-		Text* TutTxt_ptr = new Text("Tutorial Stage", 0xE0, 1100);
+		Text* TutTxt_ptr = new Text("Tutorial Stage", 0xE0);
 		Stage* STAGE_1_LEVEL_1 = new Stage(LEVEL::STAGE_1_LEVEL_1);
-		Text* S1Txt_ptr = new Text("Stage 1", 0xE0, 1100);
+		Text* S1Txt_ptr = new Text("Stage 1", 0xE0);
 		Stage* STAGE_2_LEVEL_1 = new Stage(LEVEL::STAGE_2_LEVEL_1);
-		Text* S2Txt_ptr = new Text("Stage 2\n<Unavailable>", 0xE0, 1100);
+		Text* S2Txt_ptr = new Text("Stage 2\n<Unavailable>", 0xE0);
 
 		obj_ptr.push_back(wildFireIcon);
 		obj_ptr.push_back(text);
@@ -735,12 +745,14 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		COORD cord = { 0,1 };
 		truck_ptr = new FireTruck(100);
 
+		win = new Text("LEVEL COMPLETED!", 0xF2);
 		Money_ptr = new Text(getMoneyBalancePrefix());
 		ft_waterCollected_text = new Text(getTruckWaterPrefix(), 0xB0);
 		level_progress_text = new Text(getFireRemainingPrefix(), 0xC0);
 		ft_waterCollected = new ProgressBar(B_HORIZONTAL, 20, 3, 0x70, 0x30);
 		level_progress = new ProgressBar(B_HORIZONTAL, 20, 3, 0x70, 0x40);
 
+		win->setRelativePos(g_consoleSize.X / 2 - win->getText().length() / 2, g_consoleSize.Y / 2);
 		Money_ptr->setRelativePos(cord);
 		ft_waterCollected->setRelativePos(cord.X, cord.Y + 1);
 		level_progress->setRelativePos(cord.X, cord.Y + 4);
@@ -750,6 +762,7 @@ Level::Level(LEVEL level, Console& console) : associatedConsole(console), origin
 		ft_waterCollected->setProgress(0);
 		level_progress->setProgress(100);
 
+		obj_ptr.push_back(win);
 		obj_ptr.push_back(truck_ptr);
 		obj_ptr.push_back(Money_ptr);
 		obj_ptr.push_back(ft_waterCollected);
@@ -1212,7 +1225,7 @@ void Level::newStageinit() {
 		player_ptr->setActive(false);
 		break;
 	}
-
+	if(win != NULL) win->setActive(false);
 	originalState = state;
 }
 
@@ -1308,3 +1321,11 @@ void Level::centralizeMapToTruck(Map* map) {
 	map->setMapToBufferOffset(mapOffset);
 }
 
+bool Level::isComplete() {
+	return completed;
+}
+
+void Level::setTopOfScreenTXT(std::string txt) {
+	topOfScreenTXT->setText(txt);
+	topOfScreenTXT->setWorldPosition(g_consoleSize.X / 2 - txt.length() / 2, 0);
+}

@@ -26,6 +26,7 @@ EGAMESTATES g_eGameState = S_ACTIVE; // initial state
 
 // Console object
 Console g_Console(g_consoleSize, "SP1 Framework");
+
 Level* levels[3] = { new Level(MAINMENU, g_Console),
                     new Level(TUTORIAL, g_Console),
                     new Level(STAGE_1_LEVEL_1, g_Console) };
@@ -100,8 +101,16 @@ void getInput( void )
 
 void startNextLevel(LEVEL level) {
     g_Level->resetNextLevel();
-    g_Level = levels[level];
-    g_Level->StartLevel();
+
+    if (levels[level]->isComplete() == false) {
+        g_Level = levels[level];
+        g_Level->StartLevel();
+    }
+    else {
+        if (g_Level->getLevel() == MAINMENU) {
+            g_Level->setTopOfScreenTXT("Level already completed!");
+        }
+    }
 }
 
 //--------------------------------------------------------------
