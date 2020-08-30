@@ -7,6 +7,8 @@ enum ROADTYPE
 	R_VERTICAL,
 	R_HORIZONTAL_SHORT,
 	R_VERTICAL_SHORT,
+	R_HORIZONTAL_BREAK,
+	R_VERTICAL_BREAK,
 	R_L, //L turn
 	R_RL, //Right L turn
 	R_LUL,//Left Up L turn

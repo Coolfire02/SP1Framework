@@ -67,3 +67,19 @@ double FireTruck::getMaxWater()
 {
     return maxWaterLevel;
 }
+
+void FireTruck::setHoseMoneyMulti(double multi) {
+    (*this).hose.setMoneyMulti(multi);
+}
+
+void FireTruck::setHoseWaterMulti(double multi) {
+    (*this).hose.setWaterMulti(multi);
+}
+
+double FireTruck::getHoseMoneyMulti() {
+    return (*this).hose.getMoneyMulti();
+}
+
+double FireTruck::getHoseWaterMulti() {
+    return (*this).hose.getWaterMulti();
+}

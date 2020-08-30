@@ -16,8 +16,8 @@ void Level::gameLoopListener() {
 			mg_ptr.erase(std::remove(mg_ptr.begin(), mg_ptr.end(), nullptr), mg_ptr.end()); //Removes all nullptrs from vector
 
 			// TODO adding of money and water
-			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned());
-			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected());
+			player_ptr->receiveMoney(currently_played_MG_ptr->getMoneyEarned()*truck_ptr->getHoseMoneyMulti());
+			truck_ptr->FillWater(currently_played_MG_ptr->getWaterCollected()*truck_ptr->getHoseWaterMulti());
 			
 			Money_ptr->setText(getMoneyBalancePrefix());
 			ft_waterCollected_text->setText(getTruckWaterPrefix());
@@ -103,6 +103,15 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 			COORD future_pos = truck_origPos;
 			int multi = 1;
 			if (PU_zoom_timer > g_dElapsedTime) multi = 2;
+			if (keyEvents[K_CTRL].keyDown) {
+				if (keyEvents[K_D].keyDown) {
+					if (devMode) {
+						state = LS_LEVEL_BUILDER;
+						Beep(8000, 50);
+						(*this).checkStateChange();
+					}
+				}
+			}
 			if (keyEvents[K_W].keyDown)
 				future_pos.Y -= 1 * multi;
 			if (keyEvents[K_A].keyDown)
@@ -146,7 +155,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 
 							else if (type == "MiniGame_RM") {
 								for (auto& minigame_ptr : mg_ptr) {
-									if (minigame_ptr->getType() == "MiniGame_RM") {
+									if (minigame_ptr->getType() == "MiniGame_RM" && minigame_ptr == obj) {
 										currently_played_MG_ptr = minigame_ptr;
 										currently_played_MG_ptr->start();
 										state = LS_MINIGAME_RM;
@@ -159,7 +168,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 
 							else if (type == "MiniGame_WL") {
 								for (auto& minigame_ptr : mg_ptr) {
-									if (minigame_ptr->getType() == "MiniGame_WL") {
+									if (minigame_ptr->getType() == "MiniGame_WL" && minigame_ptr == obj) {
 										currently_played_MG_ptr = minigame_ptr;
 										currently_played_MG_ptr->start();
 										state = LS_MINIGAME_WL;
@@ -172,7 +181,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 
 							else if (type == "MiniGame_BHOS") {
 								for (auto& minigame_ptr : mg_ptr) {
-									if (minigame_ptr->getType() == "MiniGame_BHOS") {
+									if (minigame_ptr->getType() == "MiniGame_BHOS" && minigame_ptr == obj) {
 										currently_played_MG_ptr = minigame_ptr;
 										currently_played_MG_ptr->start();
 										state = LS_MINIGAME_BHOS;
@@ -185,7 +194,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 
 							else if (type == "MiniGame_RW") {
 								for (auto& minigame_ptr : mg_ptr) {
-									if (minigame_ptr->getType() == "MiniGame_RW") {
+									if (minigame_ptr->getType() == "MiniGame_RW" && minigame_ptr == obj) {
 										currently_played_MG_ptr = minigame_ptr;
 										currently_played_MG_ptr->start();
 										state = LS_MINIGAME_RW;
@@ -198,7 +207,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 
 							else if (type == "MiniGame_CFT") {
 								for (auto& minigame_ptr : mg_ptr) {
-									if (minigame_ptr->getType() == "MiniGame_CFT") {
+									if (minigame_ptr->getType() == "MiniGame_CFT" && minigame_ptr == obj) {
 										currently_played_MG_ptr = minigame_ptr;
 										currently_played_MG_ptr->start();
 										state = LS_MINIGAME_CFT;
@@ -210,7 +219,7 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 							}
 
 							else if (type.rfind("Road") != std::string::npos) {
-								if (type == "Road_Block") {
+								if (type.rfind("Break_Road") != std::string::npos) {
 									canMove = false;
 									stopLoop = true;
 
@@ -254,9 +263,25 @@ bool Level::processKBEvents(SKeyEvent keyEvents[]) {
 				}
 				if (keyEvents[K_V].keyDown) {
 					if (pickedUp_obj != NULL) {
-						GameObject* obj = new Road(dynamic_cast<Road*>(pickedUp_obj)->getRoadType());
-						obj->setWorldPosition(pickedUp_obj->getWorldPosition().X + 1, pickedUp_obj->getWorldPosition().Y + 1);
-						obj_ptr.push_back(obj);
+						GameObject* obj = NULL;
+						if (pickedUp_obj->getType().rfind("Road") != std::string::npos) {
+							obj = new Road(dynamic_cast<Road*>(pickedUp_obj)->getRoadType());
+						}
+						else {
+							obj = pickedUp_obj->clone();
+						}
+						if (obj != NULL) {
+							Beep(8000, 50);
+							obj->setWorldPosition(pickedUp_obj->getWorldPosition().X + 1, pickedUp_obj->getWorldPosition().Y + 1);
+							obj_ptr.push_back(obj);
+						}
+					}
+				}
+				if (keyEvents[K_D].keyDown) {
+					if (devMode) {
+						state = LS_MAINGAME;
+						Beep(8000, 50);
+						(*this).checkStateChange();
 					}
 				}
 			}
@@ -425,6 +450,28 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 									(*this).updateProgressDisplays();
 									//Beep(8000, 50);
 									player_ptr->getInventory().addItem(shopItem->getItem());
+									switch (shopItem->getItem().getItemType()) {
+									case HOSE_HOLY_WATER:
+										truck_ptr->setHoseMoneyMulti(0.3);
+										truck_ptr->setHoseWaterMulti(2.0);
+										break;
+									case HOSE_MONEY_SALVAGER:
+										truck_ptr->setHoseMoneyMulti(1.5);
+										truck_ptr->setHoseWaterMulti(1.0);
+										break;
+									case HOSE_ABSORBER:
+										truck_ptr->setHoseMoneyMulti(1.3);
+										truck_ptr->setHoseWaterMulti(1.4);
+										break;
+									case HOSE_MAGICAL_WATER:
+										truck_ptr->setHoseMoneyMulti(1.0);
+										truck_ptr->setHoseWaterMulti(2.5);
+										break;
+									case HOSE_MONEY_DUPLICATOR:
+										truck_ptr->setHoseMoneyMulti(1.9);
+										truck_ptr->setHoseWaterMulti(1.2);
+										break;
+									}
 									updateInventoryDisplays();
 								}
 
@@ -982,6 +1029,18 @@ Costs $" + std::to_string(price) + "\n\
 				}
 				else if (line_array.at(0) == "Horizontal_Short_Road") {
 					ROADTYPE type = R_HORIZONTAL_SHORT;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Vertical_Break_Road") {
+					ROADTYPE type = R_VERTICAL_BREAK;
+					GameObject* ptr = new Road(type);
+					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
+					obj_ptr.push_back(ptr);
+				}
+				else if (line_array.at(0) == "Horizontal_Break_Road") {
+					ROADTYPE type = R_HORIZONTAL_BREAK;
 					GameObject* ptr = new Road(type);
 					ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 					obj_ptr.push_back(ptr);

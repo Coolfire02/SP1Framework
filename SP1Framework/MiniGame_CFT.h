@@ -13,20 +13,24 @@ private:
 	Cat* cat;
 	Text* upcomingSteps;
 	ProgressBar* catAlertnessBar;
+	Text* topOfScreenTXT;
 
 	int currentStep;
 	int earnValue;
+	double timeOfPreviousStep;
 
 	std::vector<EKEYS> path;
 	short pathHeight;
 	short pathXMin;
 	short pathXMax;
 
-	int catAlertnessThreshold;
-	int catAlertness;
+	double catAlertnessThreshold;
+	double catAlertness;
 	
 	std::string pathToString(EKEYS key);
 	void updateSteps();
+	void setTopText(std::string);
+	void updateCatAlertnessBar();
 public:
 	MiniGame_CFT(LEVEL level, Console& console);
 	~MiniGame_CFT();

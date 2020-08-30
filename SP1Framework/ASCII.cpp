@@ -72,7 +72,6 @@ bool ASCII::setArt(ARTTYPE type) {
 		arttxt = "WildFireIcon.txt";
 		break;
 
-
 	case SHOP_ART:
 		arttxt = "Shop\\ShopIcon.txt";
 		break;
@@ -102,7 +101,6 @@ bool ASCII::setArt(ARTTYPE type) {
 	case HOSE_MONEYSALVAGER_ART:
 		arttxt = "Shop\\Hose_MoneySalvager.txt";
 		break;
-
 
 	case MINIGAME_RM_ART:
 		arttxt = "MiniGame_RM.txt";
@@ -135,6 +133,12 @@ bool ASCII::setArt(ARTTYPE type) {
 		break;
 	case VERTICAL_ROAD_SHORT_ART:
 		arttxt = "Roads\\Vroad_Short.txt";
+		break;
+	case HORIZONTAL_ROAD_BREAK_ART:
+		arttxt = "Roads\\Hroad_Break.txt";
+		break;
+	case VERTICAL_ROAD_BREAK_ART:
+		arttxt = "Roads\\Vroad_Break.txt";
 		break;
 	case L_ROAD_ART:
 		arttxt = "Roads\\Lroad.txt";

@@ -28,6 +28,12 @@ void Road::setRoadType(ROADTYPE type) {
 	case R_VERTICAL_SHORT:
 		art.setArt(VERTICAL_ROAD_SHORT_ART);
 		break;
+	case R_HORIZONTAL_BREAK :
+		art.setArt(HORIZONTAL_ROAD_BREAK_ART);
+		break;
+	case R_VERTICAL_BREAK:
+		art.setArt(VERTICAL_ROAD_BREAK_ART);
+		break;
 	case R_L:
 		art.setArt(L_ROAD_ART);
 		break;
@@ -93,6 +99,12 @@ std::string Road::getType()
 		break;
 	case R_VERTICAL_SHORT:
 		return "Vertical_Short_Road";
+		break;
+	case R_HORIZONTAL_BREAK:
+		return "Horizontal_Break_Road";
+		break;
+	case R_VERTICAL_BREAK:
+		return "Vertical_Break_Road";
 		break;
 	case R_L:
 		return "L_Road";

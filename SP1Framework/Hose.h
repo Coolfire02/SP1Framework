@@ -2,12 +2,15 @@
 class Hose
 {
 private:
-	int WaterCollectionMultiplier, WaterSpreadSpeed, UpgradeCost;
+	double waterMultiplier;
+	double moneyMultiplier;
 public:
 	Hose();
 	~Hose();
-	void UpgradeHost(int muliplier);
-
-	Hose* clone() const { return new Hose(*this); };
+	
+	void setMoneyMulti(double);
+	void setWaterMulti(double);
+	double getMoneyMulti();
+	double getWaterMulti();
 };
 

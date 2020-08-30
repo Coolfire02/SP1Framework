@@ -25,6 +25,8 @@ void MiniGame_CFT::mgGameInit()
 	tree = new ArtObject(20, 200, 0x0F, 0x0F, 1, "Tree");
 	cat = new Cat();
 	upcomingSteps = new Text("Up Coming Steps\n\n/////\n/////\n/////\n/////", 0x30);
+	catAlertnessBar = new ProgressBar(B_VERTICAL, 5, 10, 0x20, 0xC0);
+	topOfScreenTXT = new Text("/", 0x2F);
 
 	currentStep = -1;
 
@@ -33,9 +35,13 @@ void MiniGame_CFT::mgGameInit()
 	playerPos.X = (MiniGameMap.getXLength() / 2 - (player_ptr->getXLength() / 2));
 	playerPos.Y = (MiniGameMap.getYLength() - player_ptr->getYLength() - 1);
 	upcomingSteps->setRelativePos(160, 40);
-
+	topOfScreenTXT->setRelativePos(g_consoleSize.X / 2 - topOfScreenTXT->getText().length() / 2, 0);
 	player_ptr->setWorldPosition(playerPos);
+	catAlertnessBar->setRelativePos(160, 20);
+	catAlertnessBar->setProgress(0);
 
+	mg_obj_ptr.push_back(topOfScreenTXT);
+	mg_obj_ptr.push_back(catAlertnessBar);
 	mg_obj_ptr.push_back(upcomingSteps);
 	mg_obj_ptr.push_back(player_ptr);
 	mg_obj_ptr.push_back(tree);
@@ -87,7 +93,7 @@ void MiniGame_CFT::mgGameInit()
 	mg_obj_ptr.push_back(catBranch);
 	cat->setWorldPosition(pathXMax + 4, catBranch->getWorldPosition().Y-4);
 
-	for(int i = 0; i < (pathXMax)-player_ptr->getWorldPosition().X+4; i++)
+	for(int i = 0; i < (pathXMax)-generated_path.X+4; i++)
 		path.push_back(K_D);
 
 	//right side
@@ -118,13 +124,15 @@ void MiniGame_CFT::mgGameInit()
 	Text* Line3 = new Text("Cat Alertness: Low", MiniGameMap.getBackground());
 	Line3->setRelativePos(g_consoleSize.X / 2 - Line3->getText().length() / 2, 10);
 	instructions_obj_ptr.push_back(Line3);
-	Text* Line4 = new Text("Reward: $"+earnValue, MiniGameMap.getBackground());
+	Text* Line4 = new Text("Reward: $"+std::to_string(earnValue), MiniGameMap.getBackground());
 	Line4->setRelativePos(g_consoleSize.X / 2 - Line4->getText().length() / 2, 11);
 	instructions_obj_ptr.push_back(Line4);
 
 	button_ptr = new Text("Start Game", 0x70);
 	button_ptr->setRelativePos(g_consoleSize.X / 2 - button_ptr->getText().length() / 2, 16);
 	instructions_obj_ptr.push_back(button_ptr);
+
+	timeOfPreviousStep = g_dElapsedTime;
 }
 
 void MiniGame_CFT::gameLoopListener()
@@ -132,8 +140,17 @@ void MiniGame_CFT::gameLoopListener()
 	if (isStarted() && !isInInstructions)
 	{
 		if (catAlertness >= catAlertnessThreshold) {
-			
 			Completed = true;
+		}
+		else {
+			if (currentStep != -1) {
+				if (g_dElapsedTime-timeOfPreviousStep > 1) {
+					setTopText("Taking too long! You are alerting the cat!");
+					catAlertness += 1.5 + 0.2 * getAssociatedLevel();
+					updateCatAlertnessBar();
+					timeOfPreviousStep = g_dElapsedTime;
+				}
+			}
 		}
 	}
 }
@@ -146,44 +163,55 @@ bool MiniGame_CFT::processKBEvents_mg(SKeyEvent keyEvents[])
 	if (currentStep + 1 >= path.size()) return false;
 
 	EKEYS nextStepKey = path.at(currentStep+1);
-	if (keyEvents[K_W].keyDown) {
+	if (keyEvents[K_W].keyReleased) {
 		if (nextStepKey == K_W) {
 			player_ptr->setWorldPosition(player_orig_pos.X, player_orig_pos.Y - 1);
 			currentStep += 1;
+			timeOfPreviousStep = g_dElapsedTime;
 		}
 		else {
-			//add to cat meter and saying you missed the step by pressing the wrong key, you have alerted the cat
+			setTopText("Wrong Step! You are alerting the cat!");
+			catAlertness += 1;
+			updateCatAlertnessBar();
 		}
 		eventIsProcessed = true;
 	}
-	if (keyEvents[K_A].keyDown)
+	if (keyEvents[K_A].keyReleased)
 	{
 		if (nextStepKey == K_A) {
 			player_ptr->setWorldPosition(player_orig_pos.X-1, player_orig_pos.Y);
 			currentStep += 1;
+			timeOfPreviousStep = g_dElapsedTime;
 		}
 		else {
-			//add to cat meter and saying you missed the step by pressing the wrong key, you have alerted the cat
+			setTopText("Wrong Step! You are alerting the cat!");
+			catAlertness += 1;
+			updateCatAlertnessBar();
 		}
 		eventIsProcessed = true;
 	}
-	if (keyEvents[K_D].keyDown)
+	if (keyEvents[K_D].keyReleased)
 	{
 		if (nextStepKey == K_D) {
 			player_ptr->setWorldPosition(player_orig_pos.X+1, player_orig_pos.Y);
 			currentStep += 1;
+			timeOfPreviousStep = g_dElapsedTime;
 		}
 		else {
-			//add to cat meter and saying you missed the step by pressing the wrong key, you have alerted the cat
+			setTopText("Wrong Step! You are alerting the cat!");
+			catAlertness += 1;
+			updateCatAlertnessBar();
 		}
 		eventIsProcessed = true;
 	}
-	if (eventIsProcessed)
+	if (eventIsProcessed) {
+		timeOfPreviousStep = g_dElapsedTime;
 		if (player_ptr->isCollided(*cat)) {
 			MoneyEarned += earnValue;
 			Completed = true;
 		}
 		updateSteps();
+	}
 	return eventIsProcessed;
 }
 
@@ -234,4 +262,17 @@ LEVELSTATE MiniGame_CFT::getAssociatedLSState()
 std::string MiniGame_CFT::getType()
 {
 	return "MiniGame_CFT";
+}
+
+void MiniGame_CFT::setTopText(std::string text) {
+	if (topOfScreenTXT != NULL) {
+		topOfScreenTXT->setText(text);
+		topOfScreenTXT->setRelativePos(g_consoleSize.X / 2 - topOfScreenTXT->getText().length() / 2, 0);
+	}
+}
+
+void MiniGame_CFT::updateCatAlertnessBar() {
+	if (catAlertnessBar != NULL) {
+		catAlertnessBar->setProgress(catAlertness / catAlertnessThreshold * 100);
+	}
 }

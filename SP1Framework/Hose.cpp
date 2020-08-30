@@ -1,22 +1,31 @@
 #include "Hose.h"
 
-Hose::Hose()
+Hose::Hose() : waterMultiplier(1), moneyMultiplier(1)
 {
-	WaterCollectionMultiplier = 1;
-	WaterSpreadSpeed = 25;
-	UpgradeCost = 250;
 }
 
 Hose::~Hose()
 {
 }
 
-void Hose::UpgradeHost(int muliplier)
-{
-	for (int muliplier = 1; muliplier < 9; muliplier++)
-	{
-		WaterCollectionMultiplier = muliplier;
-		WaterSpreadSpeed += 25;
-		UpgradeCost += 100;
+void Hose::setMoneyMulti(double multi) {
+	if (multi > 0) {
+		moneyMultiplier = multi;
 	}
 }
+
+void Hose::setWaterMulti(double multi) {
+	if (multi > 0) {
+		waterMultiplier = multi;
+	}
+}
+
+double Hose::getMoneyMulti() {
+	return moneyMultiplier;
+}
+
+double Hose::getWaterMulti() {
+	return waterMultiplier;
+}
+
+

@@ -13,7 +13,7 @@ class FireTruck : public GameObject
 private:
 	double currentWaterLevel;
 	double maxWaterLevel;
-	Hose H1;
+	Hose hose;
 	TRUCK_DIRECTION direction;
 public:
 	FireTruck(double maxWater);
@@ -26,6 +26,11 @@ public:
 	double getCurrentWaterLevel();
 	double getMaxWater();
 	void setWaterLevel(double);
+
+	void setHoseMoneyMulti(double);
+	void setHoseWaterMulti(double);
+	double getHoseMoneyMulti();
+	double getHoseWaterMulti();
 
 	FireTruck* clone() const { return new FireTruck(*this); };
 };
