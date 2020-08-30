@@ -37,7 +37,7 @@ bool GameObject::isInLocation(COORD coord) {
 }
 
 bool GameObject::isInLocation(int x, int y) {
-	COORD coord = { x,y };
+	COORD coord = { (short)x,(short)y };
 	if (!(*this).isActive()) return false;
 	if ((*this).getWorldPosition().X <= coord.X &&
 		(*this).getWorldPosition().X + (int)(*this).getXLength() > coord.X &&
@@ -60,7 +60,7 @@ bool GameObject::isInRelativeLocation(COORD coord) {
 }
 
 bool GameObject::isInRelativeLocation(int x, int y) {
-	COORD coord = { x,y };
+	COORD coord = {(short) x,(short) y };
 	if (!(*this).isActive() || !(*this).hasRelativePos()) return false;
 	if ((*this).getRelativePos().X <= coord.X &&
 		(*this).getRelativePos().X + (int)(*this).getXLength() > coord.X &&
@@ -122,7 +122,7 @@ CHAR_INFO GameObject::getArtAtLoc(COORD cord) {
 }
 
 CHAR_INFO GameObject::getArtAtLoc(int x, int y) {
-	COORD a = { x,y };
+	COORD a = { (short)x,(short)y };
 	return art.getArtAtLoc(a);
 }
 

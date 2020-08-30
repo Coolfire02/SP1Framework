@@ -27,12 +27,12 @@ bool Player::spendMoney(int price)
     return M1.spendMoney(price);
 }
 
-void Player::receiveMoney(int amt)
+void Player::receiveMoney(double amt)
 {
     M1.receiveMoney(amt);
 }
 
-int Player::getMoney()
+double Player::getMoney()
 {
     return M1.getMoney();
 }

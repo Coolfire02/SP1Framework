@@ -3,7 +3,7 @@
 #include "ArtObject.h"
 #include "Cat.h"
 #include "Text.h"
-#include <vector>;
+#include <vector>
 
 class MiniGame_CFT :
     public MiniGame
@@ -15,7 +15,7 @@ private:
 	ProgressBar* catAlertnessBar;
 	Text* topOfScreenTXT;
 
-	int currentStep;
+	unsigned int currentStep;
 	int earnValue;
 	double timeOfPreviousStep;
 

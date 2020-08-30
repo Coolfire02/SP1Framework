@@ -25,7 +25,7 @@ void MiniGame::start() {
 	(*this).mgGameInit();
 }
 
-void MiniGame::setWaterCollected(int w)
+void MiniGame::setWaterCollected(double w)
 {
 	WaterCollected = w;
 }
@@ -84,9 +84,9 @@ void MiniGame::renderObjsToMap()
 	}
 
 	for (auto& element : sort) {
-		for (int x = 0; x < element.second->getXLength(); x++) {
-			for (int y = 0; y < element.second->getYLength(); y++) {
-				COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+		for (unsigned int x = 0; x < element.second->getXLength(); x++) {
+			for (unsigned int y = 0; y < element.second->getYLength(); y++) {
+				COORD mapLoc = { (short)(x + element.second->getWorldPosition().X) , (short)(y + element.second->getWorldPosition().Y )};
 				if (element.second->hasRelativePos()) {
 					mapLoc = { (short)(x + element.second->getRelativePos().X + MiniGameMap.getMapToBufferOffset().X) , (short)(y + element.second->getRelativePos().Y + MiniGameMap.getMapToBufferOffset().Y) };
 				}
@@ -109,7 +109,7 @@ bool MiniGame::isStarted() {
 	return mg_started;
 }
 
-int MiniGame::getWaterCollected()
+double MiniGame::getWaterCollected()
 {
 	return WaterCollected;
 }
@@ -125,7 +125,7 @@ LEVEL MiniGame::getAssociatedLevel() {
 
 COORD MiniGame::getMapSize()
 {
-	COORD size = { MiniGameMap.getXLength(), MiniGameMap.getYLength() };
+	COORD size = {(short) ( MiniGameMap.getXLength()),(short) (MiniGameMap.getYLength()) };
 	return size;
 }
 

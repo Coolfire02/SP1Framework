@@ -8,7 +8,13 @@ void MiniGame_WL::setMoneyText() //This is to set the text on the top left to sh
 
 MiniGame_WL::MiniGame_WL(LEVEL level, Console& console) : MiniGame(level, console)
 {
-
+	wrench_ptr = NULL;
+	wrench_ptr2 = NULL;
+	water_ptr = NULL;
+	pipe_ptr = NULL;
+	Money_ptr = NULL;
+	bucket_ptr = NULL;
+	
 	MoneyEarned = 0;
 	WaterCollected = 0;
 	ms = 0;
@@ -164,6 +170,6 @@ void MiniGame_WL::mgGameInit() {
 		MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2);// wrench head
 	wrench_ptr2->setWorldPosition(MiniGameMap.getMapToBufferOffset().X + g_consoleSize.X / 2 + 2,
 		(MiniGameMap.getMapToBufferOffset().Y + g_consoleSize.Y / 2) - wrench_ptr->getYLength());// wrench tail
-	srand(time(NULL));
+	srand(static_cast<int>(time(NULL)));
 }
 

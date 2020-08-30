@@ -458,8 +458,9 @@ bool Level::processMouseEvents(SMouseEvent& mouseEvent) {
 							if (element.second->isInLocation(cursorPos) && element.second->getType() == "ShopItem") {
 								// GameShop item purchasing
 								ShopItem* shopItem = dynamic_cast<ShopItem*>(element.second);
-								if (player_ptr->getMoney() >= shopItem->getCost()) {
-									player_ptr->spendMoney(shopItem->getCost());
+								if (player_ptr->getMoney() >= (int)(shopItem->getCost())) {
+
+									player_ptr->spendMoney((int)(shopItem->getCost()));
 									(*this).updateProgressDisplays();
 									//Beep(8000, 50);
 									player_ptr->getInventory().addItem(shopItem->getItem());
@@ -588,9 +589,9 @@ bool Level::renderObjsToMap() {
 				sort.insert(std::pair<short, GameObject*>(object_ptr->getWeight(), object_ptr));
 			}
 			for (auto& element : sort) {
-				for (int x = 0; x < element.second->getXLength(); x++) {
-					for (int y = 0; y < element.second->getYLength(); y++) {
-						COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+				for (unsigned int x = 0; x < element.second->getXLength(); x++) {
+					for (unsigned int y = 0; y < element.second->getYLength(); y++) {
+						COORD mapLoc = { (short)(x + element.second->getWorldPosition().X ),(short)( y + element.second->getWorldPosition().Y )};
 						if (element.second->hasRelativePos()) {
 							mapLoc = { (short)(x + element.second->getRelativePos().X + map->getMapToBufferOffset().X) , (short)(y + element.second->getRelativePos().Y + map->getMapToBufferOffset().Y) };
 						}
@@ -651,10 +652,12 @@ bool Level::setState(LEVELSTATE state) {
 	return false; //not a state that exists in level
 }
 
-Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * (int) level), fire(originalTotalFire), completed(false)
+Level::Level(LEVEL level, Console& console) : associatedConsole(console), originalTotalFire(100 * (double)(level)), fire(originalTotalFire), completed(false)
 {
 
 	originalState = LS_COUNT;
+	PU_zoom_timer = NULL;
+	PU_homebase_timer = NULL;
 	win = NULL;
 	player_ptr = NULL;
 	truck_ptr = NULL;
@@ -1290,7 +1293,7 @@ void Level::resetNextLevel() {
 void Level::saveLevel() {
 	std::ofstream file("LEVELS\\" + levelName + ".txt");
 	Map* mainMap = levelspecific_maps.at(LS_MAINGAME);
-	COORD MapSize = { mainMap->getXLength(), mainMap->getYLength() };
+	COORD MapSize = {(short)( mainMap->getXLength()),(short)( mainMap->getYLength()) };
 	COORD DisplayOrigin = mainMap->getMapToBufferOffset();
 	file << "MapSize," << MapSize.X << "," << MapSize.Y << std::endl;
 	file << "DisplayOrigin," << DisplayOrigin.X << "," << DisplayOrigin.Y << std::endl;

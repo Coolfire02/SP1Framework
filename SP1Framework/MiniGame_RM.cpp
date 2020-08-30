@@ -20,7 +20,9 @@ LEVELSTATE MiniGame_RM::getAssociatedLSState()
 
 MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, console)
 {
+	
 	ms = 1000;
+	coin_fall_delay = 0;
 	coin_spawn_delay = 200;
 	art.setArt(MINIGAME_RM_ART);
 
@@ -56,7 +58,7 @@ MiniGame_RM::MiniGame_RM(LEVEL level, Console& console) : MiniGame(level, consol
 }
 
 void MiniGame_RM::mgGameInit() {
-	srand(time(NULL));
+	srand(static_cast<int>(time(NULL)));
 	jar_ptr = new Jar;
 	player_ptr = new Player;
 	Money_ptr = new Text;

@@ -22,8 +22,8 @@ public:
 	bool PlayerInFT();
 
 	bool spendMoney(int price);
-	void receiveMoney(int amt);
-	int getMoney();
+	void receiveMoney(double amt);
+	double getMoney();
 
 	Inventory& getInventory();
 

@@ -56,9 +56,9 @@ void CutScene::renderObjsToMap()
 	}
 
 	for (auto& element : sort) {
-		for (int x = 0; x < element.second->getXLength(); x++) {
-			for (int y = 0; y < element.second->getYLength(); y++) {
-				COORD mapLoc = { x + element.second->getWorldPosition().X , y + element.second->getWorldPosition().Y };
+		for (unsigned int x = 0; x < element.second->getXLength(); x++) {
+			for (unsigned int y = 0; y < element.second->getYLength(); y++) {
+				COORD mapLoc = { (short)(x + element.second->getWorldPosition().X) , (short)(y + element.second->getWorldPosition().Y) };
 				if (element.second->hasRelativePos()) {
 					mapLoc = { (short)(x + element.second->getRelativePos().X + Scene.getMapToBufferOffset().X) , (short)(y + element.second->getRelativePos().Y + Scene.getMapToBufferOffset().Y) };
 				}
@@ -75,7 +75,7 @@ void CutScene::renderObjsToMap()
 
 COORD CutScene::getMapSize()
 {
-	COORD size = { Scene.getXLength(), Scene.getYLength() };
+	COORD size = { (short)(Scene.getXLength()), (short)(Scene.getYLength()) };
 	return size;
 }
 

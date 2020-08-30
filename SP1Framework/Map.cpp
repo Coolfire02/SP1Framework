@@ -51,8 +51,8 @@ CHAR_INFO Map::getCharAtLoc(int x, int y) {
 	return (*this).map_ptr[x][y];
 }
 
-bool Map::setCharAtLoc(int x, int y, CHAR_INFO character) {
-	if (x < (*this).getXLength() && y < (*this).getYLength()) {
+bool Map::setCharAtLoc(unsigned int x, unsigned int y, CHAR_INFO character) {
+	if (x < static_cast<unsigned int>((*this).getXLength()) && y < static_cast<unsigned int>((*this).getYLength())) {
 		(*this).map_ptr[x][y] = character;
 	}
 	return false;
@@ -66,7 +66,7 @@ bool Map::setMapToBufferOffset(COORD cord) {
 	return false;
 }
 
-bool Map::isInRange(int x, int y) {
+bool Map::isInRange(unsigned int x, unsigned int y) {
 	if (x < (*this).getXLength() && y < (*this).getYLength()) {
 		return true;
 	}
@@ -74,7 +74,7 @@ bool Map::isInRange(int x, int y) {
 }
 
 bool Map::isInRange(COORD a) {
-	if (a.X < (*this).getXLength() && a.Y < (*this).getYLength()) {
+	if (static_cast<unsigned int>(a.X) < (*this).getXLength() && static_cast<unsigned int>(a.Y) < (*this).getYLength()) {
 		return true;
 	}
 	return false;

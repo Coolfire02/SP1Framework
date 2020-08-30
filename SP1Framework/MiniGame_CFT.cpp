@@ -2,6 +2,16 @@
 
 MiniGame_CFT::MiniGame_CFT(LEVEL level, Console& console) : MiniGame(level, console)
 {
+	pathXMin = 0;
+	pathXMax = 0;
+	pathHeight = 0;
+	currentStep = 0;
+	upcomingSteps = NULL;
+	tree = NULL;
+	topOfScreenTXT = NULL;
+	catAlertnessBar = NULL;
+	cat = NULL;
+	timeOfPreviousStep = NULL;
 	art.setArt(MINIGAME_CFT_ART);
 	earnValue = 75 + 25 * level;
 	catAlertnessThreshold = 100 - 7 * pow(level,0.5);
@@ -16,7 +26,7 @@ MiniGame_CFT::~MiniGame_CFT()
 void MiniGame_CFT::mgGameInit()
 {
 	//Game Initialization
-	srand(time(NULL));
+	srand((unsigned int)(time(NULL)));
 	MiniGameMap.setSize(639,200);
 	MiniGameMap.setBackground(0xB0);
 	MiniGameMap.setMapToBufferOffset(COORD{ 213, 150 });
@@ -79,7 +89,7 @@ void MiniGame_CFT::mgGameInit()
 
 	//Branches generation
 	//left side
-	for (short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 7; y--) {
+	for (unsigned short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 7; y--) {
 		if (rand() % 12 == 0) {
 			int branchSize = rand() % 45 + 18;
 			ArtObject* branch = new ArtObject(branchSize - 1, 1, 0x0F, 0x0F, 1, "Branch");
@@ -93,11 +103,11 @@ void MiniGame_CFT::mgGameInit()
 	mg_obj_ptr.push_back(catBranch);
 	cat->setWorldPosition(pathXMax + 4, catBranch->getWorldPosition().Y-4);
 
-	for(int i = 0; i < (pathXMax)-generated_path.X+12; i++)
+	for(signed int i = 0; i < ((pathXMax)-generated_path.X+12); i++)
 		path.push_back(K_D);
 
 	//right side
-	for (short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 7; y--) {
+	for (unsigned short y = MiniGameMap.getYLength(); y > MiniGameMap.getYLength() - pathHeight + 7; y--) {
 		if (rand() % 13 == 0) {
 			int branchSize = rand() % 45 + 18;
 			ArtObject* branch = new ArtObject(branchSize - 1, 1, 0x0F, 0x0F, 1, "Branch");
@@ -236,7 +246,7 @@ std::string MiniGame_CFT::pathToString(EKEYS key) {
 
 void MiniGame_CFT::updateSteps() {
 	std::string upcomingStepStr = "Up Coming Steps\n\n";
-	for (int i = 1; i <= 4; i++) {
+	for (unsigned int i = 1; i <= 4; i++) {
 		if (i == 1) upcomingStepStr.append(">> ");
 		if (currentStep + i < path.size()) {
 			for (int j = 0; j < 8; j++) {

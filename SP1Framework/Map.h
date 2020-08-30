@@ -16,11 +16,11 @@ public:
 	void setSize(int, int);
 	void clearMap();
 	COORD getMapToBufferOffset();
-	bool isInRange(int,int);
+	bool isInRange(unsigned int, unsigned int);
 	bool isInRange(COORD);
 	void setBackground(WORD bg);
 	bool setMapToBufferOffset(COORD);
-	bool setCharAtLoc(int, int, CHAR_INFO);
+	bool setCharAtLoc(unsigned int, unsigned int, CHAR_INFO);
 	CHAR_INFO getCharAtLoc(int, int);
 	CHAR_INFO** getMap();
 	unsigned int getXLength();

@@ -19,7 +19,10 @@ LEVELSTATE MiniGame_BHOS::getAssociatedLSState()
 
 MiniGame_BHOS::MiniGame_BHOS(LEVEL level, Console& console) : MiniGame(level, console), msPassed(0)
 {
-	srand(time(NULL));
+	TreeMin = { (short)0, (short)0 };
+	TreeMax = { (short)0, (short)0 };
+	lastMousePos = { (short)0, (short)0 };
+	srand(static_cast<int>(time(NULL)));
 	numHive = (rand() % 2 + 3);
 	maxPlayerLives = 3;
 	playerLives = maxPlayerLives;
@@ -70,7 +73,7 @@ MiniGame_BHOS::~MiniGame_BHOS()
 
 void MiniGame_BHOS::mgGameInit()
 {
-	srand(time(NULL)); //initial seed (does not return a value)
+	srand(static_cast<int>(time(NULL))); //initial seed (does not return a value)
 	//MiniGameMap.setSize(213, 50);
 
 	Money_ptr = new Text;
@@ -100,7 +103,6 @@ void MiniGame_BHOS::mgGameInit()
 	{
 		BeeHive* hive = new BeeHive;
 		//add
-		int Hives_checked;
 		mg_obj_ptr.push_back(hive);
 		mg_hive_ptr.push_back(hive);
 		bool spotFound = false;

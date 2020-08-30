@@ -6,6 +6,8 @@ std::string BeeHive::getType()
         return "BeeHive";
     else if (type == BEEHIVE_ICON)
         return "BeeHive_Icon";
+    else
+        return "BeeHive_Unknown";
 }
 
 int BeeHive::getHiveWorth()

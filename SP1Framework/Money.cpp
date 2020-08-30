@@ -26,12 +26,12 @@ bool Money::spendMoney(int price)
 		return true;
 }
 
-void Money::receiveMoney(int amt)
+void Money::receiveMoney(double amt)
 {
 	MoneyCount += amt;
 }
 
-int Money::getMoney()
+double Money::getMoney()
 {
 	return MoneyCount;
 }

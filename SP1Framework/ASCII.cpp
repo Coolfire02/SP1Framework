@@ -375,7 +375,7 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 	switch (barType) {
 	case B_HORIZONTAL:
 		totalBars = insideWidth;
-		usedBars = round((progress / 100) * totalBars);
+		usedBars = (int)(round(((progress) / 100 * totalBars)));
 		for (int i = 1; i <= insideWidth; i++) {
 			for (int j = 1; j <= insideHeight; j++) {
 				if (i <= usedBars) {
@@ -390,7 +390,7 @@ bool ASCII::setArt(BAR barType, short width, short height, WORD border, WORD fil
 		break;
 	case B_VERTICAL:
 		totalBars = insideHeight;
-		usedBars = round((progress / 100) * totalBars);
+		usedBars = (int)(round((progress / 100) * totalBars));
 		int count = 0;
 		for (int i = insideHeight; i > 0; i--) {
 			count++;
@@ -419,7 +419,7 @@ bool ASCII::setArt(std::string txt)
 	yLength = std::count(txt.begin(), txt.end(), '\n')+1;
 	int highestX = 0;
 	int count = 0;
-	for (int i = 0; i < txt.length(); i++) {
+	for (unsigned int i = 0; i < txt.length(); i++) {
 		count++;
 		if (txt[i] == '\n') {
 			if (highestX < count + 1) {
@@ -441,8 +441,8 @@ bool ASCII::setArt(std::string txt)
 			art[i][j] = txt_bg;
 		}
 	}
-	int y = 0;
-	int x = 0;
+	unsigned int y = 0;
+	unsigned int x = 0;
 	for (unsigned int t = 0; t < txt.length(); t++)
 	{
 		if (txt[t] == '\n') {
@@ -483,7 +483,7 @@ bool ASCII::setArt(std::string txt, WORD bg)
 	yLength = std::count(txt.begin(), txt.end(), '\n') + 1;
 	int highestX = 0;
 	int count = 0;
-	for (int i = 0; i < txt.length(); i++) {
+	for (unsigned int i = 0; i < txt.length(); i++) {
 		count++;
 		if (txt[i] == '\n') {
 			if (highestX < count+1) {
@@ -506,8 +506,8 @@ bool ASCII::setArt(std::string txt, WORD bg)
 		}
 	}
 
-	int y = 0;
-	int x = 0;
+	unsigned int y = 0;
+	unsigned int x = 0;
 	for (unsigned int t = 0; t < txt.length(); t++)
 	{
 		if (txt[t] == '\n') {
@@ -609,7 +609,7 @@ CHAR_INFO** ASCII::getArt() {
 
 CHAR_INFO ASCII::getArtAtLoc(COORD cord) {
 	if (art != nullptr)
-		if (cord.X < xLength && cord.Y < yLength) {
+		if (static_cast<unsigned int>(cord.X) < xLength && static_cast<unsigned int>(cord.Y) < yLength) {
 			return art[cord.X][cord.Y];
 		}
 		else {

@@ -47,7 +47,7 @@ protected:
 	std::vector<GameObject*> mg_obj_ptr;
 	std::vector<GameObject*> instructions_obj_ptr;
 	LEVEL getAssociatedLevel();
-	void setWaterCollected(int w); //To set amount of Water collected in minigame
+	void setWaterCollected(double w); //To set amount of Water collected in minigame
 	void setMoneyEarned(int m); //To set amount of Money Earned in minigame
 	void setStartTime(double);
 	double getStartTime();
@@ -62,7 +62,7 @@ public:
 
 	bool isCompleted();  //To check whether the game is completed
 	void start();
-	int getWaterCollected(); //Returns the amount of Water Collected in minigame
+	double getWaterCollected(); //Returns the amount of Water Collected in minigame
 	int getMoneyEarned();  //Returns the amount of Money Earned in minigame
 	COORD getMapSize();
 	

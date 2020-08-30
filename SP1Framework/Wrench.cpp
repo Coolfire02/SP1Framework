@@ -32,4 +32,6 @@ std::string Wrench::getType()
 		return "WRENCH_HEAD";
 	else if (type == "TAIL")
 		return "WRENCH_TAIL";
+	else
+		return "WRENCH_UNKNOWN";
 }
