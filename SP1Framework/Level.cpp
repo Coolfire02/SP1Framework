@@ -1070,6 +1070,7 @@ Costs $" + std::to_string(price) + "\n\
 						MiniGame* ptr = new MiniGame_BHOS(level, console);
 						levelStates.push_back(ptr->getAssociatedLSState());
 						ptr->setWorldPosition(0, 0); // test
+
 						ptr->setWorldPosition(std::stoi(line_array.at(1)), std::stoi(line_array.at(2)));
 						obj_ptr.push_back(ptr);
 						mg_ptr.push_back(ptr);

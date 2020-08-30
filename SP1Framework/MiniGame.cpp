@@ -1,6 +1,6 @@
 #include "MiniGame.h"
 
-MiniGame::MiniGame(LEVEL level, Console& console) : associatedConsole(console), associatedLevel(level)
+MiniGame::MiniGame(LEVEL level, Console& console) : associatedLevel(level), associatedConsole(console)
 {
 	isInInstructions = true;
 	mg_started = false;
