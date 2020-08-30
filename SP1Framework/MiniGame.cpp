@@ -2,6 +2,7 @@
 
 MiniGame::MiniGame(LEVEL level, Console& console) : associatedLevel(level), associatedConsole(console)
 {
+	art.setArt(DEFAULT_ART);
 	isInInstructions = true;
 	mg_started = false;
 	mg_start_time = g_dElapsedTime;

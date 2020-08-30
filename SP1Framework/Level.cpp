@@ -1003,16 +1003,18 @@ Costs $" + std::to_string(price) + "\n\
 			if (file.is_open()) {
 				int split;
 				std::string varType;
+				std::vector<std::string> line_array;
 				while (std::getline(file, line)) {
 					split = 0;
 					std::vector<std::string> out;
 					tokenize(line, ',', out);
 
-					std::vector<std::string> line_array;
+					line_array.clear();
 
 					for (auto& line : out) {
 						line_array.push_back(line);
 					}
+					if (line_array.size() < 3) continue;
 
 					if (line_array.at(0) == "MapSize") {
 						mainMapSize.X = std::stoi(line_array.at(1));

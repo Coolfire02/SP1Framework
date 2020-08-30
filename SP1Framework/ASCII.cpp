@@ -236,6 +236,9 @@ void ASCII::setArt(ARTTYPE type) {
 		arttxt = "Letter_Icons\\D_Icon.txt";
 		break;
 
+	case DEFAULT_ART:
+		arttxt = "default.txt";
+		break;
 
 	default:
 		arttxt = "NA";
@@ -333,8 +336,9 @@ void ASCII::setArt(ARTTYPE type) {
 							pos++;
 
 						}
-						if (index > 0)
+						if (index > 0 && x < xLength && y < yLength) {
 							art[x][y] = pixel;
+						}
 						index++;
 					}
 
